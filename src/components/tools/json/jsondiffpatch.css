@@ -1,0 +1,94 @@
+/* jsondiffpatch html styles */
+.jsondiffpatch-delta {
+    font-family: 'Bitstream Vera Sans Mono', 'DejaVu Sans Mono', Monaco, Courier, monospace;
+    font-size: 12px;
+    margin: 0;
+    padding: 0 0 0 12px;
+    display: inline-block;
+}
+
+.jsondiffpatch-delta pre {
+    font-family: 'Bitstream Vera Sans Mono', 'DejaVu Sans Mono', Monaco, Courier, monospace;
+    font-size: 12px;
+    margin: 0;
+    padding: 0;
+    display: inline-block;
+}
+
+ul.jsondiffpatch-delta {
+    list-style-type: none;
+    padding: 0 0 0 20px;
+    margin: 0;
+}
+
+.jsondiffpatch-delta ul {
+    list-style-type: none;
+    padding: 0 0 0 20px;
+    margin: 0;
+}
+
+.jsondiffpatch-added .jsondiffpatch-property-name,
+.jsondiffpatch-added .jsondiffpatch-value pre,
+.jsondiffpatch-added .jsondiffpatch-value {
+    background: #bbffbb;
+    color: #357935;
+}
+
+.jsondiffpatch-deleted .jsondiffpatch-property-name,
+.jsondiffpatch-deleted .jsondiffpatch-value pre,
+.jsondiffpatch-deleted .jsondiffpatch-value {
+    background: #ffbbbb;
+    color: #993333;
+    text-decoration: line-through;
+}
+
+.jsondiffpatch-unchanged {
+    color: #666;
+}
+
+.jsondiffpatch-moved .jsondiffpatch-value {
+    background: #ffffbb;
+    color: #888833;
+}
+
+.jsondiffpatch-modified .jsondiffpatch-left-value {
+    background: #ffbbbb;
+    color: #993333;
+    text-decoration: line-through;
+}
+
+.jsondiffpatch-modified .jsondiffpatch-right-value {
+    background: #bbffbb;
+    color: #357935;
+}
+
+.jsondiffpatch-textdiff-deleted {
+    background: #ffbbbb;
+    color: #993333;
+    text-decoration: line-through;
+}
+
+.jsondiffpatch-textdiff-added {
+    background: #bbffbb;
+    color: #357935;
+}
+
+.jsondiffpatch-node .jsondiffpatch-node-left {
+    white-space: nowrap;
+}
+
+.jsondiffpatch-node .jsondiffpatch-node-right {
+    white-space: nowrap;
+}
+
+.jsondiffpatch-arrow {
+    color: #999;
+    margin: 0 5px;
+    vertical-align: middle;
+}
+
+/* Visualizer specific */
+.jsondiffpatch-visualizer {
+    font-size: 14px;
+    overflow-x: auto;
+}
