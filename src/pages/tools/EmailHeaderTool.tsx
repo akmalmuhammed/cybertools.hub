@@ -1,8 +1,31 @@
 import { EmailAnalyzer } from "@/components/tools/email/EmailAnalyzer";
+import { SEO } from "@/components/features/SEO";
 
 export default function EmailHeaderTool() {
     return (
         <div className="space-y-4 h-full">
+            <SEO
+                title="Email Header Analyzer"
+                description="Analyze SPF, DKIM, DMARC alignment, hop path integrity, and phishing delivery signals from email headers."
+                keywords={[
+                    "email header analyzer",
+                    "spf dkim dmarc checker",
+                    "phishing email analysis",
+                    "mail header forensics",
+                ]}
+                structuredData={{
+                    "@context": "https://schema.org",
+                    "@type": "SoftwareApplication",
+                    name: "Email Header Analyzer",
+                    applicationCategory: "SOC & Threat Intel Tool",
+                    operatingSystem: "Any",
+                    offers: {
+                        "@type": "Offer",
+                        price: "0",
+                        priceCurrency: "USD",
+                    },
+                }}
+            />
             <div className="flex flex-col space-y-2">
                 <h1 className="text-3xl font-bold tracking-tight">Email Header Analyzer</h1>
                 <p className="text-muted-foreground">

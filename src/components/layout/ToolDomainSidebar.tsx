@@ -22,7 +22,7 @@ export function ToolDomainSidebar() {
   const activeDomain = activeTool ? getToolDomainId(activeTool.id) : selectedDomain;
 
   return (
-    <aside className="hidden xl:flex flex-col rounded-2xl border border-border/60 bg-card/70 backdrop-blur-xl shadow-[0_24px_70px_-45px_rgba(16,185,129,0.65)] sticky top-24 max-h-[calc(100vh-7.25rem)] overflow-hidden">
+    <aside className="hidden 2xl:flex flex-col rounded-2xl border border-border/60 bg-card/70 backdrop-blur-xl shadow-[0_24px_70px_-45px_rgba(16,185,129,0.65)] sticky top-24 max-h-[calc(100vh-7.25rem)] overflow-hidden">
       <div className="p-4 border-b border-border/60 bg-gradient-to-br from-primary/15 via-transparent to-cyan-500/10 space-y-2">
         <div className="flex items-center gap-2 text-primary">
           <TerminalSquare className="h-4 w-4" />

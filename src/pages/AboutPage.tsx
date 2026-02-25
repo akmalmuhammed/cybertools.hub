@@ -9,6 +9,12 @@ export default function AboutPage() {
             <SEO
                 title="About"
                 description="Learn about the philosophy behind CyberTools Hub - local-first security tools with explicit network-intel modes."
+                keywords={[
+                    "about cybertools hub",
+                    "local-first security",
+                    "privacy first cybersecurity tools",
+                    "browser-based security utilities",
+                ]}
             />
             {/* Hero Section */}
             <div className="text-center space-y-6">

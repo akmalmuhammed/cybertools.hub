@@ -1,4 +1,4 @@
-import { useState, useCallback, ReactNode, useEffect } from "react"
+import { useState, useCallback, ReactNode, useEffect, useMemo } from "react"
 import { motion } from "framer-motion"
 import { CopyButton } from "@/components/features/CopyButton"
 import { Button } from "@/components/ui/button"
@@ -11,6 +11,7 @@ import { useHistoryStore } from "@/store/useHistoryStore"
 import { useLocation } from "react-router-dom"
 import { TOOLS } from "@/lib/constants/tools"
 import { SEO } from "@/components/features/SEO"
+import { getDomainById, getToolDomainId } from "@/lib/constants/tool-domains"
 
 interface ToolTemplateProps {
   toolName: string
@@ -46,14 +47,57 @@ export function ToolTemplate({
   // History integration
   const location = useLocation()
   const { addToHistory } = useHistoryStore()
+  const currentTool = useMemo(
+    () => TOOLS.find((tool) => tool.path === location.pathname) ?? null,
+    [location.pathname],
+  )
+  const currentDomain = currentTool
+    ? getDomainById(getToolDomainId(currentTool.id))
+    : null
 
   useEffect(() => {
     // Find tool ID from path to add to history
-    const currentTool = TOOLS.find(t => t.path === location.pathname)
     if (currentTool) {
       addToHistory(currentTool.id)
     }
-  }, [location.pathname, addToHistory])
+  }, [currentTool, addToHistory])
+
+  const seoKeywords = useMemo(() => {
+    if (!currentTool) return ["cybersecurity tools", "browser security utilities"]
+    return Array.from(
+      new Set([
+        ...currentTool.keywords,
+        currentTool.name.toLowerCase(),
+        "cybersecurity tool",
+        "local-first security",
+        `${currentDomain?.name ?? "security"} tooling`,
+      ]),
+    )
+  }, [currentTool, currentDomain])
+
+  const seoStructuredData = useMemo(() => {
+    if (!currentTool) return undefined
+    return {
+      "@context": "https://schema.org",
+      "@type": "SoftwareApplication",
+      name: currentTool.name,
+      description,
+      applicationCategory: currentDomain ? `${currentDomain.name} Tool` : "Security Tool",
+      operatingSystem: "Any",
+      offers: {
+        "@type": "Offer",
+        price: "0",
+        priceCurrency: "USD",
+      },
+      publisher: {
+        "@type": "Organization",
+        name: "CyberTools Hub",
+      },
+      url: currentTool.path,
+      softwareVersion: "1.0.0",
+      keywords: currentTool.keywords.join(", "),
+    }
+  }, [currentTool, currentDomain, description])
 
   const handleProcess = useCallback(async () => {
     if (requiresInput && !input.trim()) return
@@ -88,7 +132,12 @@ export function ToolTemplate({
 
   return (
     <div className="space-y-6">
-      <SEO title={toolName} description={description} />
+      <SEO
+        title={toolName}
+        description={description}
+        keywords={seoKeywords}
+        structuredData={seoStructuredData}
+      />
       <div className="flex flex-col gap-2">
         <h1 className="text-3xl font-bold tracking-tight">{toolName}</h1>
         <p className="text-muted-foreground text-lg">{description}</p>

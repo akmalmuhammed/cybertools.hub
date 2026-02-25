@@ -3,16 +3,34 @@ import { HashText } from "@/components/tools/hash/HashText"
 import { HashFile } from "@/components/tools/hash/HashFile"
 import { HashCompare } from "@/components/tools/hash/HashCompare"
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs"
-import { Helmet } from "react-helmet-async"
+import { SEO } from "@/components/features/SEO"
 
 export default function HashTool() {
     return (
         <div className="space-y-6">
-            <Helmet>
-                <title>Free Hash Generator (MD5, SHA256) | CyberTools.Hub</title>
-                <meta name="description" content="Generate MD5, SHA1, SHA256, and SHA512 hashes locally in your browser. Secure, fast, and free online hash generator for developers." />
-                <link rel="canonical" href="https://cybertools.hub/hash-generator" />
-            </Helmet>
+            <SEO
+                title="Hash Generator"
+                description="Generate MD5, SHA1, SHA256, and SHA512 hashes locally for text and files, and compare hash integrity values."
+                canonical="/hash-generator"
+                keywords={[
+                    "hash generator",
+                    "sha256 generator",
+                    "md5 hash tool",
+                    "file hash checker",
+                ]}
+                structuredData={{
+                    "@context": "https://schema.org",
+                    "@type": "SoftwareApplication",
+                    name: "Hash Generator",
+                    applicationCategory: "Application Security Tool",
+                    operatingSystem: "Any",
+                    offers: {
+                        "@type": "Offer",
+                        price: "0",
+                        priceCurrency: "USD",
+                    },
+                }}
+            />
             <div className="flex flex-col space-y-2">
                 <h1 className="text-3xl font-bold tracking-tight">Hash Generator</h1>
                 <p className="text-muted-foreground">

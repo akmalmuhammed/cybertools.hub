@@ -10,6 +10,7 @@ import { Textarea } from "@/components/ui/textarea"
 import { Button } from "@/components/ui/button"
 import Ajv from "ajv"
 import type { ErrorObject } from "ajv"
+import { SEO } from "@/components/features/SEO"
 
 export default function JsonTool() {
     const [input, setInput] = useState('{"name": "CyberTools", "type": "Hub"}')
@@ -95,6 +96,16 @@ export default function JsonTool() {
 
     return (
         <div className="space-y-6">
+            <SEO
+                title="JSON Formatter and Validator"
+                description="Format, minify, validate, diff, and schema-check JSON locally in your browser with tree and editor views."
+                keywords={[
+                    "json formatter",
+                    "json validator",
+                    "json diff",
+                    "json schema validation",
+                ]}
+            />
             <div className="flex flex-col space-y-2">
                 <h1 className="text-3xl font-bold tracking-tight">JSON Formatter</h1>
                 <p className="text-muted-foreground">

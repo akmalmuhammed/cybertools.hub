@@ -24,6 +24,26 @@ export default function Home() {
             <SEO
                 title="Free Security Tools"
                 description="A comprehensive suite of free, local-first security tools for developers and analysts, with optional network intel lookups."
+                keywords={[
+                    "free security tools",
+                    "cybersecurity toolkit",
+                    "soc analyst tools",
+                    "network security tools",
+                    "application security tools",
+                ]}
+                structuredData={{
+                    "@context": "https://schema.org",
+                    "@type": "WebApplication",
+                    name: "CyberTools Hub",
+                    description: "Local-first cybersecurity tools for SOC, network, and application workflows.",
+                    applicationCategory: "SecurityApplication",
+                    operatingSystem: "Any",
+                    offers: {
+                        "@type": "Offer",
+                        price: "0",
+                        priceCurrency: "USD",
+                    },
+                }}
             />
             {/* Hero Section */}
             <section className="relative py-20 md:py-32 overflow-hidden">

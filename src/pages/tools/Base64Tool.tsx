@@ -291,7 +291,16 @@ export default function Base64Tool() {
 
     return (
         <div className="space-y-8 animate-in fade-in duration-500">
-            <SEO title="Base64 Smart Tools" description="Advanced Base64 encode/decode with Magic Byte detection (PE, ELF, ZIP), Hex view, and Auto-Fix." />
+            <SEO
+                title="Base64 Smart Tools"
+                description="Advanced Base64 encoder/decoder with binary detection, hex inspection, JSON detection, and auto-fix cleanup."
+                keywords={[
+                    "base64 encode decode",
+                    "base64 binary detector",
+                    "base64 to hex",
+                    "base64 cleanup tool",
+                ]}
+            />
 
             <div className="text-center space-y-4">
                 <h1 className="text-4xl font-bold tracking-tight bg-gradient-to-r from-primary to-primary/60 bg-clip-text text-transparent">

@@ -2,6 +2,7 @@ import { motion } from "framer-motion";
 import { ShieldCheck, Network, AppWindow, Wrench } from "lucide-react";
 import { ToolsList } from "@/components/tools/ToolsList";
 import { getDomainCounts } from "@/lib/constants/tool-domains";
+import { SEO } from "@/components/features/SEO";
 
 const DOMAIN_ICON = {
   soc: ShieldCheck,
@@ -15,6 +16,17 @@ export default function ToolsPage() {
 
   return (
     <div className="space-y-8">
+      <SEO
+        title="Security Tool Domains"
+        description="Browse cybersecurity tools by SOC, network, application security, and utility domains in a structured app shell."
+        keywords={[
+          "cybersecurity tools",
+          "soc tools",
+          "network security tools",
+          "application security tools",
+          "local-first security",
+        ]}
+      />
       <motion.section
         initial={{ opacity: 0, y: 18 }}
         animate={{ opacity: 1, y: 0 }}
