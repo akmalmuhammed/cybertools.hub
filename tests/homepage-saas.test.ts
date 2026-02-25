@@ -8,17 +8,14 @@ const homeSource = fs.readFileSync(
   "utf8",
 );
 
-test("homepage restores legacy hero headline and pulse animation", () => {
-  assert.equal(homeSource.includes("Your Security Arsenal"), true);
-  assert.equal(homeSource.includes("animate-pulse"), true);
-  assert.equal(
-    homeSource.includes("container relative z-10 flex flex-col items-center text-center"),
-    true,
-  );
+test("homepage includes moving popular tools rail with tools-page click-through", () => {
+  assert.equal(homeSource.includes("tool-marquee-mask"), true);
+  assert.equal(homeSource.includes("tool-marquee-track"), true);
+  assert.equal(homeSource.includes("/tools?q="), true);
 });
 
-test("homepage includes popular tools preview cards", () => {
-  assert.equal(homeSource.includes("Popular Tools"), true);
-  assert.equal(homeSource.includes("<ToolCard tool={tool} />"), true);
-  assert.equal(homeSource.includes('to="/tools"'), true);
+test("homepage includes explicit privacy verification instructions", () => {
+  assert.equal(homeSource.includes("Privacy Verification"), true);
+  assert.equal(homeSource.includes("Network tab"), true);
+  assert.equal(homeSource.includes("no outbound requests"), true);
 });
