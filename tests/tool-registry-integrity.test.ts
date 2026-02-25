@@ -171,10 +171,10 @@ test("tool routing stays synchronized with app route declarations", () => {
   });
 });
 
-test("home preview tool ids resolve to real tools", () => {
+test("home spotlight tool ids resolve to real tools", () => {
   const homeSource = readText("src/pages/Home.tsx");
-  const previewBlockMatch = homeSource.match(/const previewToolIds = \[([\s\S]*?)\]/);
-  assert.notEqual(previewBlockMatch, null, "Home previewToolIds block is required");
+  const previewBlockMatch = homeSource.match(/const (?:previewToolIds|MARQUEE_TOOL_IDS) = \[([\s\S]*?)\]/);
+  assert.notEqual(previewBlockMatch, null, "Home spotlight tool id block is required");
 
   const previewIds = Array.from((previewBlockMatch?.[1] ?? "").matchAll(/"([^"]+)"/g)).map(
     (item) => item[1],
@@ -184,7 +184,7 @@ test("home preview tool ids resolve to real tools", () => {
     assert.equal(
       TOOLS.some((tool) => tool.id === previewId),
       true,
-      `Home preview references unknown tool id: ${previewId}`,
+      `Home spotlight section references unknown tool id: ${previewId}`,
     );
   });
 });

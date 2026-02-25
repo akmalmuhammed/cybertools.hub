@@ -78,6 +78,7 @@ Start development:
 1. [Domain Expansion Research](./documentation/DOMAIN_EXPANSION_RESEARCH_2026.md)
 2. [Paid Tool Parity Onboarding](./documentation/PAID_TOOL_PARITY_ONBOARDING_2026.md)
 3. [Scoring System](./documentation/SCORING_SYSTEM.md)
+4. [SaaS Site-Wide Audit](./documentation/SAAS_SITE_AUDIT_2026-02-25.md)
 
 ## License
 
