@@ -12,7 +12,7 @@ interface ThemeState {
 export const useThemeStore = create<ThemeState>()(
     persist(
         (set) => ({
-            theme: 'dark', // Default to dark for hacker aesthetic
+            theme: 'light',
             toggleTheme: () =>
                 set((state) => {
                     const newTheme = state.theme === 'light' ? 'dark' : 'light'

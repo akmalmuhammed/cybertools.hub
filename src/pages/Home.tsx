@@ -133,39 +133,39 @@ export default function Home() {
         ]}
       />
 
-      <section className="relative overflow-hidden rounded-3xl border border-emerald-400/20 bg-[#0b1018] px-6 py-16 sm:px-10 sm:py-20 lg:py-24">
-        <div className="pointer-events-none absolute inset-0 bg-[radial-gradient(circle_at_50%_22%,rgba(34,197,94,0.32),rgba(16,185,129,0.14)_34%,rgba(6,78,59,0.18)_56%,rgba(2,6,23,0.94)_100%)]" />
-        <div className="pointer-events-none absolute inset-0 opacity-35 [background-image:linear-gradient(to_right,rgba(148,163,184,0.11)_1px,transparent_1px),linear-gradient(to_bottom,rgba(148,163,184,0.11)_1px,transparent_1px)] [background-size:56px_56px]" />
-        <div className="pointer-events-none absolute inset-x-10 top-[18%] h-56 rounded-full bg-emerald-500/25 blur-3xl" />
+      <section className="relative overflow-hidden rounded-md border border-border/60 bg-background px-6 py-16 sm:px-10 sm:py-20 lg:py-24">
+        <div className="pointer-events-none absolute inset-0 bg-[radial-gradient(circle_at_50%_18%,hsl(var(--primary)/0.28),hsl(var(--background))_42%)]" />
+        <div className="pointer-events-none absolute inset-0 opacity-40 [background-image:linear-gradient(to_right,hsl(var(--foreground)/0.08)_1px,transparent_1px),linear-gradient(to_bottom,hsl(var(--foreground)/0.08)_1px,transparent_1px)] [background-size:56px_56px]" />
+        <div className="pointer-events-none absolute inset-x-10 top-[18%] h-56 rounded-full bg-primary/20 blur-3xl" />
         <motion.div
           initial={{ opacity: 0, y: 18 }}
           animate={{ opacity: 1, y: 0 }}
           transition={{ duration: 0.45 }}
           className="relative mx-auto flex max-w-5xl flex-col items-center text-center"
         >
-          <div className="inline-flex items-center rounded-full border border-emerald-400/25 bg-black/30 px-4 py-1.5 text-sm font-semibold text-slate-100 backdrop-blur-sm">
-            <span className="mr-2 inline-flex h-2 w-2 rounded-full bg-emerald-400 animate-pulse" />
+          <div className="inline-flex items-center rounded-full border border-border/70 bg-background/90 px-4 py-1.5 text-sm font-semibold text-foreground backdrop-blur-sm">
+            <span className="mr-2 inline-flex h-2 w-2 rounded-full bg-primary animate-pulse" />
             v1.0.0 Ready for Production
           </div>
-          <h1 className="mt-8 text-5xl font-bold tracking-tight text-slate-100 sm:text-6xl lg:text-8xl">
+          <h1 className="mt-8 text-[clamp(3rem,8vw,5.5rem)] font-bold tracking-tight text-foreground">
             Your Security Arsenal,
-            <span className="block bg-gradient-to-r from-emerald-300 via-cyan-300 to-blue-400 bg-clip-text text-transparent">
+            <span className="block bg-gradient-to-r from-primary to-[hsl(var(--link))] bg-clip-text text-transparent">
               Simplified
             </span>
           </h1>
-          <p className="mt-8 max-w-4xl text-lg leading-relaxed text-slate-300/90 sm:text-2xl">
+          <p className="mt-8 max-w-4xl text-[clamp(1.05rem,2.1vw,1.5rem)] leading-relaxed text-foreground/75">
             Free, privacy-first security utilities for SOC analysts, penetration testers, and developers.
             Core analysis runs locally in your browser, with clearly marked optional network lookups (RDAP, DNS,
             JWKS, and reputation proxy).
           </p>
           <div className="mt-10 flex flex-col gap-4 sm:flex-row sm:items-center">
-            <Button asChild size="lg" className="h-14 min-w-[210px] bg-emerald-500 px-8 text-lg font-semibold text-black hover:bg-emerald-400">
+            <Button asChild size="lg" className="h-14 min-w-[210px] bg-primary px-8 text-lg font-semibold text-primary-foreground hover:bg-primary/90">
               <Link to="/tools">
                 Explore Tools
                 <ArrowRight className="ml-2 h-5 w-5" />
               </Link>
             </Button>
-            <Button asChild size="lg" variant="outline" className="h-14 min-w-[210px] border-slate-700 bg-slate-950/65 px-8 text-lg font-semibold text-slate-100 hover:bg-slate-900">
+            <Button asChild size="lg" variant="outline" className="h-14 min-w-[210px] border-border bg-background px-8 text-lg font-semibold text-foreground hover:bg-accent hover:text-accent-foreground">
               <Link to="/about">Learn More</Link>
             </Button>
           </div>

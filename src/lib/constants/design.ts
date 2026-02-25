@@ -1,20 +1,20 @@
 export const DESIGN_SYSTEM = {
     colors: {
         light: {
-            background: 'hsl(40, 14%, 97%)',     // #FAF9F6
-            foreground: 'hsl(215, 25%, 27%)',    // #2D3748
-            primary: 'hsl(160, 60%, 45%)',       // #10B981
-            muted: 'hsl(40, 10%, 90%)',
+            background: 'hsl(0, 0%, 100%)',      // #FFFFFF
+            foreground: 'hsl(0, 0%, 0%)',        // #000000
+            primary: 'hsl(145, 81%, 50%)',       // #19E76E
+            muted: 'hsl(0, 0%, 96%)',
             card: 'hsl(0, 0%, 100%)',
-            border: 'hsl(40, 10%, 85%)',
+            border: 'hsl(0, 0%, 0%)',
         },
         dark: {
-            background: 'hsl(0, 0%, 10%)',       // #1A1A1A
-            foreground: 'hsl(220, 9%, 90%)',     // #E5E7EB
-            primary: 'hsl(130, 100%, 50%)',      // #00FF41
-            muted: 'hsl(0, 0%, 15%)',
-            card: 'hsl(0, 0%, 15%)',             // #262626
-            border: 'hsl(0, 0%, 20%)',
+            background: 'hsl(0, 0%, 100%)',
+            foreground: 'hsl(0, 0%, 0%)',
+            primary: 'hsl(145, 81%, 50%)',
+            muted: 'hsl(0, 0%, 96%)',
+            card: 'hsl(0, 0%, 100%)',
+            border: 'hsl(0, 0%, 0%)',
         }
     },
     animations: {

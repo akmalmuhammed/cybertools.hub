@@ -18,11 +18,23 @@ const config = {
                 "2xl": "1400px",
             },
         },
+        borderRadius: {
+            none: "0",
+            sm: "var(--radius)",
+            DEFAULT: "var(--radius)",
+            md: "var(--radius)",
+            lg: "var(--radius)",
+            xl: "var(--radius)",
+            "2xl": "var(--radius)",
+            "3xl": "var(--radius)",
+            full: "9999px",
+        },
         extend: {
             fontFamily: {
                 sans: ["var(--font-sans)"],
                 mono: ["var(--font-mono)"],
                 display: ["var(--font-display)"],
+                brand: ["var(--font-alt)"],
             },
             colors: {
                 border: "hsl(var(--border))",
@@ -30,6 +42,7 @@ const config = {
                 ring: "hsl(var(--ring))",
                 background: "hsl(var(--background))",
                 foreground: "hsl(var(--foreground))",
+                link: "hsl(var(--link))",
                 primary: {
                     DEFAULT: "hsl(var(--primary))",
                     foreground: "hsl(var(--primary-foreground))",
@@ -58,11 +71,6 @@ const config = {
                     DEFAULT: "hsl(var(--card))",
                     foreground: "hsl(var(--card-foreground))",
                 },
-            },
-            borderRadius: {
-                lg: "var(--radius)",
-                md: "calc(var(--radius) - 2px)",
-                sm: "calc(var(--radius) - 4px)",
             },
             keyframes: {
                 "accordion-down": {

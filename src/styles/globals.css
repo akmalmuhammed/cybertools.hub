@@ -1,4 +1,10 @@
-@import url("https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@400;500;600;700&family=JetBrains+Mono:wght@400;500;700&family=Orbitron:wght@500;700&display=swap");
+@import url("https://fonts.googleapis.com/css2?family=Chivo+Mono:wght@300;400;500;600;700;800&display=swap");
+
+@font-face {
+  font-family: "NeueAlteGrotesk";
+  src: local("NeueAlteGrotesk"), local("Neue Alte Grotesk");
+  font-display: swap;
+}
 
 @tailwind base;
 @tailwind components;
@@ -6,51 +12,58 @@
  
 @layer base {
   :root {
-    --font-sans: "Space Grotesk", "Avenir Next", "Segoe UI", sans-serif;
-    --font-mono: "JetBrains Mono", "SFMono-Regular", Menlo, monospace;
-    --font-display: "Orbitron", "Space Grotesk", sans-serif;
-    --background: 40 14% 97%;      /* #FAF9F6 */
-    --foreground: 215 25% 27%;     /* #2D3748 */
-    --card: 0 0% 100%;             /* #FFFFFF */
-    --card-foreground: 215 25% 27%;
+    --font-sans: "Chivo Mono", "SFMono-Regular", Menlo, monospace;
+    --font-mono: "Chivo Mono", "SFMono-Regular", Menlo, monospace;
+    --font-display: "Chivo Mono", "SFMono-Regular", Menlo, monospace;
+    --font-alt: "NeueAlteGrotesk", "Chivo Mono", monospace;
+    --background: 0 0% 100%;       /* #FFFFFF */
+    --foreground: 0 0% 0%;         /* #000000 */
+    --card: 0 0% 100%;
+    --card-foreground: 0 0% 0%;
     --popover: 0 0% 100%;
-    --popover-foreground: 215 25% 27%;
-    --primary: 160 60% 45%;        /* #10B981 */
-    --primary-foreground: 0 0% 100%;
-    --secondary: 40 10% 90%;
-    --secondary-foreground: 215 25% 27%;
-    --muted: 40 10% 90%;
-    --muted-foreground: 215 20% 65%;
-    --accent: 160 60% 95%;
-    --accent-foreground: 160 60% 45%;
+    --popover-foreground: 0 0% 0%;
+    --primary: 145 81% 50%;        /* #19E76E */
+    --primary-foreground: 0 0% 0%;
+    --secondary: 0 0% 96%;
+    --secondary-foreground: 0 0% 0%;
+    --muted: 0 0% 96%;
+    --muted-foreground: 213 17% 61%; /* #8999AC */
+    --accent: 0 0% 0%;             /* #000000 */
+    --accent-foreground: 0 0% 100%;
     --destructive: 0 84.2% 60.2%;
     --destructive-foreground: 210 40% 98%;
-    --border: 40 10% 85%;
-    --input: 40 10% 85%;
-    --ring: 160 60% 45%;
-    --radius: 0.5rem;
+    --border: 0 0% 0%;
+    --input: 0 0% 0%;
+    --ring: 145 81% 50%;
+    --link: 213 17% 61%;           /* #8999AC */
+    --radius: 1px;
+    --space-unit: 4px;
+    --type-body: 24px;
+    --type-h1: 88px;
+    --type-h2: 64px;
   }
  
   .dark {
-    --background: 0 0% 10%;        /* #1A1A1A */
-    --foreground: 220 9% 90%;      /* #E5E7EB */
-    --card: 0 0% 15%;              /* #262626 */
-    --card-foreground: 220 9% 90%;
-    --popover: 0 0% 15%;
-    --popover-foreground: 220 9% 90%;
-    --primary: 130 100% 50%;       /* #00FF41 */
+    --background: 0 0% 100%;
+    --foreground: 0 0% 0%;
+    --card: 0 0% 100%;
+    --card-foreground: 0 0% 0%;
+    --popover: 0 0% 100%;
+    --popover-foreground: 0 0% 0%;
+    --primary: 145 81% 50%;
     --primary-foreground: 0 0% 0%;
-    --secondary: 0 0% 20%;
-    --secondary-foreground: 220 9% 90%;
-    --muted: 0 0% 15%;
-    --muted-foreground: 215 20% 65%;
-    --accent: 130 100% 10%;
-    --accent-foreground: 130 100% 50%;
+    --secondary: 0 0% 96%;
+    --secondary-foreground: 0 0% 0%;
+    --muted: 0 0% 96%;
+    --muted-foreground: 213 17% 61%;
+    --accent: 0 0% 0%;
+    --accent-foreground: 0 0% 100%;
     --destructive: 0 62.8% 30.6%;
     --destructive-foreground: 210 40% 98%;
-    --border: 0 0% 20%;
-    --input: 0 0% 20%;
-    --ring: 130 100% 50%;
+    --border: 0 0% 0%;
+    --input: 0 0% 0%;
+    --ring: 145 81% 50%;
+    --link: 213 17% 61%;
   }
 }
  
@@ -60,45 +73,46 @@
   }
   body {
     @apply bg-background text-foreground font-sans;
+    font-size: var(--type-body);
+    line-height: 1.5;
     background-image:
-      radial-gradient(circle at 12% 9%, rgba(16, 185, 129, 0.12), transparent 36%),
-      radial-gradient(circle at 90% 4%, rgba(6, 182, 212, 0.1), transparent 38%),
-      linear-gradient(180deg, rgba(2, 8, 23, 0.06), transparent 60%);
+      radial-gradient(circle at 12% 10%, hsl(var(--primary) / 0.14), transparent 34%),
+      linear-gradient(to right, hsl(var(--foreground) / 0.05) 1px, transparent 1px),
+      linear-gradient(to bottom, hsl(var(--foreground) / 0.05) 1px, transparent 1px);
+    background-size:
+      auto,
+      calc(var(--space-unit) * 14) calc(var(--space-unit) * 14),
+      calc(var(--space-unit) * 14) calc(var(--space-unit) * 14);
     background-attachment: fixed;
     min-height: 100vh;
   }
-  body::before {
-    content: "";
-    position: fixed;
-    top: 0;
-    left: 0;
-    width: 100%;
-    height: 100%;
-    background-image:
-      linear-gradient(to right, rgba(148, 163, 184, 0.16) 1px, transparent 1px),
-      linear-gradient(to bottom, rgba(148, 163, 184, 0.16) 1px, transparent 1px);
-    background-size: 34px 34px;
-    pointer-events: none;
-    z-index: 0;
-    opacity: 0.12;
+  h1,
+  h2,
+  h3,
+  h4,
+  h5,
+  h6 {
+    font-family: var(--font-display);
+    letter-spacing: -0.02em;
+    color: hsl(var(--foreground));
   }
-  body::after {
-    content: "";
-    position: fixed;
-    top: 0;
-    left: 0;
-    width: 100%;
-    height: 100%;
-    background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 200 200' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='noiseFilter'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.65' numOctaves='3' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23noiseFilter)' opacity='0.05'/%3E%3C/svg%3E");
-    pointer-events: none;
-    z-index: 0;
-    opacity: 0.28;
+  h1 {
+    font-size: clamp(3rem, 8vw, calc(var(--type-h1)));
+    line-height: 1.03;
   }
-  .dark body {
-    background-image:
-      radial-gradient(circle at 15% 10%, rgba(16, 185, 129, 0.16), transparent 42%),
-      radial-gradient(circle at 82% 12%, rgba(8, 145, 178, 0.2), transparent 40%),
-      linear-gradient(180deg, rgba(2, 8, 23, 0.45), rgba(2, 6, 23, 0.1) 65%);
+  h2 {
+    font-size: clamp(2.25rem, 6vw, calc(var(--type-h2)));
+    line-height: 1.08;
+  }
+  a {
+    color: hsl(var(--link));
+    text-decoration-color: hsl(var(--link) / 0.6);
+    text-underline-offset: 2px;
+    transition: color 150ms ease, text-decoration-color 150ms ease;
+  }
+  a:hover {
+    color: hsl(var(--primary));
+    text-decoration-color: hsl(var(--primary));
   }
 }
 
