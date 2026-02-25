@@ -1,0 +1,94 @@
+# CyberTools Hub
+
+Local-first cybersecurity tools for SOC, threat intel, network, application, cloud IAM, supply chain, and privacy workflows.
+
+## Canonical
+- https://cybertools.hub/
+- https://cybertools.hub/tools
+- https://cybertools.hub/about
+
+## Domain Pages
+- [SOC & Detection Engineering](https://cybertools.hub/domains/soc-detection-engineering): Alert triage speed, rule quality, and incident response workflow acceleration.
+- [Threat Intel & DFIR](https://cybertools.hub/domains/threat-intel-dfir): IOC quality scoring, exchange format normalization, and forensic packaging.
+- [Network & Exposure Security](https://cybertools.hub/domains/network-exposure-security): Exposure import normalization, ACL conflict detection, and TLS risk analysis.
+- [Application & API Security](https://cybertools.hub/domains/application-api-security): API contract abuse checks, authz drift detection, and browser policy hardening.
+- [Cloud & IAM Security](https://cybertools.hub/domains/cloud-iam-security): Identity policy review and least-privilege hygiene across cloud providers.
+- [Software Supply Chain Security](https://cybertools.hub/domains/software-supply-chain-security): Dependency risk diffing, tamper evidence, and provenance-oriented checks.
+- [Data Security & Privacy Engineering](https://cybertools.hub/domains/data-security-privacy-engineering): Sensitive-data handling, leakage detection, and privacy-preserving processing.
+
+## Tool Index
+- [Base64 Converter](https://cybertools.hub/tools/base64) | domain=data-privacy | mode=local | sensitivity=medium | status=ready
+- [Hash Generator](https://cybertools.hub/tools/hash) | domain=data-privacy | mode=local | sensitivity=medium | status=ready
+- [JSON Formatter](https://cybertools.hub/tools/json) | domain=data-privacy | mode=local | sensitivity=low | status=ready
+- [URL Encoder](https://cybertools.hub/tools/url) | domain=data-privacy | mode=local | sensitivity=low | status=ready
+- [URL Defang/Refang](https://cybertools.hub/tools/url-defang) | domain=network | mode=local | sensitivity=medium | status=new
+- [Unix Timestamp](https://cybertools.hub/tools/timestamp) | domain=data-privacy | mode=local | sensitivity=low | status=ready
+- [Regex Tester](https://cybertools.hub/tools/regex) | domain=application | mode=local | sensitivity=low | status=ready
+- [JWT Decoder](https://cybertools.hub/tools/jwt) | domain=application | mode=local | sensitivity=high | status=ready
+- [JWT/JWS Verifier](https://cybertools.hub/tools/jwt-verify) | domain=application | mode=hybrid | sensitivity=high | status=new
+- [Email Header Analyzer](https://cybertools.hub/tools/email) | domain=soc | mode=local | sensitivity=high | status=ready
+- [IOC Extractor](https://cybertools.hub/tools/ioc) | domain=soc | mode=local | sensitivity=high | status=new
+- [IOC Correlator](https://cybertools.hub/tools/ioc-correlator) | domain=soc | mode=local | sensitivity=high | status=new
+- [IOC Canonicalizer](https://cybertools.hub/tools/ioc-normalizer) | domain=threat-intel | mode=local | sensitivity=high | status=new
+- [User-Agent Analyzer](https://cybertools.hub/tools/user-agent) | domain=network | mode=local | sensitivity=medium | status=new
+- [Subnet Calculator](https://cybertools.hub/tools/subnet) | domain=network | mode=local | sensitivity=low | status=ready
+- [Password Generator](https://cybertools.hub/tools/password) | domain=data-privacy | mode=local | sensitivity=medium | status=ready
+- [Whois Lookup](https://cybertools.hub/tools/whois) | domain=network | mode=network | sensitivity=medium | status=beta
+- [DNS Toolkit](https://cybertools.hub/tools/dns) | domain=network | mode=network | sensitivity=medium | status=new
+- [Certificate Decoder](https://cybertools.hub/tools/certificate) | domain=network | mode=local | sensitivity=medium | status=beta
+- [IP Lookup](https://cybertools.hub/tools/ip) | domain=network | mode=network | sensitivity=medium | status=beta
+- [Port Checker](https://cybertools.hub/tools/port) | domain=network | mode=network | sensitivity=medium | status=beta
+- [Text Diff](https://cybertools.hub/tools/diff) | domain=data-privacy | mode=local | sensitivity=low | status=ready
+- [HTTP Header Analyzer](https://cybertools.hub/tools/http-headers) | domain=application | mode=local | sensitivity=medium | status=new
+- [Reputation Enricher](https://cybertools.hub/tools/reputation) | domain=soc | mode=hybrid | sensitivity=high | status=new
+- [KEV/CVE Prioritizer](https://cybertools.hub/tools/cve-prioritizer) | domain=soc | mode=local | sensitivity=high | status=new
+- [Secrets Scanner](https://cybertools.hub/tools/secrets-scanner) | domain=data-privacy | mode=local | sensitivity=high | status=new
+- [STIX/TAXII Utility](https://cybertools.hub/tools/stix-taxii) | domain=threat-intel | mode=local | sensitivity=high | status=new
+- [Domain Spoof Detector](https://cybertools.hub/tools/domain-spoof) | domain=soc | mode=local | sensitivity=high | status=new
+- [Sigma Linter Helper](https://cybertools.hub/tools/sigma-helper) | domain=soc | mode=local | sensitivity=high | status=new
+- [YARA Local Matcher](https://cybertools.hub/tools/yara-local) | domain=soc | mode=local | sensitivity=high | status=new
+- [SBOM Diff & Triage](https://cybertools.hub/tools/sbom-diff) | domain=supply-chain | mode=local | sensitivity=high | status=new
+- [Security Header Builder](https://cybertools.hub/tools/security-header-builder) | domain=application | mode=local | sensitivity=medium | status=new
+- [QR Code Generator](https://cybertools.hub/tools/qrcode) | domain=data-privacy | mode=local | sensitivity=low | status=ready
+- [Color Converter](https://cybertools.hub/tools/color) | domain=data-privacy | mode=local | sensitivity=low | status=ready
+- [UUID Generator](https://cybertools.hub/tools/uuid) | domain=data-privacy | mode=local | sensitivity=low | status=ready
+- [Markdown Preview](https://cybertools.hub/tools/markdown) | domain=data-privacy | mode=local | sensitivity=low | status=ready
+- [HTML Encoder](https://cybertools.hub/tools/html) | domain=data-privacy | mode=local | sensitivity=low | status=ready
+- [Alert Deduplication Simulator](https://cybertools.hub/tools/alert-dedupe) | domain=soc | mode=local | sensitivity=high | status=new
+- [Detection Rule Unit Test Harness](https://cybertools.hub/tools/detection-unit-test) | domain=soc | mode=local | sensitivity=high | status=new
+- [ATT&CK Coverage Heatmap](https://cybertools.hub/tools/attack-coverage) | domain=soc | mode=local | sensitivity=medium | status=new
+- [Event Timeline Composer](https://cybertools.hub/tools/event-timeline) | domain=soc | mode=local | sensitivity=high | status=new
+- [Log Schema Mapper](https://cybertools.hub/tools/log-schema-mapper) | domain=soc | mode=local | sensitivity=high | status=new
+- [IOC Confidence + TTL Scorer](https://cybertools.hub/tools/ioc-confidence-ttl) | domain=threat-intel | mode=local | sensitivity=high | status=new
+- [MISP/STIX Mapper](https://cybertools.hub/tools/misp-stix-mapper) | domain=threat-intel | mode=local | sensitivity=high | status=new
+- [Artifact Integrity Packager](https://cybertools.hub/tools/artifact-integrity) | domain=threat-intel | mode=local | sensitivity=high | status=new
+- [External Exposure Normalizer](https://cybertools.hub/tools/exposure-normalizer) | domain=network | mode=local | sensitivity=medium | status=new
+- [Firewall/ACL Conflict Analyzer](https://cybertools.hub/tools/firewall-acl-analyzer) | domain=network | mode=local | sensitivity=high | status=new
+- [TLS Risk Explainer](https://cybertools.hub/tools/tls-risk-explainer) | domain=network | mode=local | sensitivity=medium | status=new
+- [OpenAPI AuthZ Gap Analyzer](https://cybertools.hub/tools/openapi-authz-gap) | domain=application | mode=local | sensitivity=high | status=new
+- [CORS Policy Analyzer](https://cybertools.hub/tools/cors-policy-analyzer) | domain=application | mode=local | sensitivity=medium | status=new
+- [OAuth/OIDC Scope Minimizer](https://cybertools.hub/tools/oauth-oidc-linter) | domain=cloud-iam | mode=local | sensitivity=high | status=new
+- [IAM Policy Analyzer](https://cybertools.hub/tools/iam-policy-analyzer) | domain=cloud-iam | mode=local | sensitivity=high | status=new
+- [Lockfile Risk Diff](https://cybertools.hub/tools/lockfile-risk-diff) | domain=supply-chain | mode=local | sensitivity=high | status=new
+- [AI Prompt Injection Triage](https://cybertools.hub/tools/ai-prompt-injection-triage) | domain=application | mode=local | sensitivity=high | status=planned
+- [Browser Session Triage](https://cybertools.hub/tools/browser-session-triage) | domain=soc | mode=local | sensitivity=high | status=planned
+- [Identity Blast Radius Simulator](https://cybertools.hub/tools/identity-blast-radius-simulator) | domain=cloud-iam | mode=local | sensitivity=high | status=planned
+- [SaaS OAuth App Risk Assessor](https://cybertools.hub/tools/saas-oauth-app-risk) | domain=cloud-iam | mode=local | sensitivity=high | status=planned
+- [KEV Patch SLA Tracker](https://cybertools.hub/tools/kev-patch-sla-tracker) | domain=network | mode=hybrid | sensitivity=high | status=planned
+- [Data Minimization Policy Checker](https://cybertools.hub/tools/data-minimization-checker) | domain=data-privacy | mode=local | sensitivity=high | status=planned
+- [AI Connector Egress Audit](https://cybertools.hub/tools/ai-connector-egress-audit) | domain=data-privacy | mode=hybrid | sensitivity=high | status=planned
+- [Model Supply Chain Audit](https://cybertools.hub/tools/model-supply-chain-audit) | domain=supply-chain | mode=local | sensitivity=high | status=planned
+- [SOAR Playbook Dry Runner](https://cybertools.hub/tools/soar-playbook-dry-runner) | domain=soc | mode=local | sensitivity=high | status=planned
+- [XDR Detection Tuning Benchmark](https://cybertools.hub/tools/xdr-detection-tuning-benchmark) | domain=soc | mode=local | sensitivity=high | status=planned
+- [Threat Feed Fusion Normalizer](https://cybertools.hub/tools/threat-feed-fusion-normalizer) | domain=threat-intel | mode=local | sensitivity=high | status=planned
+- [Campaign Graph Builder](https://cybertools.hub/tools/campaign-graph-builder) | domain=threat-intel | mode=local | sensitivity=high | status=planned
+- [Attack Surface Change Tracker](https://cybertools.hub/tools/asm-change-diff-tracker) | domain=network | mode=hybrid | sensitivity=high | status=planned
+- [WAF Rule Risk Simulator](https://cybertools.hub/tools/waf-rule-risk-simulator) | domain=network | mode=local | sensitivity=medium | status=planned
+- [SAST Finding Deduplicator](https://cybertools.hub/tools/sast-finding-deduplicator) | domain=application | mode=local | sensitivity=medium | status=planned
+- [API Abuse Pattern Lab](https://cybertools.hub/tools/api-abuse-pattern-lab) | domain=application | mode=local | sensitivity=high | status=planned
+- [Cloud Permission Drift Detector](https://cybertools.hub/tools/cloud-permission-drift-detector) | domain=cloud-iam | mode=local | sensitivity=high | status=planned
+- [SaaS Entitlement Reviewer](https://cybertools.hub/tools/saas-entitlement-reviewer) | domain=cloud-iam | mode=local | sensitivity=high | status=planned
+- [Container Image Policy Linter](https://cybertools.hub/tools/container-image-policy-linter) | domain=supply-chain | mode=local | sensitivity=high | status=planned
+- [Artifact Provenance Verifier](https://cybertools.hub/tools/artifact-provenance-verifier) | domain=supply-chain | mode=local | sensitivity=high | status=planned
+- [DLP Rule Tester](https://cybertools.hub/tools/dlp-rule-tester) | domain=data-privacy | mode=local | sensitivity=high | status=planned
+- [Retention Policy Conflict Finder](https://cybertools.hub/tools/retention-policy-conflict-finder) | domain=data-privacy | mode=local | sensitivity=high | status=planned

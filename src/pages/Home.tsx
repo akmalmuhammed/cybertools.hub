@@ -24,6 +24,7 @@ export default function Home() {
             <SEO
                 title="Free Security Tools"
                 description="A comprehensive suite of free, local-first security tools for developers and analysts, with optional network intel lookups."
+                canonical="/"
                 keywords={[
                     "free security tools",
                     "cybersecurity toolkit",
@@ -31,19 +32,32 @@ export default function Home() {
                     "network security tools",
                     "application security tools",
                 ]}
-                structuredData={{
-                    "@context": "https://schema.org",
-                    "@type": "WebApplication",
-                    name: "CyberTools Hub",
-                    description: "Local-first cybersecurity tools for SOC, network, and application workflows.",
-                    applicationCategory: "SecurityApplication",
-                    operatingSystem: "Any",
-                    offers: {
-                        "@type": "Offer",
-                        price: "0",
-                        priceCurrency: "USD",
+                structuredData={[
+                    {
+                        "@context": "https://schema.org",
+                        "@type": "WebSite",
+                        name: "CyberTools Hub",
+                        url: "/",
+                        potentialAction: {
+                            "@type": "SearchAction",
+                            target: "/tools?q={search_term_string}",
+                            "query-input": "required name=search_term_string",
+                        },
                     },
-                }}
+                    {
+                        "@context": "https://schema.org",
+                        "@type": "WebApplication",
+                        name: "CyberTools Hub",
+                        description: "Local-first cybersecurity tools for SOC, network, and application workflows.",
+                        applicationCategory: "SecurityApplication",
+                        operatingSystem: "Any",
+                        offers: {
+                            "@type": "Offer",
+                            price: "0",
+                            priceCurrency: "USD",
+                        },
+                    },
+                ]}
             />
             {/* Hero Section */}
             <section className="relative py-20 md:py-32 overflow-hidden">

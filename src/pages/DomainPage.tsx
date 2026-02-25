@@ -22,6 +22,26 @@ export default function DomainPage() {
   const localCount = tools.filter((tool) => tool.processingMode === "local").length;
   const hybridCount = tools.filter((tool) => tool.processingMode === "hybrid").length;
   const networkCount = tools.filter((tool) => tool.processingMode === "network").length;
+  const structuredData = [
+    {
+      "@context": "https://schema.org",
+      "@type": "CollectionPage",
+      name: `${domain.name} Tools`,
+      description: `${domain.description} ${domain.privacyNotice}`,
+      url: `/domains/${domain.slug}`,
+    },
+    {
+      "@context": "https://schema.org",
+      "@type": "ItemList",
+      name: `${domain.name} Tool List`,
+      itemListElement: tools.map((tool, index) => ({
+        "@type": "ListItem",
+        position: index + 1,
+        name: tool.name,
+        url: tool.path,
+      })),
+    },
+  ];
 
   return (
     <div className="space-y-8">
@@ -35,6 +55,7 @@ export default function DomainPage() {
           "local-first security tools",
           "privacy-first security workflows",
         ]}
+        structuredData={structuredData}
       />
 
       <motion.section

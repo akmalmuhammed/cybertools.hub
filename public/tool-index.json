@@ -1,0 +1,1726 @@
+{
+  "generatedAt": "2026-02-25T16:43:43.797Z",
+  "site": "https://cybertools.hub",
+  "counts": {
+    "tools": 75,
+    "domains": 7
+  },
+  "domains": [
+    {
+      "id": "soc",
+      "slug": "soc-detection-engineering",
+      "name": "SOC & Detection Engineering",
+      "description": "Alert triage speed, rule quality, and incident response workflow acceleration.",
+      "privacyNotice": "Mostly local analytics; optional enrichment is explicitly gated.",
+      "url": "https://cybertools.hub/domains/soc-detection-engineering"
+    },
+    {
+      "id": "threat-intel",
+      "slug": "threat-intel-dfir",
+      "name": "Threat Intel & DFIR",
+      "description": "IOC quality scoring, exchange format normalization, and forensic packaging.",
+      "privacyNotice": "Intel normalization runs local-first with optional external context lookups.",
+      "url": "https://cybertools.hub/domains/threat-intel-dfir"
+    },
+    {
+      "id": "network",
+      "slug": "network-exposure-security",
+      "name": "Network & Exposure Security",
+      "description": "Exposure import normalization, ACL conflict detection, and TLS risk analysis.",
+      "privacyNotice": "Analysis is local by default; probes are network-labeled before execution.",
+      "url": "https://cybertools.hub/domains/network-exposure-security"
+    },
+    {
+      "id": "application",
+      "slug": "application-api-security",
+      "name": "Application & API Security",
+      "description": "API contract abuse checks, authz drift detection, and browser policy hardening.",
+      "privacyNotice": "Contract linting and policy checks process documents fully in-browser.",
+      "url": "https://cybertools.hub/domains/application-api-security"
+    },
+    {
+      "id": "cloud-iam",
+      "slug": "cloud-iam-security",
+      "name": "Cloud & IAM Security",
+      "description": "Identity policy review and least-privilege hygiene across cloud providers.",
+      "privacyNotice": "Policy linting is local; no cloud credentials are required by default.",
+      "url": "https://cybertools.hub/domains/cloud-iam-security"
+    },
+    {
+      "id": "supply-chain",
+      "slug": "software-supply-chain-security",
+      "name": "Software Supply Chain Security",
+      "description": "Dependency risk diffing, tamper evidence, and provenance-oriented checks.",
+      "privacyNotice": "SBOM and lockfile analysis remain local unless users opt into lookups.",
+      "url": "https://cybertools.hub/domains/software-supply-chain-security"
+    },
+    {
+      "id": "data-privacy",
+      "slug": "data-security-privacy-engineering",
+      "name": "Data Security & Privacy Engineering",
+      "description": "Sensitive-data handling, leakage detection, and privacy-preserving processing.",
+      "privacyNotice": "Privacy-focused tools prioritize local-only processing and explicit consent.",
+      "url": "https://cybertools.hub/domains/data-security-privacy-engineering"
+    }
+  ],
+  "tools": [
+    {
+      "id": "base64",
+      "name": "Base64 Converter",
+      "description": "Encode and decode Base64 data with URL safety options.",
+      "path": "/tools/base64",
+      "domainId": "data-privacy",
+      "processingMode": "local",
+      "sensitivity": "medium",
+      "status": "ready",
+      "keywords": [
+        "base64",
+        "encode",
+        "decode",
+        "url"
+      ],
+      "evidenceTags": [
+        "data-transformation",
+        "privacy-local-processing"
+      ],
+      "url": "https://cybertools.hub/tools/base64",
+      "domainName": "Data Security & Privacy Engineering"
+    },
+    {
+      "id": "hash",
+      "name": "Hash Generator",
+      "description": "Generate MD5, SHA1, SHA256, and SHA512 hashes.",
+      "path": "/tools/hash",
+      "domainId": "data-privacy",
+      "processingMode": "local",
+      "sensitivity": "medium",
+      "status": "ready",
+      "keywords": [
+        "md5",
+        "sha1",
+        "sha256",
+        "hash",
+        "crypto"
+      ],
+      "evidenceTags": [
+        "artifact-fingerprinting",
+        "integrity-check"
+      ],
+      "url": "https://cybertools.hub/tools/hash",
+      "domainName": "Data Security & Privacy Engineering"
+    },
+    {
+      "id": "json",
+      "name": "JSON Formatter",
+      "description": "Validate, format, and minify JSON data.",
+      "path": "/tools/json",
+      "domainId": "data-privacy",
+      "processingMode": "local",
+      "sensitivity": "low",
+      "status": "ready",
+      "keywords": [
+        "json",
+        "format",
+        "minify",
+        "validate"
+      ],
+      "evidenceTags": [
+        "data-transformation",
+        "privacy-local-processing"
+      ],
+      "url": "https://cybertools.hub/tools/json",
+      "domainName": "Data Security & Privacy Engineering"
+    },
+    {
+      "id": "url",
+      "name": "URL Encoder",
+      "description": "Encode and decode URLs and URI components.",
+      "path": "/tools/url",
+      "domainId": "data-privacy",
+      "processingMode": "local",
+      "sensitivity": "low",
+      "status": "ready",
+      "keywords": [
+        "url",
+        "encode",
+        "decode",
+        "uri"
+      ],
+      "evidenceTags": [
+        "data-transformation",
+        "privacy-local-processing"
+      ],
+      "url": "https://cybertools.hub/tools/url",
+      "domainName": "Data Security & Privacy Engineering"
+    },
+    {
+      "id": "url-defang",
+      "name": "URL Defang/Refang",
+      "description": "Defang/refang URLs and canonicalize links for IOC workflows.",
+      "path": "/tools/url-defang",
+      "domainId": "network",
+      "processingMode": "local",
+      "sensitivity": "medium",
+      "status": "new",
+      "keywords": [
+        "url",
+        "defang",
+        "refang",
+        "canonicalize"
+      ],
+      "evidenceTags": [
+        "ioc-safety",
+        "triage-speed"
+      ],
+      "url": "https://cybertools.hub/tools/url-defang",
+      "domainName": "Network & Exposure Security"
+    },
+    {
+      "id": "timestamp",
+      "name": "Unix Timestamp",
+      "description": "Convert between Unix timestamps and human dates.",
+      "path": "/tools/timestamp",
+      "domainId": "data-privacy",
+      "processingMode": "local",
+      "sensitivity": "low",
+      "status": "ready",
+      "keywords": [
+        "time",
+        "unix",
+        "date",
+        "convert"
+      ],
+      "evidenceTags": [
+        "timeline-analysis",
+        "data-transformation"
+      ],
+      "url": "https://cybertools.hub/tools/timestamp",
+      "domainName": "Data Security & Privacy Engineering"
+    },
+    {
+      "id": "regex",
+      "name": "Regex Tester",
+      "description": "Test regular expressions against text.",
+      "path": "/tools/regex",
+      "domainId": "application",
+      "processingMode": "local",
+      "sensitivity": "low",
+      "status": "ready",
+      "keywords": [
+        "regex",
+        "test",
+        "match"
+      ],
+      "evidenceTags": [
+        "input-validation",
+        "developer-productivity"
+      ],
+      "url": "https://cybertools.hub/tools/regex",
+      "domainName": "Application & API Security"
+    },
+    {
+      "id": "jwt",
+      "name": "JWT Decoder",
+      "description": "Decode and inspect JSON Web Tokens.",
+      "path": "/tools/jwt",
+      "domainId": "application",
+      "processingMode": "local",
+      "sensitivity": "high",
+      "status": "ready",
+      "keywords": [
+        "jwt",
+        "token",
+        "decode"
+      ],
+      "evidenceTags": [
+        "identity-security",
+        "token-analysis"
+      ],
+      "url": "https://cybertools.hub/tools/jwt",
+      "domainName": "Application & API Security"
+    },
+    {
+      "id": "jwt-verify",
+      "name": "JWT/JWS Verifier",
+      "description": "Verify JWT/JWS signatures and optional claims policy with secret, PEM, JWK, or JWKS URL.",
+      "path": "/tools/jwt-verify",
+      "domainId": "application",
+      "processingMode": "hybrid",
+      "sensitivity": "high",
+      "status": "new",
+      "keywords": [
+        "jwt",
+        "jws",
+        "verify",
+        "jwks"
+      ],
+      "evidenceTags": [
+        "identity-security",
+        "token-validation",
+        "api-authz"
+      ],
+      "url": "https://cybertools.hub/tools/jwt-verify",
+      "domainName": "Application & API Security"
+    },
+    {
+      "id": "email",
+      "name": "Email Header Analyzer",
+      "description": "Parse and analyze email headers.",
+      "path": "/tools/email",
+      "domainId": "soc",
+      "processingMode": "local",
+      "sensitivity": "high",
+      "status": "ready",
+      "keywords": [
+        "email",
+        "header",
+        "smtp"
+      ],
+      "evidenceTags": [
+        "phishing-defense",
+        "triage-speed",
+        "soc-throughput"
+      ],
+      "url": "https://cybertools.hub/tools/email",
+      "domainName": "SOC & Detection Engineering"
+    },
+    {
+      "id": "ioc",
+      "name": "IOC Extractor",
+      "description": "Extract URLs, domains, IPs, hashes, and CVEs from raw text.",
+      "path": "/tools/ioc",
+      "domainId": "soc",
+      "processingMode": "local",
+      "sensitivity": "high",
+      "status": "new",
+      "keywords": [
+        "ioc",
+        "indicators",
+        "threat",
+        "triage"
+      ],
+      "evidenceTags": [
+        "soc-throughput",
+        "triage-speed"
+      ],
+      "url": "https://cybertools.hub/tools/ioc",
+      "domainName": "SOC & Detection Engineering"
+    },
+    {
+      "id": "ioc-correlator",
+      "name": "IOC Correlator",
+      "description": "Compare two IOC datasets and identify overlap and unique indicators.",
+      "path": "/tools/ioc-correlator",
+      "domainId": "soc",
+      "processingMode": "local",
+      "sensitivity": "high",
+      "status": "new",
+      "keywords": [
+        "ioc",
+        "correlate",
+        "overlap",
+        "threat-intel"
+      ],
+      "evidenceTags": [
+        "soc-throughput",
+        "intel-correlation"
+      ],
+      "url": "https://cybertools.hub/tools/ioc-correlator",
+      "domainName": "SOC & Detection Engineering"
+    },
+    {
+      "id": "ioc-normalizer",
+      "name": "IOC Canonicalizer",
+      "description": "Normalize defanged indicators, unicode/punycode domains, and deduplicate by canonical value.",
+      "path": "/tools/ioc-normalizer",
+      "domainId": "threat-intel",
+      "processingMode": "local",
+      "sensitivity": "high",
+      "status": "new",
+      "keywords": [
+        "ioc",
+        "canonicalize",
+        "defang",
+        "punycode"
+      ],
+      "evidenceTags": [
+        "intel-fidelity",
+        "ioc-hygiene"
+      ],
+      "url": "https://cybertools.hub/tools/ioc-normalizer",
+      "domainName": "Threat Intel & DFIR"
+    },
+    {
+      "id": "user-agent",
+      "name": "User-Agent Analyzer",
+      "description": "Parse User-Agent strings into browser, OS, device, and automation signals.",
+      "path": "/tools/user-agent",
+      "domainId": "network",
+      "processingMode": "local",
+      "sensitivity": "medium",
+      "status": "new",
+      "keywords": [
+        "user-agent",
+        "ua",
+        "browser",
+        "fingerprint"
+      ],
+      "evidenceTags": [
+        "session-analysis",
+        "bot-detection"
+      ],
+      "url": "https://cybertools.hub/tools/user-agent",
+      "domainName": "Network & Exposure Security"
+    },
+    {
+      "id": "subnet",
+      "name": "Subnet Calculator",
+      "description": "Calculate CIDR ranges and netmasks.",
+      "path": "/tools/subnet",
+      "domainId": "network",
+      "processingMode": "local",
+      "sensitivity": "low",
+      "status": "ready",
+      "keywords": [
+        "cidr",
+        "subnet",
+        "network",
+        "ip"
+      ],
+      "evidenceTags": [
+        "network-planning",
+        "exposure-hygiene"
+      ],
+      "url": "https://cybertools.hub/tools/subnet",
+      "domainName": "Network & Exposure Security"
+    },
+    {
+      "id": "password",
+      "name": "Password Generator",
+      "description": "Generate secure random passwords.",
+      "path": "/tools/password",
+      "domainId": "data-privacy",
+      "processingMode": "local",
+      "sensitivity": "medium",
+      "status": "ready",
+      "keywords": [
+        "password",
+        "secure",
+        "generator"
+      ],
+      "evidenceTags": [
+        "credential-hygiene",
+        "identity-security"
+      ],
+      "url": "https://cybertools.hub/tools/password",
+      "domainName": "Data Security & Privacy Engineering"
+    },
+    {
+      "id": "whois",
+      "name": "Whois Lookup",
+      "description": "Lookup domain registration details via RDAP (network request).",
+      "path": "/tools/whois",
+      "domainId": "network",
+      "processingMode": "network",
+      "sensitivity": "medium",
+      "status": "beta",
+      "keywords": [
+        "whois",
+        "domain",
+        "lookup"
+      ],
+      "evidenceTags": [
+        "external-exposure",
+        "threat-intel-context"
+      ],
+      "url": "https://cybertools.hub/tools/whois",
+      "domainName": "Network & Exposure Security"
+    },
+    {
+      "id": "dns-toolkit",
+      "name": "DNS Toolkit",
+      "description": "Query DNS-over-HTTPS records and inspect SPF/DMARC posture.",
+      "path": "/tools/dns",
+      "domainId": "network",
+      "processingMode": "network",
+      "sensitivity": "medium",
+      "status": "new",
+      "keywords": [
+        "dns",
+        "spf",
+        "dmarc",
+        "mx",
+        "txt"
+      ],
+      "evidenceTags": [
+        "external-exposure",
+        "email-authentication"
+      ],
+      "url": "https://cybertools.hub/tools/dns",
+      "domainName": "Network & Exposure Security"
+    },
+    {
+      "id": "certificate",
+      "name": "Certificate Decoder",
+      "description": "Inspect certificate text and derive PEM SHA-256 fingerprints.",
+      "path": "/tools/certificate",
+      "domainId": "network",
+      "processingMode": "local",
+      "sensitivity": "medium",
+      "status": "beta",
+      "keywords": [
+        "ssl",
+        "cert",
+        "pem",
+        "decode"
+      ],
+      "evidenceTags": [
+        "tls-hardening",
+        "integrity-check"
+      ],
+      "url": "https://cybertools.hub/tools/certificate",
+      "domainName": "Network & Exposure Security"
+    },
+    {
+      "id": "iplookup",
+      "name": "IP Lookup",
+      "description": "Classify IP addresses and optionally enrich with RDAP (network request).",
+      "path": "/tools/ip",
+      "domainId": "network",
+      "processingMode": "network",
+      "sensitivity": "medium",
+      "status": "beta",
+      "keywords": [
+        "ip",
+        "geolocation",
+        "lookup"
+      ],
+      "evidenceTags": [
+        "external-exposure",
+        "threat-intel-context"
+      ],
+      "url": "https://cybertools.hub/tools/ip",
+      "domainName": "Network & Exposure Security"
+    },
+    {
+      "id": "port",
+      "name": "Port Checker",
+      "description": "Assess common ports and probe HTTP(S)-compatible endpoints from browser.",
+      "path": "/tools/port",
+      "domainId": "network",
+      "processingMode": "network",
+      "sensitivity": "medium",
+      "status": "beta",
+      "keywords": [
+        "port",
+        "check",
+        "open"
+      ],
+      "evidenceTags": [
+        "external-exposure",
+        "attack-surface"
+      ],
+      "url": "https://cybertools.hub/tools/port",
+      "domainName": "Network & Exposure Security"
+    },
+    {
+      "id": "diff",
+      "name": "Text Diff",
+      "description": "Compare two texts and find differences.",
+      "path": "/tools/diff",
+      "domainId": "data-privacy",
+      "processingMode": "local",
+      "sensitivity": "low",
+      "status": "ready",
+      "keywords": [
+        "diff",
+        "compare",
+        "text"
+      ],
+      "evidenceTags": [
+        "change-review",
+        "triage-speed"
+      ],
+      "url": "https://cybertools.hub/tools/diff",
+      "domainName": "Data Security & Privacy Engineering"
+    },
+    {
+      "id": "http-headers",
+      "name": "HTTP Header Analyzer",
+      "description": "Score HTTP security headers and identify hardening gaps.",
+      "path": "/tools/http-headers",
+      "domainId": "application",
+      "processingMode": "local",
+      "sensitivity": "medium",
+      "status": "new",
+      "keywords": [
+        "http",
+        "headers",
+        "csp",
+        "hsts"
+      ],
+      "evidenceTags": [
+        "web-hardening",
+        "api-authz"
+      ],
+      "url": "https://cybertools.hub/tools/http-headers",
+      "domainName": "Application & API Security"
+    },
+    {
+      "id": "reputation",
+      "name": "Reputation Enricher",
+      "description": "Bulk-enrich domains/IPs with local scoring, RDAP, and optional provider proxy intel.",
+      "path": "/tools/reputation",
+      "domainId": "soc",
+      "processingMode": "hybrid",
+      "sensitivity": "high",
+      "status": "new",
+      "keywords": [
+        "reputation",
+        "bulk",
+        "abuseipdb",
+        "virustotal"
+      ],
+      "evidenceTags": [
+        "soc-throughput",
+        "false-positive-reduction",
+        "threat-intel-context"
+      ],
+      "url": "https://cybertools.hub/tools/reputation",
+      "domainName": "SOC & Detection Engineering"
+    },
+    {
+      "id": "cve-prioritizer",
+      "name": "KEV/CVE Prioritizer",
+      "description": "Prioritize CVEs client-side using KEV, NVD feeds, CVSS, EPSS, exploit signals, and asset criticality.",
+      "path": "/tools/cve-prioritizer",
+      "domainId": "soc",
+      "processingMode": "local",
+      "sensitivity": "high",
+      "status": "new",
+      "keywords": [
+        "cve",
+        "kev",
+        "epss",
+        "prioritization"
+      ],
+      "evidenceTags": [
+        "kev-prioritization",
+        "vulnerability-exploitation"
+      ],
+      "url": "https://cybertools.hub/tools/cve-prioritizer",
+      "domainName": "SOC & Detection Engineering"
+    },
+    {
+      "id": "secrets-scanner",
+      "name": "Secrets Scanner",
+      "description": "Detect leaked credentials and high-entropy tokens in pasted content.",
+      "path": "/tools/secrets-scanner",
+      "domainId": "data-privacy",
+      "processingMode": "local",
+      "sensitivity": "high",
+      "status": "new",
+      "keywords": [
+        "secrets",
+        "token",
+        "credential",
+        "leak"
+      ],
+      "evidenceTags": [
+        "secrets-sprawl",
+        "credential-abuse"
+      ],
+      "url": "https://cybertools.hub/tools/secrets-scanner",
+      "domainName": "Data Security & Privacy Engineering"
+    },
+    {
+      "id": "stix-taxii",
+      "name": "STIX/TAXII Utility",
+      "description": "Parse, validate, compare, and export STIX 2.1 bundles locally.",
+      "path": "/tools/stix-taxii",
+      "domainId": "threat-intel",
+      "processingMode": "local",
+      "sensitivity": "high",
+      "status": "new",
+      "keywords": [
+        "stix",
+        "taxii",
+        "threat-intel",
+        "bundle"
+      ],
+      "evidenceTags": [
+        "intel-fidelity",
+        "stix-misp-interoperability"
+      ],
+      "url": "https://cybertools.hub/tools/stix-taxii",
+      "domainName": "Threat Intel & DFIR"
+    },
+    {
+      "id": "domain-spoof",
+      "name": "Domain Spoof Detector",
+      "description": "Score suspected spoofed domains using homoglyph, brand abuse, and domain-age signals.",
+      "path": "/tools/domain-spoof",
+      "domainId": "soc",
+      "processingMode": "local",
+      "sensitivity": "high",
+      "status": "new",
+      "keywords": [
+        "domain",
+        "spoof",
+        "homoglyph",
+        "typosquat"
+      ],
+      "evidenceTags": [
+        "phishing-defense",
+        "identity-abuse"
+      ],
+      "url": "https://cybertools.hub/tools/domain-spoof",
+      "domainName": "SOC & Detection Engineering"
+    },
+    {
+      "id": "sigma-helper",
+      "name": "Sigma Linter Helper",
+      "description": "Lint Sigma rules and generate backend query helpers with ATT&CK coverage checks.",
+      "path": "/tools/sigma-helper",
+      "domainId": "soc",
+      "processingMode": "local",
+      "sensitivity": "high",
+      "status": "new",
+      "keywords": [
+        "sigma",
+        "siem",
+        "attack",
+        "detection"
+      ],
+      "evidenceTags": [
+        "detection-quality",
+        "rule-testing"
+      ],
+      "url": "https://cybertools.hub/tools/sigma-helper",
+      "domainName": "SOC & Detection Engineering"
+    },
+    {
+      "id": "yara-local",
+      "name": "YARA Local Matcher",
+      "description": "Run local YARA-style matching against text or local files without upload.",
+      "path": "/tools/yara-local",
+      "domainId": "soc",
+      "processingMode": "local",
+      "sensitivity": "high",
+      "status": "new",
+      "keywords": [
+        "yara",
+        "malware",
+        "pattern",
+        "scan"
+      ],
+      "evidenceTags": [
+        "malware-triage",
+        "soc-throughput"
+      ],
+      "url": "https://cybertools.hub/tools/yara-local",
+      "domainName": "SOC & Detection Engineering"
+    },
+    {
+      "id": "sbom-diff",
+      "name": "SBOM Diff & Triage",
+      "description": "Compare CycloneDX/SPDX BOMs and prioritize risky component changes.",
+      "path": "/tools/sbom-diff",
+      "domainId": "supply-chain",
+      "processingMode": "local",
+      "sensitivity": "high",
+      "status": "new",
+      "keywords": [
+        "sbom",
+        "cyclonedx",
+        "spdx",
+        "supply-chain"
+      ],
+      "evidenceTags": [
+        "supply-chain-risk",
+        "vulnerability-exploitation"
+      ],
+      "url": "https://cybertools.hub/tools/sbom-diff",
+      "domainName": "Software Supply Chain Security"
+    },
+    {
+      "id": "security-header-builder",
+      "name": "Security Header Builder",
+      "description": "Generate CSP and security header presets with explicit compatibility tradeoffs.",
+      "path": "/tools/security-header-builder",
+      "domainId": "application",
+      "processingMode": "local",
+      "sensitivity": "medium",
+      "status": "new",
+      "keywords": [
+        "csp",
+        "headers",
+        "hsts",
+        "policy"
+      ],
+      "evidenceTags": [
+        "web-hardening",
+        "cors-misconfig"
+      ],
+      "url": "https://cybertools.hub/tools/security-header-builder",
+      "domainName": "Application & API Security"
+    },
+    {
+      "id": "qrcode",
+      "name": "QR Code Generator",
+      "description": "Generate QR codes from text.",
+      "path": "/tools/qrcode",
+      "domainId": "data-privacy",
+      "processingMode": "local",
+      "sensitivity": "low",
+      "status": "ready",
+      "keywords": [
+        "qr",
+        "code",
+        "generate"
+      ],
+      "evidenceTags": [
+        "data-transformation",
+        "offline-workflow"
+      ],
+      "url": "https://cybertools.hub/tools/qrcode",
+      "domainName": "Data Security & Privacy Engineering"
+    },
+    {
+      "id": "color",
+      "name": "Color Converter",
+      "description": "Convert HEX, RGB, and HSL colors.",
+      "path": "/tools/color",
+      "domainId": "data-privacy",
+      "processingMode": "local",
+      "sensitivity": "low",
+      "status": "ready",
+      "keywords": [
+        "color",
+        "hex",
+        "rgb",
+        "hsl"
+      ],
+      "evidenceTags": [
+        "developer-productivity",
+        "data-transformation"
+      ],
+      "url": "https://cybertools.hub/tools/color",
+      "domainName": "Data Security & Privacy Engineering"
+    },
+    {
+      "id": "uuid",
+      "name": "UUID Generator",
+      "description": "Generate UUID v4 identifiers.",
+      "path": "/tools/uuid",
+      "domainId": "data-privacy",
+      "processingMode": "local",
+      "sensitivity": "low",
+      "status": "ready",
+      "keywords": [
+        "uuid",
+        "guid",
+        "generate"
+      ],
+      "evidenceTags": [
+        "identifier-generation",
+        "developer-productivity"
+      ],
+      "url": "https://cybertools.hub/tools/uuid",
+      "domainName": "Data Security & Privacy Engineering"
+    },
+    {
+      "id": "markdown",
+      "name": "Markdown Preview",
+      "description": "Preview Markdown text.",
+      "path": "/tools/markdown",
+      "domainId": "data-privacy",
+      "processingMode": "local",
+      "sensitivity": "low",
+      "status": "ready",
+      "keywords": [
+        "markdown",
+        "preview",
+        "md"
+      ],
+      "evidenceTags": [
+        "documentation-workflow",
+        "developer-productivity"
+      ],
+      "url": "https://cybertools.hub/tools/markdown",
+      "domainName": "Data Security & Privacy Engineering"
+    },
+    {
+      "id": "html",
+      "name": "HTML Encoder",
+      "description": "Encode and decode HTML entities.",
+      "path": "/tools/html",
+      "domainId": "data-privacy",
+      "processingMode": "local",
+      "sensitivity": "low",
+      "status": "ready",
+      "keywords": [
+        "html",
+        "encode",
+        "entity"
+      ],
+      "evidenceTags": [
+        "data-transformation",
+        "xss-safety"
+      ],
+      "url": "https://cybertools.hub/tools/html",
+      "domainName": "Data Security & Privacy Engineering"
+    },
+    {
+      "id": "alert-dedupe",
+      "name": "Alert Deduplication Simulator",
+      "description": "Cluster noisy alerts into deterministic buckets to estimate SOC false-positive reduction.",
+      "path": "/tools/alert-dedupe",
+      "domainId": "soc",
+      "processingMode": "local",
+      "sensitivity": "high",
+      "status": "new",
+      "keywords": [
+        "alert",
+        "dedupe",
+        "soc",
+        "triage"
+      ],
+      "evidenceTags": [
+        "false-positive-reduction",
+        "soc-throughput"
+      ],
+      "url": "https://cybertools.hub/tools/alert-dedupe",
+      "domainName": "SOC & Detection Engineering"
+    },
+    {
+      "id": "detection-unit-test",
+      "name": "Detection Rule Unit Test Harness",
+      "description": "Run Sigma-like rule fixtures against expected detections to validate detection quality.",
+      "path": "/tools/detection-unit-test",
+      "domainId": "soc",
+      "processingMode": "local",
+      "sensitivity": "high",
+      "status": "new",
+      "keywords": [
+        "sigma",
+        "unit test",
+        "detection",
+        "fixtures"
+      ],
+      "evidenceTags": [
+        "detection-quality",
+        "rule-testing"
+      ],
+      "url": "https://cybertools.hub/tools/detection-unit-test",
+      "domainName": "SOC & Detection Engineering"
+    },
+    {
+      "id": "attack-coverage",
+      "name": "ATT&CK Coverage Heatmap",
+      "description": "Summarize ATT&CK tactic and technique coverage from rule metadata.",
+      "path": "/tools/attack-coverage",
+      "domainId": "soc",
+      "processingMode": "local",
+      "sensitivity": "medium",
+      "status": "new",
+      "keywords": [
+        "attack",
+        "heatmap",
+        "coverage",
+        "rules"
+      ],
+      "evidenceTags": [
+        "attack-coverage",
+        "detection-quality"
+      ],
+      "url": "https://cybertools.hub/tools/attack-coverage",
+      "domainName": "SOC & Detection Engineering"
+    },
+    {
+      "id": "event-timeline",
+      "name": "Event Timeline Composer",
+      "description": "Compose and normalize incident event timelines for triage and post-incident review.",
+      "path": "/tools/event-timeline",
+      "domainId": "soc",
+      "processingMode": "local",
+      "sensitivity": "high",
+      "status": "new",
+      "keywords": [
+        "timeline",
+        "incident",
+        "triage",
+        "events"
+      ],
+      "evidenceTags": [
+        "triage-speed",
+        "incident-response"
+      ],
+      "url": "https://cybertools.hub/tools/event-timeline",
+      "domainName": "SOC & Detection Engineering"
+    },
+    {
+      "id": "log-schema-mapper",
+      "name": "Log Schema Mapper",
+      "description": "Map raw log fields to ECS/OCSF hints for faster normalization and ingestion planning.",
+      "path": "/tools/log-schema-mapper",
+      "domainId": "soc",
+      "processingMode": "local",
+      "sensitivity": "high",
+      "status": "new",
+      "keywords": [
+        "ecs",
+        "ocsf",
+        "schema",
+        "logs"
+      ],
+      "evidenceTags": [
+        "schema-normalization",
+        "soc-throughput"
+      ],
+      "url": "https://cybertools.hub/tools/log-schema-mapper",
+      "domainName": "SOC & Detection Engineering"
+    },
+    {
+      "id": "ioc-confidence-ttl",
+      "name": "IOC Confidence + TTL Scorer",
+      "description": "Score indicator confidence and suggest TTL decay windows for operational feeds.",
+      "path": "/tools/ioc-confidence-ttl",
+      "domainId": "threat-intel",
+      "processingMode": "local",
+      "sensitivity": "high",
+      "status": "new",
+      "keywords": [
+        "ioc",
+        "confidence",
+        "ttl",
+        "intel"
+      ],
+      "evidenceTags": [
+        "intel-fidelity",
+        "ioc-freshness"
+      ],
+      "url": "https://cybertools.hub/tools/ioc-confidence-ttl",
+      "domainName": "Threat Intel & DFIR"
+    },
+    {
+      "id": "misp-stix-mapper",
+      "name": "MISP/STIX Mapper",
+      "description": "Transform simplified MISP exports into STIX bundles and run consistency checks.",
+      "path": "/tools/misp-stix-mapper",
+      "domainId": "threat-intel",
+      "processingMode": "local",
+      "sensitivity": "high",
+      "status": "new",
+      "keywords": [
+        "misp",
+        "stix",
+        "mapping",
+        "consistency"
+      ],
+      "evidenceTags": [
+        "stix-misp-interoperability",
+        "intel-fidelity"
+      ],
+      "url": "https://cybertools.hub/tools/misp-stix-mapper",
+      "domainName": "Threat Intel & DFIR"
+    },
+    {
+      "id": "artifact-integrity",
+      "name": "Artifact Integrity Packager",
+      "description": "Build chain-of-custody manifests with hash attestations for forensic artifacts.",
+      "path": "/tools/artifact-integrity",
+      "domainId": "threat-intel",
+      "processingMode": "local",
+      "sensitivity": "high",
+      "status": "new",
+      "keywords": [
+        "forensics",
+        "integrity",
+        "manifest",
+        "custody"
+      ],
+      "evidenceTags": [
+        "chain-of-custody",
+        "dfir"
+      ],
+      "url": "https://cybertools.hub/tools/artifact-integrity",
+      "domainName": "Threat Intel & DFIR"
+    },
+    {
+      "id": "exposure-normalizer",
+      "name": "External Exposure Normalizer",
+      "description": "Normalize Nmap/Masscan/Shodan imports into a comparable exposure inventory.",
+      "path": "/tools/exposure-normalizer",
+      "domainId": "network",
+      "processingMode": "local",
+      "sensitivity": "medium",
+      "status": "new",
+      "keywords": [
+        "nmap",
+        "masscan",
+        "shodan",
+        "exposure"
+      ],
+      "evidenceTags": [
+        "external-exposure",
+        "asset-visibility"
+      ],
+      "url": "https://cybertools.hub/tools/exposure-normalizer",
+      "domainName": "Network & Exposure Security"
+    },
+    {
+      "id": "firewall-acl-analyzer",
+      "name": "Firewall/ACL Conflict Analyzer",
+      "description": "Detect duplicate, shadowed, and overly permissive firewall or ACL rules.",
+      "path": "/tools/firewall-acl-analyzer",
+      "domainId": "network",
+      "processingMode": "local",
+      "sensitivity": "high",
+      "status": "new",
+      "keywords": [
+        "firewall",
+        "acl",
+        "conflict",
+        "shadowing"
+      ],
+      "evidenceTags": [
+        "acl-conflict",
+        "network-hardening"
+      ],
+      "url": "https://cybertools.hub/tools/firewall-acl-analyzer",
+      "domainName": "Network & Exposure Security"
+    },
+    {
+      "id": "tls-risk-explainer",
+      "name": "TLS Risk Explainer",
+      "description": "Explain TLS protocol/cipher/certificate risks from pasted scanner output.",
+      "path": "/tools/tls-risk-explainer",
+      "domainId": "network",
+      "processingMode": "local",
+      "sensitivity": "medium",
+      "status": "new",
+      "keywords": [
+        "tls",
+        "ssl",
+        "cipher",
+        "hardening"
+      ],
+      "evidenceTags": [
+        "tls-hardening",
+        "external-exposure"
+      ],
+      "url": "https://cybertools.hub/tools/tls-risk-explainer",
+      "domainName": "Network & Exposure Security"
+    },
+    {
+      "id": "openapi-authz-gap",
+      "name": "OpenAPI AuthZ Gap Analyzer",
+      "description": "Find missing or weak authorization requirements in OpenAPI documents.",
+      "path": "/tools/openapi-authz-gap",
+      "domainId": "application",
+      "processingMode": "local",
+      "sensitivity": "high",
+      "status": "new",
+      "keywords": [
+        "openapi",
+        "authz",
+        "api",
+        "security"
+      ],
+      "evidenceTags": [
+        "api-authz",
+        "detection-quality"
+      ],
+      "url": "https://cybertools.hub/tools/openapi-authz-gap",
+      "domainName": "Application & API Security"
+    },
+    {
+      "id": "cors-policy-analyzer",
+      "name": "CORS Policy Analyzer",
+      "description": "Assess CORS response policies and explain cross-origin abuse risk.",
+      "path": "/tools/cors-policy-analyzer",
+      "domainId": "application",
+      "processingMode": "local",
+      "sensitivity": "medium",
+      "status": "new",
+      "keywords": [
+        "cors",
+        "origin",
+        "headers",
+        "browser"
+      ],
+      "evidenceTags": [
+        "cors-misconfig",
+        "api-authz"
+      ],
+      "url": "https://cybertools.hub/tools/cors-policy-analyzer",
+      "domainName": "Application & API Security"
+    },
+    {
+      "id": "oauth-oidc-linter",
+      "name": "OAuth/OIDC Scope Minimizer",
+      "description": "Lint scope and token policy inputs to reduce excess identity permissions.",
+      "path": "/tools/oauth-oidc-linter",
+      "domainId": "cloud-iam",
+      "processingMode": "local",
+      "sensitivity": "high",
+      "status": "new",
+      "keywords": [
+        "oauth",
+        "oidc",
+        "scopes",
+        "token policy"
+      ],
+      "evidenceTags": [
+        "identity-governance",
+        "least-privilege"
+      ],
+      "url": "https://cybertools.hub/tools/oauth-oidc-linter",
+      "domainName": "Cloud & IAM Security"
+    },
+    {
+      "id": "iam-policy-analyzer",
+      "name": "IAM Policy Analyzer",
+      "description": "Lint AWS/Azure/GCP-style policies for wildcard privilege and risky grants.",
+      "path": "/tools/iam-policy-analyzer",
+      "domainId": "cloud-iam",
+      "processingMode": "local",
+      "sensitivity": "high",
+      "status": "new",
+      "keywords": [
+        "iam",
+        "aws",
+        "azure",
+        "gcp",
+        "policy"
+      ],
+      "evidenceTags": [
+        "identity-governance",
+        "least-privilege"
+      ],
+      "url": "https://cybertools.hub/tools/iam-policy-analyzer",
+      "domainName": "Cloud & IAM Security"
+    },
+    {
+      "id": "lockfile-risk-diff",
+      "name": "Lockfile Risk Diff",
+      "description": "Diff lockfiles and flag dependency-confusion and naming-risk heuristics.",
+      "path": "/tools/lockfile-risk-diff",
+      "domainId": "supply-chain",
+      "processingMode": "local",
+      "sensitivity": "high",
+      "status": "new",
+      "keywords": [
+        "lockfile",
+        "dependency",
+        "supply chain",
+        "confusion"
+      ],
+      "evidenceTags": [
+        "supply-chain-risk",
+        "dependency-confusion"
+      ],
+      "url": "https://cybertools.hub/tools/lockfile-risk-diff",
+      "domainName": "Software Supply Chain Security"
+    },
+    {
+      "id": "ai-prompt-injection-triage",
+      "name": "AI Prompt Injection Triage",
+      "description": "Assess prompt, tool-call, and retrieval payloads for injection and policy-bypass patterns.",
+      "path": "/tools/ai-prompt-injection-triage",
+      "domainId": "application",
+      "processingMode": "local",
+      "sensitivity": "high",
+      "status": "planned",
+      "keywords": [
+        "ai",
+        "llm",
+        "prompt injection",
+        "tool abuse"
+      ],
+      "evidenceTags": [
+        "ai-security-governance",
+        "prompt-injection"
+      ],
+      "url": "https://cybertools.hub/tools/ai-prompt-injection-triage",
+      "domainName": "Application & API Security"
+    },
+    {
+      "id": "browser-session-triage",
+      "name": "Browser Session Triage",
+      "description": "Correlate browser telemetry and identity events to investigate session-token abuse patterns.",
+      "path": "/tools/browser-session-triage",
+      "domainId": "soc",
+      "processingMode": "local",
+      "sensitivity": "high",
+      "status": "planned",
+      "keywords": [
+        "browser",
+        "session",
+        "token theft",
+        "triage"
+      ],
+      "evidenceTags": [
+        "identity-abuse",
+        "soc-throughput"
+      ],
+      "url": "https://cybertools.hub/tools/browser-session-triage",
+      "domainName": "SOC & Detection Engineering"
+    },
+    {
+      "id": "identity-blast-radius-simulator",
+      "name": "Identity Blast Radius Simulator",
+      "description": "Estimate lateral movement and privilege spread from compromised identities.",
+      "path": "/tools/identity-blast-radius-simulator",
+      "domainId": "cloud-iam",
+      "processingMode": "local",
+      "sensitivity": "high",
+      "status": "planned",
+      "keywords": [
+        "identity",
+        "blast radius",
+        "privilege",
+        "lateral movement"
+      ],
+      "evidenceTags": [
+        "identity-governance",
+        "least-privilege"
+      ],
+      "url": "https://cybertools.hub/tools/identity-blast-radius-simulator",
+      "domainName": "Cloud & IAM Security"
+    },
+    {
+      "id": "saas-oauth-app-risk",
+      "name": "SaaS OAuth App Risk Assessor",
+      "description": "Score third-party SaaS OAuth grants for risky scopes, tenant exposure, and consent drift.",
+      "path": "/tools/saas-oauth-app-risk",
+      "domainId": "cloud-iam",
+      "processingMode": "local",
+      "sensitivity": "high",
+      "status": "planned",
+      "keywords": [
+        "saas",
+        "oauth",
+        "consent",
+        "scope risk"
+      ],
+      "evidenceTags": [
+        "identity-governance",
+        "oauth-risk"
+      ],
+      "url": "https://cybertools.hub/tools/saas-oauth-app-risk",
+      "domainName": "Cloud & IAM Security"
+    },
+    {
+      "id": "kev-patch-sla-tracker",
+      "name": "KEV Patch SLA Tracker",
+      "description": "Track active KEV exposure against internal patch SLAs and escalation thresholds.",
+      "path": "/tools/kev-patch-sla-tracker",
+      "domainId": "network",
+      "processingMode": "hybrid",
+      "sensitivity": "high",
+      "status": "planned",
+      "keywords": [
+        "kev",
+        "patching",
+        "sla",
+        "exposure"
+      ],
+      "evidenceTags": [
+        "kev-prioritization",
+        "external-exposure"
+      ],
+      "url": "https://cybertools.hub/tools/kev-patch-sla-tracker",
+      "domainName": "Network & Exposure Security"
+    },
+    {
+      "id": "data-minimization-checker",
+      "name": "Data Minimization Policy Checker",
+      "description": "Validate event fields against data minimization and retention policy constraints.",
+      "path": "/tools/data-minimization-checker",
+      "domainId": "data-privacy",
+      "processingMode": "local",
+      "sensitivity": "high",
+      "status": "planned",
+      "keywords": [
+        "privacy",
+        "retention",
+        "pii",
+        "data minimization"
+      ],
+      "evidenceTags": [
+        "privacy-governance",
+        "data-minimization"
+      ],
+      "url": "https://cybertools.hub/tools/data-minimization-checker",
+      "domainName": "Data Security & Privacy Engineering"
+    },
+    {
+      "id": "ai-connector-egress-audit",
+      "name": "AI Connector Egress Audit",
+      "description": "Review outbound connector payloads and destinations for policy and data-loss risk.",
+      "path": "/tools/ai-connector-egress-audit",
+      "domainId": "data-privacy",
+      "processingMode": "hybrid",
+      "sensitivity": "high",
+      "status": "planned",
+      "keywords": [
+        "ai connector",
+        "egress",
+        "dlp",
+        "policy"
+      ],
+      "evidenceTags": [
+        "ai-security-governance",
+        "data-exfiltration"
+      ],
+      "url": "https://cybertools.hub/tools/ai-connector-egress-audit",
+      "domainName": "Data Security & Privacy Engineering"
+    },
+    {
+      "id": "model-supply-chain-audit",
+      "name": "Model Supply Chain Audit",
+      "description": "Assess AI model provenance, dependency lineage, and package integrity controls.",
+      "path": "/tools/model-supply-chain-audit",
+      "domainId": "supply-chain",
+      "processingMode": "local",
+      "sensitivity": "high",
+      "status": "planned",
+      "keywords": [
+        "model",
+        "ai",
+        "supply chain",
+        "provenance"
+      ],
+      "evidenceTags": [
+        "supply-chain-risk",
+        "ai-model-governance"
+      ],
+      "url": "https://cybertools.hub/tools/model-supply-chain-audit",
+      "domainName": "Software Supply Chain Security"
+    },
+    {
+      "id": "soar-playbook-dry-runner",
+      "name": "SOAR Playbook Dry Runner",
+      "description": "Run incident playbook branches against sample alerts to validate escalation and containment logic before production rollout.",
+      "path": "/tools/soar-playbook-dry-runner",
+      "domainId": "soc",
+      "processingMode": "local",
+      "sensitivity": "high",
+      "status": "planned",
+      "keywords": [
+        "soar",
+        "playbook",
+        "incident response",
+        "automation"
+      ],
+      "evidenceTags": [
+        "soc-throughput",
+        "incident-response",
+        "automation"
+      ],
+      "url": "https://cybertools.hub/tools/soar-playbook-dry-runner",
+      "domainName": "SOC & Detection Engineering"
+    },
+    {
+      "id": "xdr-detection-tuning-benchmark",
+      "name": "XDR Detection Tuning Benchmark",
+      "description": "Benchmark detection noise, precision, and suppression impact using representative endpoint and identity event samples.",
+      "path": "/tools/xdr-detection-tuning-benchmark",
+      "domainId": "soc",
+      "processingMode": "local",
+      "sensitivity": "high",
+      "status": "planned",
+      "keywords": [
+        "xdr",
+        "detection tuning",
+        "precision",
+        "false positives"
+      ],
+      "evidenceTags": [
+        "false-positive-reduction",
+        "detection-quality",
+        "soc-throughput"
+      ],
+      "url": "https://cybertools.hub/tools/xdr-detection-tuning-benchmark",
+      "domainName": "SOC & Detection Engineering"
+    },
+    {
+      "id": "threat-feed-fusion-normalizer",
+      "name": "Threat Feed Fusion Normalizer",
+      "description": "Merge commercial and open intelligence feeds into a deduplicated confidence-weighted indicator dataset.",
+      "path": "/tools/threat-feed-fusion-normalizer",
+      "domainId": "threat-intel",
+      "processingMode": "local",
+      "sensitivity": "high",
+      "status": "planned",
+      "keywords": [
+        "threat intel",
+        "feed fusion",
+        "ioc",
+        "deduplication"
+      ],
+      "evidenceTags": [
+        "intel-fidelity",
+        "ioc-freshness",
+        "intel-correlation"
+      ],
+      "url": "https://cybertools.hub/tools/threat-feed-fusion-normalizer",
+      "domainName": "Threat Intel & DFIR"
+    },
+    {
+      "id": "campaign-graph-builder",
+      "name": "Campaign Graph Builder",
+      "description": "Build actor-campaign-infrastructure graphs from incidents to visualize cluster overlap and repeated tradecraft.",
+      "path": "/tools/campaign-graph-builder",
+      "domainId": "threat-intel",
+      "processingMode": "local",
+      "sensitivity": "high",
+      "status": "planned",
+      "keywords": [
+        "campaign",
+        "graph",
+        "threat actor",
+        "infrastructure"
+      ],
+      "evidenceTags": [
+        "intel-correlation",
+        "dfir",
+        "campaign-tracking"
+      ],
+      "url": "https://cybertools.hub/tools/campaign-graph-builder",
+      "domainName": "Threat Intel & DFIR"
+    },
+    {
+      "id": "asm-change-diff-tracker",
+      "name": "Attack Surface Change Tracker",
+      "description": "Track newly exposed ports, services, and hostnames between scans to prioritize risky external drift.",
+      "path": "/tools/asm-change-diff-tracker",
+      "domainId": "network",
+      "processingMode": "hybrid",
+      "sensitivity": "high",
+      "status": "planned",
+      "keywords": [
+        "attack surface",
+        "asm",
+        "drift",
+        "exposure"
+      ],
+      "evidenceTags": [
+        "external-exposure",
+        "asset-visibility",
+        "attack-surface"
+      ],
+      "url": "https://cybertools.hub/tools/asm-change-diff-tracker",
+      "domainName": "Network & Exposure Security"
+    },
+    {
+      "id": "waf-rule-risk-simulator",
+      "name": "WAF Rule Risk Simulator",
+      "description": "Simulate allow/deny outcomes for common payload families to identify blind spots and overbroad bypasses.",
+      "path": "/tools/waf-rule-risk-simulator",
+      "domainId": "network",
+      "processingMode": "local",
+      "sensitivity": "medium",
+      "status": "planned",
+      "keywords": [
+        "waf",
+        "rule testing",
+        "bypass",
+        "traffic simulation"
+      ],
+      "evidenceTags": [
+        "web-hardening",
+        "network-hardening",
+        "false-positive-reduction"
+      ],
+      "url": "https://cybertools.hub/tools/waf-rule-risk-simulator",
+      "domainName": "Network & Exposure Security"
+    },
+    {
+      "id": "sast-finding-deduplicator",
+      "name": "SAST Finding Deduplicator",
+      "description": "Normalize and deduplicate findings from multiple SAST engines to reduce triage duplication and priority conflicts.",
+      "path": "/tools/sast-finding-deduplicator",
+      "domainId": "application",
+      "processingMode": "local",
+      "sensitivity": "medium",
+      "status": "planned",
+      "keywords": [
+        "sast",
+        "dedupe",
+        "appsec",
+        "finding normalization"
+      ],
+      "evidenceTags": [
+        "false-positive-reduction",
+        "appsec-triage",
+        "developer-productivity"
+      ],
+      "url": "https://cybertools.hub/tools/sast-finding-deduplicator",
+      "domainName": "Application & API Security"
+    },
+    {
+      "id": "api-abuse-pattern-lab",
+      "name": "API Abuse Pattern Lab",
+      "description": "Replay known API abuse scenarios against request/response samples to detect authz bypass and business logic weakness.",
+      "path": "/tools/api-abuse-pattern-lab",
+      "domainId": "application",
+      "processingMode": "local",
+      "sensitivity": "high",
+      "status": "planned",
+      "keywords": [
+        "api abuse",
+        "authz bypass",
+        "business logic",
+        "appsec"
+      ],
+      "evidenceTags": [
+        "api-authz",
+        "business-logic-abuse",
+        "detection-quality"
+      ],
+      "url": "https://cybertools.hub/tools/api-abuse-pattern-lab",
+      "domainName": "Application & API Security"
+    },
+    {
+      "id": "cloud-permission-drift-detector",
+      "name": "Cloud Permission Drift Detector",
+      "description": "Compare IAM snapshots across time to surface risky privilege expansion, wildcard growth, and stale exceptions.",
+      "path": "/tools/cloud-permission-drift-detector",
+      "domainId": "cloud-iam",
+      "processingMode": "local",
+      "sensitivity": "high",
+      "status": "planned",
+      "keywords": [
+        "iam drift",
+        "privilege creep",
+        "cloud iam",
+        "policy change"
+      ],
+      "evidenceTags": [
+        "least-privilege",
+        "identity-governance",
+        "drift-detection"
+      ],
+      "url": "https://cybertools.hub/tools/cloud-permission-drift-detector",
+      "domainName": "Cloud & IAM Security"
+    },
+    {
+      "id": "saas-entitlement-reviewer",
+      "name": "SaaS Entitlement Reviewer",
+      "description": "Review SaaS admin and high-risk permissions for orphaned accounts, over-privileged roles, and separation-of-duty conflicts.",
+      "path": "/tools/saas-entitlement-reviewer",
+      "domainId": "cloud-iam",
+      "processingMode": "local",
+      "sensitivity": "high",
+      "status": "planned",
+      "keywords": [
+        "saas",
+        "entitlements",
+        "identity governance",
+        "access review"
+      ],
+      "evidenceTags": [
+        "identity-governance",
+        "least-privilege",
+        "access-review"
+      ],
+      "url": "https://cybertools.hub/tools/saas-entitlement-reviewer",
+      "domainName": "Cloud & IAM Security"
+    },
+    {
+      "id": "container-image-policy-linter",
+      "name": "Container Image Policy Linter",
+      "description": "Lint container image metadata and package manifests against supply-chain policy guardrails.",
+      "path": "/tools/container-image-policy-linter",
+      "domainId": "supply-chain",
+      "processingMode": "local",
+      "sensitivity": "high",
+      "status": "planned",
+      "keywords": [
+        "container",
+        "image policy",
+        "supply chain",
+        "lint"
+      ],
+      "evidenceTags": [
+        "supply-chain-risk",
+        "container-security",
+        "policy-linting"
+      ],
+      "url": "https://cybertools.hub/tools/container-image-policy-linter",
+      "domainName": "Software Supply Chain Security"
+    },
+    {
+      "id": "artifact-provenance-verifier",
+      "name": "Artifact Provenance Verifier",
+      "description": "Validate software artifact provenance attestations and signing metadata for tamper and origin anomalies.",
+      "path": "/tools/artifact-provenance-verifier",
+      "domainId": "supply-chain",
+      "processingMode": "local",
+      "sensitivity": "high",
+      "status": "planned",
+      "keywords": [
+        "artifact",
+        "provenance",
+        "attestation",
+        "signing"
+      ],
+      "evidenceTags": [
+        "provenance-attestation",
+        "supply-chain-risk",
+        "integrity-check"
+      ],
+      "url": "https://cybertools.hub/tools/artifact-provenance-verifier",
+      "domainName": "Software Supply Chain Security"
+    },
+    {
+      "id": "dlp-rule-tester",
+      "name": "DLP Rule Tester",
+      "description": "Test data-loss-prevention patterns against realistic payload samples to tune precision and reduce analyst fatigue.",
+      "path": "/tools/dlp-rule-tester",
+      "domainId": "data-privacy",
+      "processingMode": "local",
+      "sensitivity": "high",
+      "status": "planned",
+      "keywords": [
+        "dlp",
+        "rule testing",
+        "data loss prevention",
+        "precision"
+      ],
+      "evidenceTags": [
+        "data-exfiltration",
+        "privacy-governance",
+        "false-positive-reduction"
+      ],
+      "url": "https://cybertools.hub/tools/dlp-rule-tester",
+      "domainName": "Data Security & Privacy Engineering"
+    },
+    {
+      "id": "retention-policy-conflict-finder",
+      "name": "Retention Policy Conflict Finder",
+      "description": "Detect retention-policy conflicts between legal, privacy, and security logging requirements.",
+      "path": "/tools/retention-policy-conflict-finder",
+      "domainId": "data-privacy",
+      "processingMode": "local",
+      "sensitivity": "high",
+      "status": "planned",
+      "keywords": [
+        "retention",
+        "policy conflict",
+        "privacy",
+        "compliance"
+      ],
+      "evidenceTags": [
+        "data-minimization",
+        "privacy-governance",
+        "compliance-hygiene"
+      ],
+      "url": "https://cybertools.hub/tools/retention-policy-conflict-finder",
+      "domainName": "Data Security & Privacy Engineering"
+    }
+  ]
+}

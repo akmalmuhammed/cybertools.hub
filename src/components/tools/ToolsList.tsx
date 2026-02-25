@@ -32,10 +32,10 @@ export function ToolsList() {
   const [filter, setFilter] = useState<"all" | "favorites">("all");
   const [processingFilter, setProcessingFilter] = useState<"all" | ToolProcessingMode>("all");
   const [sensitivityFilter, setSensitivityFilter] = useState<"all" | ToolSensitivity>("all");
-  const [searchQuery, setSearchQuery] = useState("");
   const [searchParams, setSearchParams] = useSearchParams();
   const processingCounts = getProcessingCounts();
   const sensitivityCounts = getSensitivityCounts();
+  const searchQuery = searchParams.get("q") ?? "";
 
   const rawDomain = searchParams.get("domain");
   const domainParam = isToolDomainId(rawDomain) ? rawDomain : null;
@@ -98,8 +98,8 @@ export function ToolsList() {
   const clearContextFilters = () => {
     const next = new URLSearchParams(searchParams);
     next.delete("domain");
+    next.delete("q");
     setSearchParams(next);
-    setSearchQuery("");
     setProcessingFilter("all");
     setSensitivityFilter("all");
   };
@@ -127,7 +127,13 @@ export function ToolsList() {
             <Search className="absolute left-3 top-1/2 -translate-y-1/2 h-4 w-4 text-muted-foreground" />
             <Input
               value={searchQuery}
-              onChange={(event) => setSearchQuery(event.target.value)}
+              onChange={(event) => {
+                const next = new URLSearchParams(searchParams);
+                const nextQuery = event.target.value;
+                if (nextQuery.trim().length > 0) next.set("q", nextQuery);
+                else next.delete("q");
+                setSearchParams(next, { replace: true });
+              }}
               className="pl-9"
               placeholder="Search by tool name, use case, evidence tag, or keyword..."
             />
@@ -228,7 +234,7 @@ export function ToolsList() {
 
         {activeFilterSummary.length > 0 && (
           <div className="text-xs text-muted-foreground">
-            Active Filters: {activeFilterSummary.join(" • ")}
+            Active Filters: {activeFilterSummary.join(" | ")}
           </div>
         )}
 
@@ -327,3 +333,4 @@ export function ToolsList() {
     </div>
   );
 }
+

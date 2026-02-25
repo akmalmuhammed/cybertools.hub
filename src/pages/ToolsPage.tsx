@@ -7,15 +7,39 @@ import {
   getDomainCanonicalPath,
   getDomainCounts,
 } from "@/lib/constants/tool-domains";
+import { TOOLS } from "@/lib/constants/tools";
 
 export default function ToolsPage() {
   const counts = getDomainCounts();
+  const inventoryStructuredData = [
+    {
+      "@context": "https://schema.org",
+      "@type": "CollectionPage",
+      name: "CyberTools Hub Security Tool Inventory",
+      description:
+        "Domain-indexed security tool inventory covering SOC, threat intel, network, application, cloud IAM, supply chain, and data privacy workflows.",
+      url: "/tools",
+    },
+    {
+      "@context": "https://schema.org",
+      "@type": "ItemList",
+      name: "CyberTools Hub Tool Inventory",
+      itemListElement: TOOLS.map((tool, index) => ({
+        "@type": "ListItem",
+        position: index + 1,
+        name: tool.name,
+        url: tool.path,
+        description: tool.description,
+      })),
+    },
+  ];
 
   return (
     <div className="space-y-8">
       <SEO
         title="Security Tool Domains"
         description="Browse cybersecurity tools across SOC, threat intel, network, application, cloud IAM, supply chain, and privacy domains."
+        canonical="/tools"
         keywords={[
           "cybersecurity tools",
           "soc tools",
@@ -24,6 +48,7 @@ export default function ToolsPage() {
           "supply chain security",
           "privacy engineering tools",
         ]}
+        structuredData={inventoryStructuredData}
       />
       <motion.section
         initial={{ opacity: 0, y: 18 }}
@@ -55,9 +80,11 @@ export default function ToolsPage() {
                   to={getDomainCanonicalPath(domain.id)}
                   className="rounded-xl border border-border/60 bg-background/45 px-4 py-3 backdrop-blur-sm hover:border-primary/45 transition-colors"
                 >
-                  <div className="flex items-center justify-between gap-2">
-                    <span className="text-sm font-semibold">{domain.name}</span>
-                    <domain.icon className="h-4 w-4 text-primary shrink-0" />
+                  <div className="flex flex-col items-start gap-2">
+                    <span className="inline-flex rounded-md border border-primary/30 bg-primary/10 p-2 text-primary">
+                      <domain.icon className="h-4 w-4 shrink-0" />
+                    </span>
+                    <span className="text-sm font-semibold leading-tight">{domain.name}</span>
                   </div>
                   <div className="mt-2 text-2xl font-semibold">{count}</div>
                   <div className="text-xs text-muted-foreground">tool{count === 1 ? "" : "s"}</div>

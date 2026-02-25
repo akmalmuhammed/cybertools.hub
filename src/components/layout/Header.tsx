@@ -63,8 +63,8 @@ export function Header() {
   const processingDescription = processingMode ? getProcessingDescription(processingMode) : null;
   const shortcutText =
     typeof navigator !== "undefined" && /Mac|iPhone|iPad/.test(navigator.platform)
-      ? "⌘K"
-      : "Ctrl K";
+      ? "Cmd+K"
+      : "Ctrl+K";
 
   return (
     <>
@@ -129,3 +129,4 @@ export function Header() {
     </>
   );
 }
+

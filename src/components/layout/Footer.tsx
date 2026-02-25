@@ -6,7 +6,7 @@ export function Footer() {
             <div className="container px-4 md:px-6 flex flex-col md:flex-row items-center justify-between gap-4">
                 <div className="flex flex-col items-center md:items-start gap-1">
                     <p className="text-sm font-medium text-foreground">
-                        © {new Date().getFullYear()} CyberTools Hub
+                        (c) {new Date().getFullYear()} CyberTools Hub
                     </p>
                     <p className="text-xs text-muted-foreground">
                         Built for security professionals
@@ -37,3 +37,4 @@ export function Footer() {
         </footer>
     )
 }
+
