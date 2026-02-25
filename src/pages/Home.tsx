@@ -147,15 +147,13 @@ export default function Home() {
             transition={{ duration: 0.45 }}
             className="space-y-6"
           >
-            <div className="inline-flex items-center rounded-full border border-primary/35 bg-primary/15 px-3 py-1 text-[11px] font-medium uppercase tracking-[0.16em] text-primary">
-              <span className="mr-2 inline-flex h-2 w-2 rounded-full bg-primary animate-pulse" />
+            <div className="inline-flex items-center rounded-full border px-3 py-1 text-sm font-medium bg-background/50 backdrop-blur-sm mb-6">
+              <span className="flex h-2 w-2 rounded-full bg-primary mr-2 animate-pulse"></span>
               v1.0.0 Ready for Production
             </div>
-            <h1 className="font-display text-4xl leading-tight sm:text-5xl lg:text-6xl">
-              Your Security Arsenal,
-              <span className="block bg-gradient-to-r from-emerald-300 via-cyan-300 to-blue-300 bg-clip-text text-transparent">
-                Simplified
-              </span>
+            <h1 className="text-4xl md:text-6xl lg:text-7xl font-bold tracking-tight mb-6">
+              Your Security Arsenal, <br />
+              <span className="text-transparent bg-clip-text bg-gradient-to-r from-emerald-400 to-blue-500">Simplified</span>
             </h1>
             <p className="max-w-2xl text-base text-muted-foreground sm:text-lg">
               Free, privacy-first security utilities for SOC analysts, penetration testers, and developers.
