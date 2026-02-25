@@ -12,6 +12,12 @@ import { useLocation } from "react-router-dom"
 import { TOOLS } from "@/lib/constants/tools"
 import { SEO } from "@/components/features/SEO"
 import { getDomainById, getToolDomainId } from "@/lib/constants/tool-domains"
+import { ToolTrustBadges } from "@/components/tools/ToolTrustBadges"
+import {
+  getProcessingDescription,
+  getProcessingLabel,
+  getToolProcessingMode,
+} from "@/lib/constants/tool-trust"
 
 interface ToolTemplateProps {
   toolName: string
@@ -75,6 +81,10 @@ export function ToolTemplate({
     )
   }, [currentTool, currentDomain])
 
+  const processingMode = currentTool ? getToolProcessingMode(currentTool.id) : null
+  const processingLabel = processingMode ? getProcessingLabel(processingMode) : null
+  const processingDescription = processingMode ? getProcessingDescription(processingMode) : null
+
   const seoStructuredData = useMemo(() => {
     if (!currentTool) return undefined
     return {
@@ -84,6 +94,11 @@ export function ToolTemplate({
       description,
       applicationCategory: currentDomain ? `${currentDomain.name} Tool` : "Security Tool",
       operatingSystem: "Any",
+      softwareHelp: processingMode === "local"
+        ? "Runs fully in-browser without network calls."
+        : processingMode === "network"
+          ? "Performs outbound security lookups."
+          : "Supports local processing with optional outbound lookups.",
       offers: {
         "@type": "Offer",
         price: "0",
@@ -97,7 +112,7 @@ export function ToolTemplate({
       softwareVersion: "1.0.0",
       keywords: currentTool.keywords.join(", "),
     }
-  }, [currentTool, currentDomain, description])
+  }, [currentTool, currentDomain, description, processingMode])
 
   const handleProcess = useCallback(async () => {
     if (requiresInput && !input.trim()) return
@@ -135,12 +150,27 @@ export function ToolTemplate({
       <SEO
         title={toolName}
         description={description}
+        canonical={currentTool?.path}
         keywords={seoKeywords}
         structuredData={seoStructuredData}
       />
       <div className="flex flex-col gap-2">
         <h1 className="text-3xl font-bold tracking-tight">{toolName}</h1>
         <p className="text-muted-foreground text-lg">{description}</p>
+        {currentTool && <ToolTrustBadges toolId={currentTool.id} />}
+        {processingMode && (
+          <div
+            className={
+              processingMode === "local"
+                ? "rounded-lg border border-emerald-500/25 bg-emerald-500/10 px-3 py-2 text-sm text-emerald-700 dark:text-emerald-300"
+                : processingMode === "hybrid"
+                  ? "rounded-lg border border-sky-500/30 bg-sky-500/10 px-3 py-2 text-sm text-sky-700 dark:text-sky-300"
+                  : "rounded-lg border border-amber-500/30 bg-amber-500/10 px-3 py-2 text-sm text-amber-700 dark:text-amber-300"
+            }
+          >
+            <span className="font-semibold">{processingLabel}:</span> {processingDescription}
+          </div>
+        )}
       </div>
 
       <div className="grid grid-cols-1 lg:grid-cols-2 gap-6">

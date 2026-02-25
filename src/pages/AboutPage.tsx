@@ -1,4 +1,4 @@
-import { Shield, Lock, Zap, Code, Terminal } from "lucide-react"
+import { Shield, Lock, Zap, ListChecks, Terminal } from "lucide-react"
 import { motion } from "framer-motion"
 import { SEO } from "@/components/features/SEO"
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card"
@@ -27,11 +27,10 @@ export default function AboutPage() {
                     <Terminal className="h-12 w-12 text-primary" />
                 </motion.div>
                 <h1 className="text-4xl md:text-5xl font-bold tracking-tight">
-                    Security Tools for the <span className="text-primary">Modern Web</span>
+                    Security utilities built for <span className="text-primary">clear data handling</span>
                 </h1>
                 <p className="text-xl text-muted-foreground max-w-2xl mx-auto">
-                    Built for developers, penetration testers, and security enthusiasts.
-                    Local-first processing with clearly marked external lookup tools.
+                    CyberTools Hub focuses on local-first execution, explicit network disclosure, and practical workflows for analysts and developers.
                 </p>
             </div>
 
@@ -40,18 +39,18 @@ export default function AboutPage() {
                 {[
                     {
                         icon: Lock,
-                        title: "Privacy First",
-                        desc: "Core transformations run locally. Network tools explicitly disclose outbound requests to third-party endpoints."
+                        title: "Privacy Model",
+                        desc: "Most transformations run entirely in-browser. Network and hybrid tools are visibly labeled."
                     },
                     {
                         icon: Zap,
-                        title: "Performance",
-                        desc: "Powered by WebAssembly and modern JavaScript. Instant results without network latency."
+                        title: "Operational Speed",
+                        desc: "Fast client-side execution removes waiting for server-side processing in common tasks."
                     },
                     {
-                        icon: Code,
-                        title: "Open Source",
-                        desc: "Transparent code. Verify the logic yourself. Contribute to the community."
+                        icon: ListChecks,
+                        title: "Deterministic UX",
+                        desc: "Domain-based navigation and consistent input/output layouts reduce triage friction."
                     }
                 ].map((item, i) => (
                     <motion.div
@@ -80,17 +79,16 @@ export default function AboutPage() {
             <div className="bg-muted/30 rounded-2xl p-8 md:p-12 border border-muted/50">
                 <h2 className="text-2xl font-bold mb-6 flex items-center gap-2">
                     <Shield className="h-6 w-6 text-primary" />
-                    Our Philosophy
+                    Design Principles
                 </h2>
                 <div className="space-y-4 text-muted-foreground leading-relaxed">
                     <p>
-                        In an era where data breaches are common, trusting online tools with sensitive data (like API keys, JWTs, or password hashes) is risky.
-                        Most online converters send your data to their backend for processing, creating a potential attack vector.
+                        Many security workflows involve sensitive artifacts such as tokens, headers, keys, and internal indicators.
+                        Sending this data to unknown backends introduces avoidable risk.
                     </p>
                     <p>
-                        <strong>CyberTools Hub is different.</strong> We believe that utility tools should not require trust.
-                        By leveraging modern browser capabilities, we've rebuilt essential security tools to run on your device by default.
-                        For network workflows (WHOIS/IP/DNS/JWKS/port probes and reputation proxy calls), we explicitly label outbound requests.
+                        CyberTools Hub uses a local-first approach so analysis can run on your device by default.
+                        For tools that require external lookups (WHOIS, DNS, RDAP, JWKS, or provider proxies), the interface labels this clearly so usage decisions are explicit.
                     </p>
                 </div>
             </div>

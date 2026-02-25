@@ -11,6 +11,11 @@ import {
   isToolDomainId,
   type ToolDomainId,
 } from "@/lib/constants/tool-domains";
+import {
+  getProcessingCounts,
+  getToolProcessingMode,
+  type ToolProcessingMode,
+} from "@/lib/constants/tool-trust";
 import { useFavoritesStore } from "@/store/useFavoritesStore";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
@@ -32,8 +37,10 @@ interface DomainGroup {
 export function ToolsList() {
   const { isFavorite, toggleFavorite } = useFavoritesStore();
   const [filter, setFilter] = useState<"all" | "favorites">("all");
+  const [processingFilter, setProcessingFilter] = useState<"all" | ToolProcessingMode>("all");
   const [searchQuery, setSearchQuery] = useState("");
   const [searchParams, setSearchParams] = useSearchParams();
+  const processingCounts = getProcessingCounts();
 
   const rawDomain = searchParams.get("domain");
   const domainParam = isToolDomainId(rawDomain) ? rawDomain : null;
@@ -62,6 +69,9 @@ export function ToolsList() {
         const domainTools = getToolsForDomain(domainId).filter((tool) => {
           if (categoryParam && tool.category !== categoryParam) return false;
           if (filter === "favorites" && !isFavorite(tool.id)) return false;
+          if (processingFilter !== "all" && getToolProcessingMode(tool.id) !== processingFilter) {
+            return false;
+          }
           return matchesSearch(tool);
         });
 
@@ -71,12 +81,22 @@ export function ToolsList() {
         } satisfies DomainGroup;
       })
       .filter((group) => group.tools.length > 0);
-  }, [domainParam, categoryParam, filter, isFavorite, searchQuery]);
+  }, [domainParam, categoryParam, filter, isFavorite, processingFilter, searchQuery]);
 
   const visibleCount = visibleGroups.reduce(
     (count, group) => count + group.tools.length,
     0,
   );
+
+  const activeFilterSummary = useMemo(() => {
+    const parts: string[] = [];
+    if (domainParam) parts.push(`Domain: ${getDomainById(domainParam).name}`);
+    if (categoryParam) parts.push(`Category: ${CATEGORY_LABELS[categoryParam]}`);
+    if (filter === "favorites") parts.push("Favorites only");
+    if (processingFilter !== "all") parts.push(`Mode: ${processingFilter}`);
+    if (searchQuery.trim()) parts.push(`Query: "${searchQuery.trim()}"`);
+    return parts;
+  }, [domainParam, categoryParam, filter, processingFilter, searchQuery]);
 
   const setDomainFilter = (domainId: ToolDomainId | null) => {
     const next = new URLSearchParams(searchParams);
@@ -91,17 +111,18 @@ export function ToolsList() {
     next.delete("category");
     setSearchParams(next);
     setSearchQuery("");
+    setProcessingFilter("all");
   };
 
   return (
     <div className="space-y-6">
-      <div className="rounded-2xl border border-border/60 bg-card/60 backdrop-blur-xl p-4 sm:p-5 space-y-4 shadow-[0_24px_80px_-55px_rgba(16,185,129,0.65)]">
+      <div className="rounded-2xl border border-border/60 bg-card/60 backdrop-blur-xl p-4 sm:p-5 space-y-4">
         <div className="flex flex-col lg:flex-row lg:items-center lg:justify-between gap-4">
           <div className="space-y-1">
-            <div className="text-xs uppercase tracking-[0.18em] text-primary font-semibold">Domain Navigator</div>
-            <h2 className="text-xl sm:text-2xl font-semibold">Select a security domain and launch workflows</h2>
+            <div className="text-xs uppercase tracking-[0.18em] text-primary font-semibold">Tool Inventory</div>
+            <h2 className="text-xl sm:text-2xl font-semibold">Filter tools by domain, mode, and workflow</h2>
             <p className="text-sm text-muted-foreground">
-              Domain view keeps SOC, network, application, and utility tools organized in one operational shell.
+              Local processing is preferred by default. Network and hybrid modes are explicitly labeled.
             </p>
           </div>
 
@@ -146,6 +167,49 @@ export function ToolsList() {
           </div>
         </div>
 
+        <div className="rounded-xl border border-border/60 bg-background/70 p-3">
+          <div className="flex flex-wrap items-center gap-2">
+            <span className="text-xs uppercase tracking-[0.16em] text-muted-foreground font-semibold">Execution Mode</span>
+            <Button
+              variant={processingFilter === "all" ? "secondary" : "outline"}
+              size="sm"
+              onClick={() => setProcessingFilter("all")}
+            >
+              All
+            </Button>
+            <Button
+              variant={processingFilter === "local" ? "secondary" : "outline"}
+              size="sm"
+              onClick={() => setProcessingFilter("local")}
+            >
+              Local Only ({processingCounts.local})
+            </Button>
+            <Button
+              variant={processingFilter === "hybrid" ? "secondary" : "outline"}
+              size="sm"
+              onClick={() => setProcessingFilter("hybrid")}
+            >
+              Hybrid ({processingCounts.hybrid})
+            </Button>
+            <Button
+              variant={processingFilter === "network" ? "secondary" : "outline"}
+              size="sm"
+              onClick={() => setProcessingFilter("network")}
+            >
+              Network ({processingCounts.network})
+            </Button>
+          </div>
+          <p className="text-xs text-muted-foreground mt-2">
+            Use Local Only for sensitive data workflows. Network and Hybrid tools may perform outbound lookups.
+          </p>
+        </div>
+
+        {activeFilterSummary.length > 0 && (
+          <div className="text-xs text-muted-foreground">
+            Active Filters: {activeFilterSummary.join(" · ")}
+          </div>
+        )}
+
         <div className="flex flex-wrap gap-2">
           <Button
             variant={domainParam === null ? "secondary" : "outline"}
@@ -172,7 +236,7 @@ export function ToolsList() {
             );
           })}
 
-          {(domainParam !== null || categoryParam !== null || searchQuery.trim().length > 0) && (
+          {(domainParam !== null || categoryParam !== null || processingFilter !== "all" || searchQuery.trim().length > 0) && (
             <Button
               variant="ghost"
               size="sm"
@@ -193,7 +257,7 @@ export function ToolsList() {
           transition={{ duration: 0.28, delay: groupIndex * 0.05 }}
           className="relative overflow-hidden rounded-2xl border border-border/60 bg-card/60"
         >
-          <div className="absolute inset-0 bg-gradient-to-r from-primary/8 via-transparent to-cyan-500/10 pointer-events-none" />
+          <div className="absolute inset-0 bg-gradient-to-r from-primary/6 via-transparent to-cyan-500/7 pointer-events-none" />
           <div className="relative p-4 sm:p-5 border-b border-border/60 flex flex-col sm:flex-row sm:items-center sm:justify-between gap-3">
             <div className="flex items-start gap-3 min-w-0">
               <span className={`p-2 rounded-lg border ${group.domain.accentClass}`}>

@@ -117,8 +117,9 @@ function getExplicitDomain(toolId: string): ToolDomainId | null {
 
 function categoryFallbackDomain(tool: Tool): ToolDomainId {
   if (tool.category === "network") return "network";
-  if (tool.category === "application") return "utility";
-  return "application";
+  if (tool.category === "application") return "application";
+  if (tool.category === "security") return "soc";
+  return "utility";
 }
 
 export function getToolDomainId(toolId: string): ToolDomainId {

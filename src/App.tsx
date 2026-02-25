@@ -1,6 +1,6 @@
 import { HelmetProvider } from 'react-helmet-async'
 import { Suspense, lazy } from 'react'
-import { BrowserRouter, Routes, Route, useLocation } from 'react-router-dom'
+import { BrowserRouter, Routes, Route, useLocation, Navigate } from 'react-router-dom'
 import { PageLayout } from '@/components/layout/PageLayout'
 import { Toaster } from '@/components/ui/toaster'
 import { Loader2 } from 'lucide-react'
@@ -75,7 +75,8 @@ function RoutesContent() {
 
         {/* Core Tools */}
         <Route path="/tools/base64" element={<Base64Tool />} />
-        <Route path="/hash-generator" element={<HashTool />} />
+        <Route path="/tools/hash" element={<HashTool />} />
+        <Route path="/hash-generator" element={<Navigate to="/tools/hash" replace />} />
         <Route path="/tools/json" element={<JsonTool />} />
         <Route path="/tools/url" element={<UrlTool />} />
         <Route path="/tools/url-defang" element={<UrlDefangTool />} />

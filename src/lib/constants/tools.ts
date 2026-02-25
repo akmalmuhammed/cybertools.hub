@@ -22,7 +22,7 @@ export const TOOLS: Tool[] = [
         id: "hash",
         name: "Hash Generator",
         description: "Generate MD5, SHA1, SHA256, and SHA512 hashes.",
-        path: "/hash-generator",
+        path: "/tools/hash",
         icon: Hash,
         category: "security",
         status: "ready",

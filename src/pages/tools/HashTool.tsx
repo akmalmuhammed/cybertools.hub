@@ -11,7 +11,7 @@ export default function HashTool() {
             <SEO
                 title="Hash Generator"
                 description="Generate MD5, SHA1, SHA256, and SHA512 hashes locally for text and files, and compare hash integrity values."
-                canonical="/hash-generator"
+                canonical="/tools/hash"
                 keywords={[
                     "hash generator",
                     "sha256 generator",

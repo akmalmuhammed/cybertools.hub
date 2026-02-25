@@ -2,10 +2,16 @@ import { useMemo } from "react";
 import { useLocation } from "react-router-dom";
 import { Search } from "lucide-react";
 import { Button } from "@/components/ui/button";
+import { Badge } from "@/components/ui/badge";
 import { DarkModeToggle } from "@/components/features/DarkModeToggle";
 import { SearchDialog } from "@/components/features/SearchDialog";
 import { useSearchStore } from "@/store/useSearchStore";
 import { findToolByPath, getDomainById, getToolDomainId } from "@/lib/constants/tool-domains";
+import {
+  getProcessingDescription,
+  getProcessingLabel,
+  getToolProcessingMode,
+} from "@/lib/constants/tool-trust";
 
 function headerTitle(pathname: string): string {
   if (pathname === "/") return "Mission Overview";
@@ -36,6 +42,18 @@ export function Header() {
     return domain.name;
   }, [activeTool]);
 
+  const processingMode = useMemo(
+    () => (activeTool ? getToolProcessingMode(activeTool.id) : null),
+    [activeTool],
+  );
+
+  const processingLabel = processingMode ? getProcessingLabel(processingMode) : null;
+  const processingDescription = processingMode ? getProcessingDescription(processingMode) : null;
+  const shortcutText =
+    typeof navigator !== "undefined" && /Mac|iPhone|iPad/.test(navigator.platform)
+      ? "⌘K"
+      : "Ctrl K";
+
   return (
     <>
       <header className="sticky top-0 z-40 border-b border-border/60 bg-background/78 backdrop-blur-xl">
@@ -44,8 +62,25 @@ export function Header() {
             <div className="text-sm font-semibold truncate">
               {activeTool ? activeTool.name : headerTitle(location.pathname)}
             </div>
-            <div className="text-xs text-muted-foreground truncate">
-              {domainLabel ?? headerDescription(location.pathname)}
+            <div className="mt-1 flex flex-wrap items-center gap-1.5">
+              {domainLabel ? (
+                <Badge variant="outline" className="text-[10px] h-5">
+                  {domainLabel}
+                </Badge>
+              ) : (
+                <span className="text-xs text-muted-foreground truncate">
+                  {headerDescription(location.pathname)}
+                </span>
+              )}
+              {processingLabel && (
+                <Badge
+                  variant="outline"
+                  title={processingDescription ?? undefined}
+                  className="text-[10px] h-5"
+                >
+                  {processingLabel}
+                </Badge>
+              )}
             </div>
           </div>
 
@@ -61,7 +96,7 @@ export function Header() {
                 <span>Search tools...</span>
               </span>
               <kbd className="pointer-events-none inline-flex h-5 select-none items-center gap-1 rounded border bg-muted px-1.5 font-mono text-[10px] font-medium opacity-100">
-                <span className="text-xs">⌘</span>K
+                {shortcutText}
               </kbd>
             </Button>
 

@@ -2,8 +2,8 @@ import { Link, useLocation } from "react-router-dom";
 import type { ComponentType } from "react";
 import {
   AppWindow,
-  CircleUserRound,
   Home,
+  Info,
   Layers,
   Network,
   Search,
@@ -28,6 +28,7 @@ const DESKTOP_ITEMS: NavItem[] = [
   { label: "AppSec", href: "/tools?domain=application", icon: AppWindow, domainId: "application" },
   { label: "Utility", href: "/tools?domain=utility", icon: Wrench, domainId: "utility" },
   { label: "All Tools", href: "/tools", icon: Layers },
+  { label: "About", href: "/about", icon: Info },
 ];
 
 const MOBILE_ITEMS: NavItem[] = [
@@ -90,6 +91,7 @@ export function AppShellNav() {
                 to={item.href}
                 title={item.label}
                 aria-label={item.label}
+                aria-current={active ? "page" : undefined}
                 className={cn(
                   "h-11 w-11 rounded-xl flex items-center justify-center border transition-colors",
                   active
@@ -113,10 +115,6 @@ export function AppShellNav() {
           >
             <Search className="h-5 w-5" />
           </button>
-
-          <div className="h-11 w-11 rounded-full bg-foreground/85 text-background flex items-center justify-center">
-            <CircleUserRound className="h-5 w-5" />
-          </div>
         </div>
       </aside>
 
@@ -128,6 +126,7 @@ export function AppShellNav() {
               <Link
                 key={item.href}
                 to={item.href}
+                aria-current={active ? "page" : undefined}
                 className={cn(
                   "flex flex-col items-center justify-center gap-1 px-1 pt-2 pb-1.5 text-[10px] font-medium transition-colors",
                   active ? "text-primary" : "text-muted-foreground",

@@ -1,4 +1,5 @@
-import { Github, Twitter } from "lucide-react"
+import { Link } from "react-router-dom"
+import { ShieldCheck } from "lucide-react"
 
 export function Footer() {
     return (
@@ -8,30 +9,19 @@ export function Footer() {
                     <p className="text-sm font-medium text-foreground">
                         © {new Date().getFullYear()} CyberTools Hub
                     </p>
-                    <p className="text-xs text-muted-foreground">
-                        Built for security professionals
+                    <p className="text-xs text-muted-foreground flex items-center gap-1.5">
+                        <ShieldCheck className="h-3.5 w-3.5 text-primary" />
+                        Local-first processing. Network access only on explicitly marked tools.
                     </p>
                 </div>
 
-                <div className="flex items-center gap-4">
-                    <a
-                        href="https://github.com"
-                        target="_blank"
-                        rel="noreferrer"
-                        className="text-muted-foreground hover:text-foreground transition-colors"
-                    >
-                        <Github className="h-5 w-5" />
-                        <span className="sr-only">GitHub</span>
-                    </a>
-                    <a
-                        href="https://twitter.com"
-                        target="_blank"
-                        rel="noreferrer"
-                        className="text-muted-foreground hover:text-foreground transition-colors"
-                    >
-                        <Twitter className="h-5 w-5" />
-                        <span className="sr-only">Twitter</span>
-                    </a>
+                <div className="flex items-center gap-5 text-sm">
+                    <Link to="/tools" className="text-muted-foreground hover:text-foreground transition-colors">
+                        Tools
+                    </Link>
+                    <Link to="/about" className="text-muted-foreground hover:text-foreground transition-colors">
+                        About
+                    </Link>
                 </div>
             </div>
         </footer>

@@ -4,6 +4,7 @@ import { Card, CardHeader, CardTitle, CardDescription, CardContent, CardFooter }
 import { Badge } from "@/components/ui/badge"
 import { Tool } from "@/types/tool.types"
 import { cn } from "@/lib/utils/cn"
+import { ToolTrustBadges } from "@/components/tools/ToolTrustBadges"
 
 interface ToolCardProps {
     tool: Tool
@@ -15,22 +16,20 @@ export function ToolCard({ tool, isFavorite, onToggleFavorite }: ToolCardProps) 
     const Icon = tool.icon
 
     return (
-        <Link to={tool.path} className="group block h-full">
-            <Card className="h-full flex flex-col transition-all duration-300 hover:border-primary/50 hover:-translate-y-0.5 hover:shadow-[0_25px_65px_-45px_rgba(16,185,129,0.9)] relative overflow-hidden rounded-2xl border-border/60 bg-card/70 backdrop-blur-md">
-                {/* Hover Gradient Effect */}
-                <div className="absolute inset-0 bg-gradient-to-br from-primary/10 via-transparent to-cyan-500/10 opacity-0 group-hover:opacity-100 transition-opacity" />
+        <Link to={tool.path} className="group block h-full focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-primary/45 rounded-2xl">
+            <Card className="h-full flex flex-col transition-colors duration-200 hover:border-primary/45 relative overflow-hidden rounded-2xl border-border/60 bg-card/90">
 
                 <CardHeader>
-                    <div className="flex items-start justify-between">
-                        <div className={`p-3 rounded-lg border border-primary/30 bg-primary/10 text-primary mb-4 transition-transform group-hover:scale-105`}>
+                    <div className="flex items-start justify-between gap-2 pr-8">
+                        <div className={`p-3 rounded-lg border border-primary/30 bg-primary/10 text-primary mb-3`}>
                             <Icon className="h-6 w-6" />
                         </div>
-                        <div className="flex gap-2">
+                        <div className="flex gap-2 items-center">
                             {tool.status === 'beta' && (
-                                <Badge variant="secondary" className="bg-yellow-500/10 text-yellow-600 hover:bg-yellow-500/20">Beta</Badge>
+                                <Badge variant="secondary" className="bg-yellow-500/10 text-yellow-600 hover:bg-yellow-500/20 uppercase tracking-wide text-[10px]">Beta</Badge>
                             )}
                             {tool.status === 'new' && (
-                                <Badge className="bg-primary/20 text-primary hover:bg-primary/30">New</Badge>
+                                <Badge className="bg-primary/20 text-primary hover:bg-primary/30 uppercase tracking-wide text-[10px]">New</Badge>
                             )}
                         </div>
 
@@ -38,11 +37,14 @@ export function ToolCard({ tool, isFavorite, onToggleFavorite }: ToolCardProps) 
                             <button
                                 onClick={onToggleFavorite}
                                 className="absolute top-4 right-4 text-muted-foreground hover:text-yellow-500 transition-colors z-10 p-1 rounded-full hover:bg-muted"
+                                aria-label={isFavorite ? "Remove from favorites" : "Add to favorites"}
+                                title={isFavorite ? "Remove from favorites" : "Add to favorites"}
                             >
                                 <Star className={cn("h-5 w-5", isFavorite ? "fill-yellow-500 text-yellow-500" : "")} />
                             </button>
                         )}
                     </div>
+                    <ToolTrustBadges toolId={tool.id} compact />
                     <CardTitle className="text-xl group-hover:text-primary transition-colors">{tool.name}</CardTitle>
                     <CardDescription className="line-clamp-2 mt-2 leading-relaxed">
                         {tool.description}
@@ -53,15 +55,15 @@ export function ToolCard({ tool, isFavorite, onToggleFavorite }: ToolCardProps) 
                     <div className="flex flex-wrap gap-2">
                         {tool.keywords.slice(0, 3).map(keyword => (
                             <span key={keyword} className="text-xs text-muted-foreground bg-muted/75 px-2 py-1 rounded-md border border-border/50">
-                                #{keyword}
+                                {keyword}
                             </span>
                         ))}
                     </div>
                 </CardContent>
 
                 <CardFooter className="pt-2">
-                    <div className="text-sm font-medium text-primary flex items-center opacity-0 -translate-x-2 group-hover:opacity-100 group-hover:translate-x-0 transition-all duration-300">
-                        Use Tool <ArrowRight className="ml-2 h-4 w-4" />
+                    <div className="text-sm font-medium text-primary flex items-center">
+                        Open Tool <ArrowRight className="ml-2 h-4 w-4" />
                     </div>
                 </CardFooter>
             </Card>
