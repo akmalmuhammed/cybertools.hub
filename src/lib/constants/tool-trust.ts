@@ -1,23 +1,16 @@
 import { TOOLS } from "@/lib/constants/tools";
+import type { ToolProcessingMode, ToolSensitivity } from "@/types/tool.types";
 
-export type ToolProcessingMode = "local" | "network" | "hybrid";
-
-const NETWORK_TOOL_IDS = new Set<string>([
-  "whois",
-  "dns-toolkit",
-  "iplookup",
-  "port",
-]);
-
-const HYBRID_TOOL_IDS = new Set<string>([
-  "jwt-verify",
-  "reputation",
-]);
+const TOOL_BY_ID = new Map(TOOLS.map((tool) => [tool.id, tool]));
 
 export function getToolProcessingMode(toolId: string): ToolProcessingMode {
-  if (NETWORK_TOOL_IDS.has(toolId)) return "network";
-  if (HYBRID_TOOL_IDS.has(toolId)) return "hybrid";
-  return "local";
+  const tool = TOOL_BY_ID.get(toolId);
+  return tool?.processingMode ?? "local";
+}
+
+export function getToolSensitivity(toolId: string): ToolSensitivity {
+  const tool = TOOL_BY_ID.get(toolId);
+  return tool?.sensitivity ?? "medium";
 }
 
 export function getProcessingLabel(mode: ToolProcessingMode): string {
@@ -36,10 +29,34 @@ export function getProcessingDescription(mode: ToolProcessingMode): string {
   return "Runs locally, with optional outbound requests in specific modes.";
 }
 
+export function getSensitivityLabel(sensitivity: ToolSensitivity): string {
+  if (sensitivity === "high") return "High Sensitivity";
+  if (sensitivity === "medium") return "Medium Sensitivity";
+  return "Low Sensitivity";
+}
+
+export function getSensitivityDescription(sensitivity: ToolSensitivity): string {
+  if (sensitivity === "high") {
+    return "Often used with credentials, logs, or investigation artifacts. Prefer local-only execution.";
+  }
+  if (sensitivity === "medium") {
+    return "May include moderate operational context; validate sharing boundaries.";
+  }
+  return "Typically lower sensitivity reference or transformation workflows.";
+}
+
 export function getProcessingCounts(): Record<ToolProcessingMode, number> {
   return {
-    local: TOOLS.filter((tool) => getToolProcessingMode(tool.id) === "local").length,
-    network: TOOLS.filter((tool) => getToolProcessingMode(tool.id) === "network").length,
-    hybrid: TOOLS.filter((tool) => getToolProcessingMode(tool.id) === "hybrid").length,
+    local: TOOLS.filter((tool) => tool.processingMode === "local").length,
+    network: TOOLS.filter((tool) => tool.processingMode === "network").length,
+    hybrid: TOOLS.filter((tool) => tool.processingMode === "hybrid").length,
+  };
+}
+
+export function getSensitivityCounts(): Record<ToolSensitivity, number> {
+  return {
+    low: TOOLS.filter((tool) => tool.sensitivity === "low").length,
+    medium: TOOLS.filter((tool) => tool.sensitivity === "medium").length,
+    high: TOOLS.filter((tool) => tool.sensitivity === "high").length,
   };
 }

@@ -1,41 +1,60 @@
 import { Link, useLocation } from "react-router-dom";
 import type { ComponentType } from "react";
 import {
-  AppWindow,
   Home,
   Info,
   Layers,
-  Network,
   Search,
-  ShieldCheck,
-  Wrench,
 } from "lucide-react";
 import { cn } from "@/lib/utils/cn";
 import { useSearchStore } from "@/store/useSearchStore";
-import { findToolByPath, getToolDomainId } from "@/lib/constants/tool-domains";
+import {
+  TOOL_DOMAINS,
+  findDomainByPath,
+  findToolByPath,
+  getDomainQueryPath,
+  getToolDomainId,
+} from "@/lib/constants/tool-domains";
+import type { ToolDomainId } from "@/types/tool.types";
 
 interface NavItem {
   label: string;
   href: string;
   icon: ComponentType<{ className?: string }>;
-  domainId?: "soc" | "network" | "application" | "utility";
+  domainId?: ToolDomainId;
 }
 
 const DESKTOP_ITEMS: NavItem[] = [
   { label: "Home", href: "/", icon: Home },
-  { label: "SOC", href: "/tools?domain=soc", icon: ShieldCheck, domainId: "soc" },
-  { label: "Network", href: "/tools?domain=network", icon: Network, domainId: "network" },
-  { label: "AppSec", href: "/tools?domain=application", icon: AppWindow, domainId: "application" },
-  { label: "Utility", href: "/tools?domain=utility", icon: Wrench, domainId: "utility" },
+  ...TOOL_DOMAINS.map((domain) => ({
+    label: domain.name,
+    href: getDomainQueryPath(domain.id),
+    icon: domain.icon,
+    domainId: domain.id,
+  })),
   { label: "All Tools", href: "/tools", icon: Layers },
   { label: "About", href: "/about", icon: Info },
 ];
 
+const SOC_ICON = TOOL_DOMAINS.find((domain) => domain.id === "soc")?.icon ?? Layers;
+const INTEL_ICON = TOOL_DOMAINS.find((domain) => domain.id === "threat-intel")?.icon ?? Layers;
+const NETWORK_ICON = TOOL_DOMAINS.find((domain) => domain.id === "network")?.icon ?? Layers;
+
 const MOBILE_ITEMS: NavItem[] = [
   { label: "Home", href: "/", icon: Home },
-  { label: "SOC", href: "/tools?domain=soc", icon: ShieldCheck, domainId: "soc" },
-  { label: "Network", href: "/tools?domain=network", icon: Network, domainId: "network" },
-  { label: "AppSec", href: "/tools?domain=application", icon: AppWindow, domainId: "application" },
+  { label: "SOC", href: getDomainQueryPath("soc"), icon: SOC_ICON, domainId: "soc" },
+  {
+    label: "Intel",
+    href: getDomainQueryPath("threat-intel"),
+    icon: INTEL_ICON,
+    domainId: "threat-intel",
+  },
+  {
+    label: "Network",
+    href: getDomainQueryPath("network"),
+    icon: NETWORK_ICON,
+    domainId: "network",
+  },
   { label: "Tools", href: "/tools", icon: Layers },
 ];
 
@@ -51,7 +70,7 @@ function isItemActive(
   item: NavItem,
   pathname: string,
   search: string,
-  activeDomain: "soc" | "network" | "application" | "utility" | null,
+  activeDomain: ToolDomainId | null,
 ): boolean {
   if (item.domainId && activeDomain === item.domainId) {
     return true;
@@ -68,7 +87,8 @@ export function AppShellNav() {
   const { setIsOpen } = useSearchStore();
 
   const activeTool = findToolByPath(location.pathname);
-  const activeDomain = activeTool ? getToolDomainId(activeTool.id) : null;
+  const activeDomainFromPath = findDomainByPath(location.pathname)?.id ?? null;
+  const activeDomain = activeTool ? getToolDomainId(activeTool.id) : activeDomainFromPath;
 
   return (
     <>

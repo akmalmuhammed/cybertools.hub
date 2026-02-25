@@ -104,10 +104,10 @@ export function MobileNav({ isOpen, onClose }: MobileNavProps) {
                     transition={{ delay: 0.18 + index * 0.06 }}
                   >
                     <Link
-                      to={`/tools?domain=${domain.id}`}
+                      to={`/domains/${domain.slug}`}
                       className={cn(
                         "flex items-start gap-3 px-3 py-2.5 rounded-md transition-colors",
-                        linkActive(location.pathname, location.search, `/tools?domain=${domain.id}`)
+                        linkActive(location.pathname, location.search, `/domains/${domain.slug}`)
                           ? "bg-primary/15 text-primary"
                           : "hover:bg-muted/70 text-muted-foreground hover:text-foreground",
                       )}

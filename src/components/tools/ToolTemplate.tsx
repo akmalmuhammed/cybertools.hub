@@ -16,6 +16,8 @@ import { ToolTrustBadges } from "@/components/tools/ToolTrustBadges"
 import {
   getProcessingDescription,
   getProcessingLabel,
+  getSensitivityLabel,
+  getToolSensitivity,
   getToolProcessingMode,
 } from "@/lib/constants/tool-trust"
 
@@ -84,6 +86,8 @@ export function ToolTemplate({
   const processingMode = currentTool ? getToolProcessingMode(currentTool.id) : null
   const processingLabel = processingMode ? getProcessingLabel(processingMode) : null
   const processingDescription = processingMode ? getProcessingDescription(processingMode) : null
+  const sensitivity = currentTool ? getToolSensitivity(currentTool.id) : null
+  const sensitivityLabel = sensitivity ? getSensitivityLabel(sensitivity) : null
 
   const seoStructuredData = useMemo(() => {
     if (!currentTool) return undefined
@@ -111,6 +115,23 @@ export function ToolTemplate({
       url: currentTool.path,
       softwareVersion: "1.0.0",
       keywords: currentTool.keywords.join(", "),
+      additionalProperty: [
+        {
+          "@type": "PropertyValue",
+          name: "processingMode",
+          value: currentTool.processingMode,
+        },
+        {
+          "@type": "PropertyValue",
+          name: "sensitivity",
+          value: currentTool.sensitivity,
+        },
+        {
+          "@type": "PropertyValue",
+          name: "evidenceTags",
+          value: currentTool.evidenceTags.join(","),
+        },
+      ],
     }
   }, [currentTool, currentDomain, description, processingMode])
 
@@ -165,10 +186,25 @@ export function ToolTemplate({
                 ? "rounded-lg border border-emerald-500/25 bg-emerald-500/10 px-3 py-2 text-sm text-emerald-700 dark:text-emerald-300"
                 : processingMode === "hybrid"
                   ? "rounded-lg border border-sky-500/30 bg-sky-500/10 px-3 py-2 text-sm text-sky-700 dark:text-sky-300"
-                  : "rounded-lg border border-amber-500/30 bg-amber-500/10 px-3 py-2 text-sm text-amber-700 dark:text-amber-300"
+              : "rounded-lg border border-amber-500/30 bg-amber-500/10 px-3 py-2 text-sm text-amber-700 dark:text-amber-300"
             }
           >
             <span className="font-semibold">{processingLabel}:</span> {processingDescription}
+            {sensitivityLabel && (
+              <span className="ml-2">Sensitivity: <span className="font-semibold">{sensitivityLabel}</span></span>
+            )}
+          </div>
+        )}
+        {currentTool && currentTool.evidenceTags.length > 0 && (
+          <div className="flex flex-wrap gap-1.5">
+            {currentTool.evidenceTags.map((tag) => (
+              <span
+                key={tag}
+                className="inline-flex items-center rounded-full border border-border/60 bg-muted/50 px-2 py-0.5 text-[11px] text-muted-foreground"
+              >
+                {tag}
+              </span>
+            ))}
           </div>
         )}
       </div>

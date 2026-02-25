@@ -13,21 +13,14 @@ import {
 } from "@/lib/constants/tool-domains";
 import {
   getProcessingCounts,
+  getSensitivityCounts,
   getToolProcessingMode,
-  type ToolProcessingMode,
 } from "@/lib/constants/tool-trust";
 import { useFavoritesStore } from "@/store/useFavoritesStore";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { Badge } from "@/components/ui/badge";
-import type { ToolCategory } from "@/types/tool.types";
-
-const CATEGORY_LABELS: Record<ToolCategory, string> = {
-  security: "Security",
-  network: "Network",
-  application: "Application",
-  others: "Others",
-};
+import type { ToolProcessingMode, ToolSensitivity } from "@/types/tool.types";
 
 interface DomainGroup {
   domain: ReturnType<typeof getDomainById>;
@@ -38,17 +31,14 @@ export function ToolsList() {
   const { isFavorite, toggleFavorite } = useFavoritesStore();
   const [filter, setFilter] = useState<"all" | "favorites">("all");
   const [processingFilter, setProcessingFilter] = useState<"all" | ToolProcessingMode>("all");
+  const [sensitivityFilter, setSensitivityFilter] = useState<"all" | ToolSensitivity>("all");
   const [searchQuery, setSearchQuery] = useState("");
   const [searchParams, setSearchParams] = useSearchParams();
   const processingCounts = getProcessingCounts();
+  const sensitivityCounts = getSensitivityCounts();
 
   const rawDomain = searchParams.get("domain");
   const domainParam = isToolDomainId(rawDomain) ? rawDomain : null;
-
-  const rawCategory = searchParams.get("category");
-  const categoryParam = rawCategory && rawCategory in CATEGORY_LABELS
-    ? (rawCategory as ToolCategory)
-    : null;
 
   const visibleGroups = useMemo(() => {
     const activeDomainIds = domainParam
@@ -58,7 +48,7 @@ export function ToolsList() {
     const normalizedQuery = searchQuery.trim().toLowerCase();
     const matchesSearch = (tool: (typeof TOOLS)[number]): boolean => {
       if (!normalizedQuery) return true;
-      return [tool.name, tool.description, ...tool.keywords]
+      return [tool.name, tool.description, ...tool.keywords, ...tool.evidenceTags]
         .join(" ")
         .toLowerCase()
         .includes(normalizedQuery);
@@ -67,11 +57,11 @@ export function ToolsList() {
     return activeDomainIds
       .map((domainId) => {
         const domainTools = getToolsForDomain(domainId).filter((tool) => {
-          if (categoryParam && tool.category !== categoryParam) return false;
           if (filter === "favorites" && !isFavorite(tool.id)) return false;
           if (processingFilter !== "all" && getToolProcessingMode(tool.id) !== processingFilter) {
             return false;
           }
+          if (sensitivityFilter !== "all" && tool.sensitivity !== sensitivityFilter) return false;
           return matchesSearch(tool);
         });
 
@@ -81,7 +71,7 @@ export function ToolsList() {
         } satisfies DomainGroup;
       })
       .filter((group) => group.tools.length > 0);
-  }, [domainParam, categoryParam, filter, isFavorite, processingFilter, searchQuery]);
+  }, [domainParam, filter, isFavorite, processingFilter, searchQuery, sensitivityFilter]);
 
   const visibleCount = visibleGroups.reduce(
     (count, group) => count + group.tools.length,
@@ -91,12 +81,12 @@ export function ToolsList() {
   const activeFilterSummary = useMemo(() => {
     const parts: string[] = [];
     if (domainParam) parts.push(`Domain: ${getDomainById(domainParam).name}`);
-    if (categoryParam) parts.push(`Category: ${CATEGORY_LABELS[categoryParam]}`);
     if (filter === "favorites") parts.push("Favorites only");
     if (processingFilter !== "all") parts.push(`Mode: ${processingFilter}`);
+    if (sensitivityFilter !== "all") parts.push(`Sensitivity: ${sensitivityFilter}`);
     if (searchQuery.trim()) parts.push(`Query: "${searchQuery.trim()}"`);
     return parts;
-  }, [domainParam, categoryParam, filter, processingFilter, searchQuery]);
+  }, [domainParam, filter, processingFilter, searchQuery, sensitivityFilter]);
 
   const setDomainFilter = (domainId: ToolDomainId | null) => {
     const next = new URLSearchParams(searchParams);
@@ -108,10 +98,10 @@ export function ToolsList() {
   const clearContextFilters = () => {
     const next = new URLSearchParams(searchParams);
     next.delete("domain");
-    next.delete("category");
     setSearchParams(next);
     setSearchQuery("");
     setProcessingFilter("all");
+    setSensitivityFilter("all");
   };
 
   return (
@@ -120,7 +110,7 @@ export function ToolsList() {
         <div className="flex flex-col lg:flex-row lg:items-center lg:justify-between gap-4">
           <div className="space-y-1">
             <div className="text-xs uppercase tracking-[0.18em] text-primary font-semibold">Tool Inventory</div>
-            <h2 className="text-xl sm:text-2xl font-semibold">Filter tools by domain, mode, and workflow</h2>
+            <h2 className="text-xl sm:text-2xl font-semibold">Filter tools by domain, mode, sensitivity, and workflow</h2>
             <p className="text-sm text-muted-foreground">
               Local processing is preferred by default. Network and hybrid modes are explicitly labeled.
             </p>
@@ -129,11 +119,6 @@ export function ToolsList() {
           <div className="flex flex-wrap items-center gap-2">
             <Badge variant="secondary" className="px-2.5 py-1 text-xs">{visibleCount} visible</Badge>
             <Badge variant="outline" className="px-2.5 py-1 text-xs">{TOOLS.length} total</Badge>
-            {categoryParam && (
-              <Badge variant="outline" className="px-2.5 py-1 text-xs">
-                Category: {CATEGORY_LABELS[categoryParam]}
-              </Badge>
-            )}
           </div>
         </div>
 
@@ -144,7 +129,7 @@ export function ToolsList() {
               value={searchQuery}
               onChange={(event) => setSearchQuery(event.target.value)}
               className="pl-9"
-              placeholder="Search by tool name, use case, or keyword..."
+              placeholder="Search by tool name, use case, evidence tag, or keyword..."
             />
           </div>
           <div className="flex items-center gap-2">
@@ -200,13 +185,50 @@ export function ToolsList() {
             </Button>
           </div>
           <p className="text-xs text-muted-foreground mt-2">
-            Use Local Only for sensitive data workflows. Network and Hybrid tools may perform outbound lookups.
+            Use Local Only for sensitive workflows. Network and Hybrid tools may perform outbound lookups.
+          </p>
+        </div>
+
+        <div className="rounded-xl border border-border/60 bg-background/70 p-3">
+          <div className="flex flex-wrap items-center gap-2">
+            <span className="text-xs uppercase tracking-[0.16em] text-muted-foreground font-semibold">Sensitivity</span>
+            <Button
+              variant={sensitivityFilter === "all" ? "secondary" : "outline"}
+              size="sm"
+              onClick={() => setSensitivityFilter("all")}
+            >
+              All
+            </Button>
+            <Button
+              variant={sensitivityFilter === "high" ? "secondary" : "outline"}
+              size="sm"
+              onClick={() => setSensitivityFilter("high")}
+            >
+              High ({sensitivityCounts.high})
+            </Button>
+            <Button
+              variant={sensitivityFilter === "medium" ? "secondary" : "outline"}
+              size="sm"
+              onClick={() => setSensitivityFilter("medium")}
+            >
+              Medium ({sensitivityCounts.medium})
+            </Button>
+            <Button
+              variant={sensitivityFilter === "low" ? "secondary" : "outline"}
+              size="sm"
+              onClick={() => setSensitivityFilter("low")}
+            >
+              Low ({sensitivityCounts.low})
+            </Button>
+          </div>
+          <p className="text-xs text-muted-foreground mt-2">
+            Sensitivity reflects likely handling of credentials, incident artifacts, or private operational context.
           </p>
         </div>
 
         {activeFilterSummary.length > 0 && (
           <div className="text-xs text-muted-foreground">
-            Active Filters: {activeFilterSummary.join(" · ")}
+            Active Filters: {activeFilterSummary.join(" • ")}
           </div>
         )}
 
@@ -236,7 +258,7 @@ export function ToolsList() {
             );
           })}
 
-          {(domainParam !== null || categoryParam !== null || processingFilter !== "all" || searchQuery.trim().length > 0) && (
+          {(domainParam !== null || processingFilter !== "all" || sensitivityFilter !== "all" || searchQuery.trim().length > 0) && (
             <Button
               variant="ghost"
               size="sm"

@@ -1,0 +1,103 @@
+{
+  "folders": [
+    {
+      "path": "."
+    }
+  ],
+  "settings": {
+    "typescript.tsdk": "node_modules/typescript/lib",
+    "editor.formatOnSave": true,
+    "editor.codeActionsOnSave": {
+      "source.fixAll.eslint": "explicit"
+    },
+    "eslint.validate": [
+      "javascript",
+      "javascriptreact",
+      "typescript",
+      "typescriptreact"
+    ],
+    "files.exclude": {
+      "**/.test-dist": true,
+      "**/dist": true,
+      "**/node_modules": true
+    },
+    "search.exclude": {
+      "**/.test-dist": true,
+      "**/dist": true,
+      "**/node_modules": true
+    }
+  },
+  "tasks": {
+    "version": "2.0.0",
+    "tasks": [
+      {
+        "label": "Install Dependencies",
+        "type": "shell",
+        "command": "npm ci",
+        "problemMatcher": []
+      },
+      {
+        "label": "Run Lint",
+        "type": "shell",
+        "command": "npm run lint",
+        "group": "test",
+        "problemMatcher": []
+      },
+      {
+        "label": "Run Tests",
+        "type": "shell",
+        "command": "npm test",
+        "group": "test",
+        "problemMatcher": []
+      },
+      {
+        "label": "Build",
+        "type": "shell",
+        "command": "npm run build",
+        "group": "build",
+        "problemMatcher": []
+      },
+      {
+        "label": "Dev Server",
+        "type": "shell",
+        "command": "npm run dev -- --host 127.0.0.1 --port 5173",
+        "isBackground": true,
+        "problemMatcher": {
+          "owner": "custom",
+          "pattern": [
+            {
+              "regexp": "^(.*)$",
+              "message": 1
+            }
+          ],
+          "background": {
+            "activeOnStart": true,
+            "beginsPattern": ".",
+            "endsPattern": "Local:\\s+http://127.0.0.1:5173/"
+          }
+        }
+      }
+    ]
+  },
+  "launch": {
+    "version": "0.2.0",
+    "configurations": [
+      {
+        "name": "Chrome: CyberTools Hub",
+        "type": "pwa-chrome",
+        "request": "launch",
+        "url": "http://127.0.0.1:5173",
+        "webRoot": "${workspaceFolder}"
+      }
+    ],
+    "compounds": [
+      {
+        "name": "Dev + Chrome",
+        "configurations": [
+          "Chrome: CyberTools Hub"
+        ],
+        "preLaunchTask": "Dev Server"
+      }
+    ]
+  }
+}

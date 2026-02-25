@@ -6,7 +6,12 @@ import { Badge } from "@/components/ui/badge";
 import { DarkModeToggle } from "@/components/features/DarkModeToggle";
 import { SearchDialog } from "@/components/features/SearchDialog";
 import { useSearchStore } from "@/store/useSearchStore";
-import { findToolByPath, getDomainById, getToolDomainId } from "@/lib/constants/tool-domains";
+import {
+  findDomainByPath,
+  findToolByPath,
+  getDomainById,
+  getToolDomainId,
+} from "@/lib/constants/tool-domains";
 import {
   getProcessingDescription,
   getProcessingLabel,
@@ -16,13 +21,15 @@ import {
 function headerTitle(pathname: string): string {
   if (pathname === "/") return "Mission Overview";
   if (pathname === "/tools") return "Tool Operations";
+  if (pathname.startsWith("/domains/")) return "Domain Workspace";
   if (pathname === "/about") return "About CyberTools Hub";
   return "Tool Workspace";
 }
 
 function headerDescription(pathname: string): string {
   if (pathname === "/") return "Domain-driven cybersecurity toolkit shell.";
-  if (pathname === "/tools") return "Browse SOC, network, application, and utility tool stacks.";
+  if (pathname === "/tools") return "Browse SOC, threat intel, network, application, cloud IAM, supply chain, and data privacy stacks.";
+  if (pathname.startsWith("/domains/")) return "Operational domain landing page with privacy mode guidance.";
   if (pathname === "/about") return "Privacy-first platform context and methodology.";
   return "Run local-first security analysis workflows.";
 }
@@ -35,12 +42,17 @@ export function Header() {
     () => findToolByPath(location.pathname),
     [location.pathname],
   );
+  const activeDomainFromPath = useMemo(
+    () => findDomainByPath(location.pathname),
+    [location.pathname],
+  );
 
   const domainLabel = useMemo(() => {
     if (!activeTool) return null;
     const domain = getDomainById(getToolDomainId(activeTool.id));
     return domain.name;
   }, [activeTool]);
+  const routeDomainLabel = activeDomainFromPath?.name ?? null;
 
   const processingMode = useMemo(
     () => (activeTool ? getToolProcessingMode(activeTool.id) : null),
@@ -66,6 +78,10 @@ export function Header() {
               {domainLabel ? (
                 <Badge variant="outline" className="text-[10px] h-5">
                   {domainLabel}
+                </Badge>
+              ) : routeDomainLabel ? (
+                <Badge variant="outline" className="text-[10px] h-5">
+                  {routeDomainLabel}
                 </Badge>
               ) : (
                 <span className="text-xs text-muted-foreground truncate">

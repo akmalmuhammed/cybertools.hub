@@ -31,6 +31,9 @@ export function ToolCard({ tool, isFavorite, onToggleFavorite }: ToolCardProps) 
                             {tool.status === 'new' && (
                                 <Badge className="bg-primary/20 text-primary hover:bg-primary/30 uppercase tracking-wide text-[10px]">New</Badge>
                             )}
+                            {tool.status === 'planned' && (
+                                <Badge variant="outline" className="border-slate-500/35 bg-slate-500/10 text-slate-600 dark:text-slate-300 uppercase tracking-wide text-[10px]">Planned</Badge>
+                            )}
                         </div>
 
                         {onToggleFavorite && (
@@ -63,7 +66,7 @@ export function ToolCard({ tool, isFavorite, onToggleFavorite }: ToolCardProps) 
 
                 <CardFooter className="pt-2">
                     <div className="text-sm font-medium text-primary flex items-center">
-                        Open Tool <ArrowRight className="ml-2 h-4 w-4" />
+                        {tool.status === "planned" ? "View Plan" : "Open Tool"} <ArrowRight className="ml-2 h-4 w-4" />
                     </div>
                 </CardFooter>
             </Card>

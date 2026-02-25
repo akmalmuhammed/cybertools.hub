@@ -4,9 +4,12 @@ import { getDomainById, getToolDomainId } from "@/lib/constants/tool-domains";
 import {
   getProcessingDescription,
   getProcessingLabel,
+  getSensitivityDescription,
+  getSensitivityLabel,
+  getToolSensitivity,
   getToolProcessingMode,
 } from "@/lib/constants/tool-trust";
-import { Globe, Monitor, ShieldCheck } from "lucide-react";
+import { Globe, Monitor, ShieldCheck, ShieldAlert, Shield } from "lucide-react";
 
 interface ToolTrustBadgesProps {
   toolId: string;
@@ -35,11 +38,36 @@ function modeVisual(mode: ReturnType<typeof getToolProcessingMode>): {
   };
 }
 
+function sensitivityVisual(sensitivity: ReturnType<typeof getToolSensitivity>): {
+  className: string;
+  icon: typeof ShieldCheck;
+} {
+  if (sensitivity === "high") {
+    return {
+      className: "border-red-500/35 bg-red-500/12 text-red-600 dark:text-red-300",
+      icon: ShieldAlert,
+    };
+  }
+  if (sensitivity === "medium") {
+    return {
+      className: "border-amber-500/35 bg-amber-500/12 text-amber-600 dark:text-amber-300",
+      icon: Shield,
+    };
+  }
+  return {
+    className: "border-emerald-500/35 bg-emerald-500/12 text-emerald-700 dark:text-emerald-300",
+    icon: ShieldCheck,
+  };
+}
+
 export function ToolTrustBadges({ toolId, compact = false }: ToolTrustBadgesProps) {
   const domain = getDomainById(getToolDomainId(toolId));
   const processingMode = getToolProcessingMode(toolId);
   const processing = modeVisual(processingMode);
   const ProcessingIcon = processing.icon;
+  const sensitivity = getToolSensitivity(toolId);
+  const sensitivityTheme = sensitivityVisual(sensitivity);
+  const SensitivityIcon = sensitivityTheme.icon;
 
   return (
     <div className={cn("flex flex-wrap items-center gap-2", compact && "gap-1.5")}>
@@ -50,8 +78,18 @@ export function ToolTrustBadges({ toolId, compact = false }: ToolTrustBadgesProp
         <ProcessingIcon className="h-3.5 w-3.5 mr-1" />
         {getProcessingLabel(processingMode)}
       </Badge>
+      <Badge
+        variant="outline"
+        className={sensitivityTheme.className}
+        title={getSensitivityDescription(sensitivity)}
+      >
+        <SensitivityIcon className="h-3.5 w-3.5 mr-1" />
+        {getSensitivityLabel(sensitivity)}
+      </Badge>
       {!compact && (
-        <span className="text-xs text-muted-foreground">{getProcessingDescription(processingMode)}</span>
+        <span className="text-xs text-muted-foreground">
+          {getProcessingDescription(processingMode)} {getSensitivityDescription(sensitivity)}
+        </span>
       )}
     </div>
   );

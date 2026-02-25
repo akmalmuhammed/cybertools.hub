@@ -55,6 +55,21 @@
 - **Markdown Preview**
 - **HTML Encoder**
 
+## Domain Expansion (2026)
+
+The workspace now uses 7 top-level security domains:
+
+- SOC & Detection Engineering
+- Threat Intel & DFIR
+- Network & Exposure Security
+- Application & API Security
+- Cloud & IAM Security
+- Software Supply Chain Security
+- Data Security & Privacy Engineering
+
+Phase 1 onboarding shipped 16 new tools across these domains.  
+See `documentation/DOMAIN_EXPANSION_RESEARCH_2026.md` for deep-research evidence mapping and Phase 2 planned tools.
+
 ## 📦 Installation
 
 1.  Clone the repository:
@@ -102,3 +117,24 @@ Contributions are welcome! Please check out the [issues](https://github.com/your
 ## 📄 License
 
 MIT License. Free forever.
+
+## Local Workspace Setup (PowerShell)
+
+From the repository root:
+
+```powershell
+.\scripts\bootstrap.ps1
+```
+
+This installs dependencies and validates the workspace with lint, tests, and build.
+
+To start development:
+
+```powershell
+.\scripts\dev.ps1
+```
+
+Optional:
+
+- Open `cybertools-hub.code-workspace` in VS Code for preconfigured tasks/launch.
+- Use Node `20` (pinned in `.nvmrc`) to match CI.

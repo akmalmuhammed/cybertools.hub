@@ -4,7 +4,10 @@ import { cn } from "@/lib/utils/cn";
 import { useFavoritesStore } from "@/store/useFavoritesStore";
 import {
   TOOL_DOMAINS,
+  findDomainByPath,
   findToolByPath,
+  getDomainCanonicalPath,
+  getDomainQueryPath,
   getToolDomainId,
   getToolsForDomain,
   isToolDomainId,
@@ -17,9 +20,10 @@ export function ToolDomainSidebar() {
 
   const selectedDomainParam = searchParams.get("domain");
   const selectedDomain = isToolDomainId(selectedDomainParam) ? selectedDomainParam : null;
+  const domainFromPath = findDomainByPath(location.pathname)?.id ?? null;
 
   const activeTool = findToolByPath(location.pathname);
-  const activeDomain = activeTool ? getToolDomainId(activeTool.id) : selectedDomain;
+  const activeDomain = activeTool ? getToolDomainId(activeTool.id) : domainFromPath ?? selectedDomain;
   const activeDomainTools = activeDomain ? getToolsForDomain(activeDomain) : [];
 
   return (
@@ -43,7 +47,7 @@ export function ToolDomainSidebar() {
           to="/tools"
           className={cn(
             "flex items-center justify-between rounded-lg border px-3 py-2 text-sm transition-colors",
-            !selectedDomain && location.pathname === "/tools"
+            !selectedDomain && !domainFromPath && location.pathname === "/tools"
               ? "border-primary/50 bg-primary/15 text-primary"
               : "border-border/60 text-muted-foreground hover:text-foreground hover:bg-muted/60",
           )}
@@ -67,7 +71,7 @@ export function ToolDomainSidebar() {
               )}
             >
               <Link
-                to={`/tools?domain=${domain.id}`}
+                to={getDomainCanonicalPath(domain.id)}
                 className="flex items-center justify-between gap-2 px-3 py-2"
               >
                 <span className="flex items-center gap-2 min-w-0">
@@ -78,6 +82,14 @@ export function ToolDomainSidebar() {
                 </span>
                 <span className="text-xs text-muted-foreground">{domainTools.length}</span>
               </Link>
+              <div className="px-3 pb-2">
+                <Link
+                  to={getDomainQueryPath(domain.id)}
+                  className="text-[11px] text-muted-foreground hover:text-foreground"
+                >
+                  Open in all-tools filter
+                </Link>
+              </div>
             </section>
           );
         })}

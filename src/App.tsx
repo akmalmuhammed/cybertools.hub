@@ -9,6 +9,7 @@ import { AnimatePresence } from 'framer-motion'
 // Lazy load pages
 const Home = lazy(() => import('@/pages/Home'))
 const ToolsPage = lazy(() => import('@/pages/ToolsPage'))
+const DomainPage = lazy(() => import('@/pages/DomainPage'))
 const AboutPage = lazy(() => import('@/pages/AboutPage'))
 
 // Core Tools
@@ -48,6 +49,23 @@ const SigmaHelperTool = lazy(() => import('@/pages/tools/SigmaHelperTool'))
 const YaraLocalMatcherTool = lazy(() => import('@/pages/tools/YaraLocalMatcherTool'))
 const SbomDiffTool = lazy(() => import('@/pages/tools/SbomDiffTool'))
 const SecurityHeaderBuilderTool = lazy(() => import('@/pages/tools/SecurityHeaderBuilderTool'))
+const AlertDeduplicationTool = lazy(() => import('@/pages/tools/AlertDeduplicationTool'))
+const DetectionUnitTestHarnessTool = lazy(() => import('@/pages/tools/DetectionUnitTestHarnessTool'))
+const AttackCoverageTool = lazy(() => import('@/pages/tools/AttackCoverageTool'))
+const EventTimelineTool = lazy(() => import('@/pages/tools/EventTimelineTool'))
+const LogSchemaMapperTool = lazy(() => import('@/pages/tools/LogSchemaMapperTool'))
+const IocConfidenceTtlTool = lazy(() => import('@/pages/tools/IocConfidenceTtlTool'))
+const MispStixMapperTool = lazy(() => import('@/pages/tools/MispStixMapperTool'))
+const ArtifactIntegrityPackagerTool = lazy(() => import('@/pages/tools/ArtifactIntegrityPackagerTool'))
+const ExposureNormalizerTool = lazy(() => import('@/pages/tools/ExposureNormalizerTool'))
+const FirewallAclAnalyzerTool = lazy(() => import('@/pages/tools/FirewallAclAnalyzerTool'))
+const TlsRiskExplainerTool = lazy(() => import('@/pages/tools/TlsRiskExplainerTool'))
+const OpenApiAuthzGapTool = lazy(() => import('@/pages/tools/OpenApiAuthzGapTool'))
+const CorsPolicyAnalyzerTool = lazy(() => import('@/pages/tools/CorsPolicyAnalyzerTool'))
+const OAuthOidcLinterTool = lazy(() => import('@/pages/tools/OAuthOidcLinterTool'))
+const IamPolicyAnalyzerTool = lazy(() => import('@/pages/tools/IamPolicyAnalyzerTool'))
+const LockfileRiskDiffTool = lazy(() => import('@/pages/tools/LockfileRiskDiffTool'))
+const PlannedToolPage = lazy(() => import('@/pages/tools/PlannedToolPage'))
 
 // Utility Tools
 const QrCodeTool = lazy(() => import('@/pages/tools/QrCodeTool'))
@@ -71,6 +89,7 @@ function RoutesContent() {
       <Routes location={location} key={location.pathname}>
         <Route path="/" element={<Home />} />
         <Route path="/tools" element={<ToolsPage />} />
+        <Route path="/domains/:domainSlug" element={<DomainPage />} />
         <Route path="/about" element={<AboutPage />} />
 
         {/* Core Tools */}
@@ -111,6 +130,22 @@ function RoutesContent() {
         <Route path="/tools/yara-local" element={<YaraLocalMatcherTool />} />
         <Route path="/tools/sbom-diff" element={<SbomDiffTool />} />
         <Route path="/tools/security-header-builder" element={<SecurityHeaderBuilderTool />} />
+        <Route path="/tools/alert-dedupe" element={<AlertDeduplicationTool />} />
+        <Route path="/tools/detection-unit-test" element={<DetectionUnitTestHarnessTool />} />
+        <Route path="/tools/attack-coverage" element={<AttackCoverageTool />} />
+        <Route path="/tools/event-timeline" element={<EventTimelineTool />} />
+        <Route path="/tools/log-schema-mapper" element={<LogSchemaMapperTool />} />
+        <Route path="/tools/ioc-confidence-ttl" element={<IocConfidenceTtlTool />} />
+        <Route path="/tools/misp-stix-mapper" element={<MispStixMapperTool />} />
+        <Route path="/tools/artifact-integrity" element={<ArtifactIntegrityPackagerTool />} />
+        <Route path="/tools/exposure-normalizer" element={<ExposureNormalizerTool />} />
+        <Route path="/tools/firewall-acl-analyzer" element={<FirewallAclAnalyzerTool />} />
+        <Route path="/tools/tls-risk-explainer" element={<TlsRiskExplainerTool />} />
+        <Route path="/tools/openapi-authz-gap" element={<OpenApiAuthzGapTool />} />
+        <Route path="/tools/cors-policy-analyzer" element={<CorsPolicyAnalyzerTool />} />
+        <Route path="/tools/oauth-oidc-linter" element={<OAuthOidcLinterTool />} />
+        <Route path="/tools/iam-policy-analyzer" element={<IamPolicyAnalyzerTool />} />
+        <Route path="/tools/lockfile-risk-diff" element={<LockfileRiskDiffTool />} />
 
         {/* Utility Tools */}
         <Route path="/tools/qrcode" element={<QrCodeTool />} />
@@ -118,6 +153,7 @@ function RoutesContent() {
         <Route path="/tools/uuid" element={<UuidTool />} />
         <Route path="/tools/markdown" element={<MarkdownTool />} />
         <Route path="/tools/html" element={<HtmlEncoderTool />} />
+        <Route path="/tools/:toolSlug" element={<PlannedToolPage />} />
       </Routes>
     </AnimatePresence>
   )

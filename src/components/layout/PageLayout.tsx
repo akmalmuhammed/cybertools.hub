@@ -15,6 +15,7 @@ export function PageLayout({ children }: PageLayoutProps) {
     const location = useLocation()
     const isToolsRoute =
         location.pathname === "/tools" ||
+        location.pathname.startsWith("/domains/") ||
         TOOLS.some((tool) => tool.path === location.pathname)
 
     return (
