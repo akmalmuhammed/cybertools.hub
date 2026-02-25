@@ -2,3 +2,9 @@ User-agent: *
 Allow: /
 
 Sitemap: https://cybertools.hub/sitemap.xml
+Sitemap: https://cybertools.hub/sitemap-static.xml
+Sitemap: https://cybertools.hub/sitemap-domains.xml
+Sitemap: https://cybertools.hub/sitemap-tools.xml
+
+LLM-Index: https://cybertools.hub/llms.txt
+AI-Index: https://cybertools.hub/ai-index.json

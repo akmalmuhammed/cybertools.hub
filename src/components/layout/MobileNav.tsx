@@ -61,7 +61,7 @@ export function MobileNav({ isOpen, onClose }: MobileNavProps) {
             <div className="flex items-center justify-between mb-6">
               <div>
                 <div className="text-xs uppercase tracking-[0.2em] text-primary font-semibold">Navigation</div>
-                <div className="text-lg font-semibold">CyberTools Shell</div>
+                <div className="text-lg font-semibold">Secutil Shell</div>
               </div>
               <Button variant="ghost" size="icon" onClick={onClose}>
                 <X className="h-5 w-5" />

@@ -294,12 +294,32 @@ export default function Base64Tool() {
             <SEO
                 title="Base64 Smart Tools"
                 description="Advanced Base64 encoder/decoder with binary detection, hex inspection, JSON detection, and auto-fix cleanup."
+                canonical="/tools/base64"
                 keywords={[
                     "base64 encode decode",
                     "base64 binary detector",
                     "base64 to hex",
                     "base64 cleanup tool",
                 ]}
+                breadcrumbItems={[
+                    { name: "Home", url: "/" },
+                    { name: "Tools", url: "/tools" },
+                    { name: "Data Security & Privacy Engineering", url: "/domains/data-security-privacy-engineering" },
+                    { name: "Base64 Converter", url: "/tools/base64" },
+                ]}
+                structuredData={{
+                    "@context": "https://schema.org",
+                    "@type": "SoftwareApplication",
+                    name: "Base64 Converter",
+                    description: "Advanced Base64 encoder and decoder with binary detection and safe transformation workflows.",
+                    applicationCategory: "Data Security Tool",
+                    operatingSystem: "Web Browser",
+                    offers: {
+                        "@type": "Offer",
+                        price: "0",
+                        priceCurrency: "USD",
+                    },
+                }}
             />
 
             <div className="text-center space-y-4">

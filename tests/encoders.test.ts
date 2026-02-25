@@ -13,7 +13,7 @@ import {
 } from "../src/lib/utils/encoders.js";
 
 test("Base64 encode/decode preserves unicode text", () => {
-  const input = "CyberTools ✅";
+  const input = "Secutil ✅";
   const encoded = encodeBase64(input);
   const decoded = decodeBase64(encoded);
   assert.equal(decoded, input);

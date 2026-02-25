@@ -1,0 +1,12 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 128 128" role="img" aria-labelledby="title">
+  <title>Secutil</title>
+  <defs>
+    <linearGradient id="g" x1="0" y1="0" x2="1" y2="1">
+      <stop offset="0%" stop-color="#10b981" />
+      <stop offset="100%" stop-color="#06b6d4" />
+    </linearGradient>
+  </defs>
+  <rect width="128" height="128" rx="28" fill="#0f172a" />
+  <path d="M64 18l34 12v28c0 27-17 43-34 52C47 101 30 85 30 58V30l34-12z" fill="url(#g)" />
+  <path d="M44 65l11 11 30-30" fill="none" stroke="#0b1220" stroke-width="9" stroke-linecap="round" stroke-linejoin="round" />
+</svg>

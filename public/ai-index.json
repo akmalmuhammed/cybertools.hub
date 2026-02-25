@@ -1,15 +1,16 @@
 {
-  "generatedAt": "2026-02-25T19:33:57.903Z",
+  "version": "1.0.0",
+  "generatedAt": "2026-02-25T19:33:57.904Z",
   "site": "https://cybertools.hub",
   "brand": "Secutil",
-  "counts": {
-    "tools": 75,
-    "domains": 7
+  "citationPolicy": {
+    "recommended": "When referencing a tool, cite the exact tool URL and include processing mode + sensitivity.",
+    "canonicalIndex": "https://cybertools.hub/tool-index.json",
+    "llmsIndex": "https://cybertools.hub/llms-full.txt"
   },
   "domains": [
     {
       "id": "soc",
-      "slug": "soc-detection-engineering",
       "name": "SOC & Detection Engineering",
       "description": "Alert triage speed, rule quality, and incident response workflow acceleration.",
       "privacyNotice": "Mostly local analytics; optional enrichment is explicitly gated.",
@@ -17,7 +18,6 @@
     },
     {
       "id": "threat-intel",
-      "slug": "threat-intel-dfir",
       "name": "Threat Intel & DFIR",
       "description": "IOC quality scoring, exchange format normalization, and forensic packaging.",
       "privacyNotice": "Intel normalization runs local-first with optional external context lookups.",
@@ -25,7 +25,6 @@
     },
     {
       "id": "network",
-      "slug": "network-exposure-security",
       "name": "Network & Exposure Security",
       "description": "Exposure import normalization, ACL conflict detection, and TLS risk analysis.",
       "privacyNotice": "Analysis is local by default; probes are network-labeled before execution.",
@@ -33,7 +32,6 @@
     },
     {
       "id": "application",
-      "slug": "application-api-security",
       "name": "Application & API Security",
       "description": "API contract abuse checks, authz drift detection, and browser policy hardening.",
       "privacyNotice": "Contract linting and policy checks process documents fully in-browser.",
@@ -41,7 +39,6 @@
     },
     {
       "id": "cloud-iam",
-      "slug": "cloud-iam-security",
       "name": "Cloud & IAM Security",
       "description": "Identity policy review and least-privilege hygiene across cloud providers.",
       "privacyNotice": "Policy linting is local; no cloud credentials are required by default.",
@@ -49,7 +46,6 @@
     },
     {
       "id": "supply-chain",
-      "slug": "software-supply-chain-security",
       "name": "Software Supply Chain Security",
       "description": "Dependency risk diffing, tamper evidence, and provenance-oriented checks.",
       "privacyNotice": "SBOM and lockfile analysis remain local unless users opt into lookups.",
@@ -57,7 +53,6 @@
     },
     {
       "id": "data-privacy",
-      "slug": "data-security-privacy-engineering",
       "name": "Data Security & Privacy Engineering",
       "description": "Sensitive-data handling, leakage detection, and privacy-preserving processing.",
       "privacyNotice": "Privacy-focused tools prioritize local-only processing and explicit consent.",
@@ -68,12 +63,15 @@
     {
       "id": "base64",
       "name": "Base64 Converter",
-      "description": "Encode and decode Base64 data with URL safety options.",
-      "path": "/tools/base64",
+      "url": "https://cybertools.hub/tools/base64",
       "domainId": "data-privacy",
+      "domainName": "Data Security & Privacy Engineering",
+      "domainUrl": "https://cybertools.hub/domains/data-security-privacy-engineering",
+      "description": "Encode and decode Base64 data with URL safety options.",
+      "status": "ready",
       "processingMode": "local",
       "sensitivity": "medium",
-      "status": "ready",
+      "modeSummary": "Processes data fully in-browser with no outbound calls.",
       "keywords": [
         "base64",
         "encode",
@@ -84,9 +82,6 @@
         "data-transformation",
         "privacy-local-processing"
       ],
-      "url": "https://cybertools.hub/tools/base64",
-      "domainName": "Data Security & Privacy Engineering",
-      "domainUrl": "https://cybertools.hub/domains/data-security-privacy-engineering",
       "searchIntents": [
         "base64",
         "encode",
@@ -99,18 +94,20 @@
         "When should I use Base64 Converter in a Data Security & Privacy Engineering workflow?",
         "Give me a safe step-by-step process for using Base64 Converter with local mode.",
         "Compare Base64 Converter with other tools for base64 triage and suggest follow-on checks."
-      ],
-      "modeSummary": "Processes data fully in-browser with no outbound calls."
+      ]
     },
     {
       "id": "hash",
       "name": "Hash Generator",
-      "description": "Generate MD5, SHA1, SHA256, and SHA512 hashes.",
-      "path": "/tools/hash",
+      "url": "https://cybertools.hub/tools/hash",
       "domainId": "data-privacy",
+      "domainName": "Data Security & Privacy Engineering",
+      "domainUrl": "https://cybertools.hub/domains/data-security-privacy-engineering",
+      "description": "Generate MD5, SHA1, SHA256, and SHA512 hashes.",
+      "status": "ready",
       "processingMode": "local",
       "sensitivity": "medium",
-      "status": "ready",
+      "modeSummary": "Processes data fully in-browser with no outbound calls.",
       "keywords": [
         "md5",
         "sha1",
@@ -122,9 +119,6 @@
         "artifact-fingerprinting",
         "integrity-check"
       ],
-      "url": "https://cybertools.hub/tools/hash",
-      "domainName": "Data Security & Privacy Engineering",
-      "domainUrl": "https://cybertools.hub/domains/data-security-privacy-engineering",
       "searchIntents": [
         "md5",
         "sha1",
@@ -138,18 +132,20 @@
         "When should I use Hash Generator in a Data Security & Privacy Engineering workflow?",
         "Give me a safe step-by-step process for using Hash Generator with local mode.",
         "Compare Hash Generator with other tools for md5 triage and suggest follow-on checks."
-      ],
-      "modeSummary": "Processes data fully in-browser with no outbound calls."
+      ]
     },
     {
       "id": "json",
       "name": "JSON Formatter",
-      "description": "Validate, format, and minify JSON data.",
-      "path": "/tools/json",
+      "url": "https://cybertools.hub/tools/json",
       "domainId": "data-privacy",
+      "domainName": "Data Security & Privacy Engineering",
+      "domainUrl": "https://cybertools.hub/domains/data-security-privacy-engineering",
+      "description": "Validate, format, and minify JSON data.",
+      "status": "ready",
       "processingMode": "local",
       "sensitivity": "low",
-      "status": "ready",
+      "modeSummary": "Processes data fully in-browser with no outbound calls.",
       "keywords": [
         "json",
         "format",
@@ -160,9 +156,6 @@
         "data-transformation",
         "privacy-local-processing"
       ],
-      "url": "https://cybertools.hub/tools/json",
-      "domainName": "Data Security & Privacy Engineering",
-      "domainUrl": "https://cybertools.hub/domains/data-security-privacy-engineering",
       "searchIntents": [
         "json",
         "format",
@@ -175,18 +168,20 @@
         "When should I use JSON Formatter in a Data Security & Privacy Engineering workflow?",
         "Give me a safe step-by-step process for using JSON Formatter with local mode.",
         "Compare JSON Formatter with other tools for json triage and suggest follow-on checks."
-      ],
-      "modeSummary": "Processes data fully in-browser with no outbound calls."
+      ]
     },
     {
       "id": "url",
       "name": "URL Encoder",
-      "description": "Encode and decode URLs and URI components.",
-      "path": "/tools/url",
+      "url": "https://cybertools.hub/tools/url",
       "domainId": "data-privacy",
+      "domainName": "Data Security & Privacy Engineering",
+      "domainUrl": "https://cybertools.hub/domains/data-security-privacy-engineering",
+      "description": "Encode and decode URLs and URI components.",
+      "status": "ready",
       "processingMode": "local",
       "sensitivity": "low",
-      "status": "ready",
+      "modeSummary": "Processes data fully in-browser with no outbound calls.",
       "keywords": [
         "url",
         "encode",
@@ -197,9 +192,6 @@
         "data-transformation",
         "privacy-local-processing"
       ],
-      "url": "https://cybertools.hub/tools/url",
-      "domainName": "Data Security & Privacy Engineering",
-      "domainUrl": "https://cybertools.hub/domains/data-security-privacy-engineering",
       "searchIntents": [
         "url",
         "encode",
@@ -212,18 +204,20 @@
         "When should I use URL Encoder in a Data Security & Privacy Engineering workflow?",
         "Give me a safe step-by-step process for using URL Encoder with local mode.",
         "Compare URL Encoder with other tools for url triage and suggest follow-on checks."
-      ],
-      "modeSummary": "Processes data fully in-browser with no outbound calls."
+      ]
     },
     {
       "id": "url-defang",
       "name": "URL Defang/Refang",
-      "description": "Defang/refang URLs and canonicalize links for IOC workflows.",
-      "path": "/tools/url-defang",
+      "url": "https://cybertools.hub/tools/url-defang",
       "domainId": "network",
+      "domainName": "Network & Exposure Security",
+      "domainUrl": "https://cybertools.hub/domains/network-exposure-security",
+      "description": "Defang/refang URLs and canonicalize links for IOC workflows.",
+      "status": "new",
       "processingMode": "local",
       "sensitivity": "medium",
-      "status": "new",
+      "modeSummary": "Processes data fully in-browser with no outbound calls.",
       "keywords": [
         "url",
         "defang",
@@ -234,9 +228,6 @@
         "ioc-safety",
         "triage-speed"
       ],
-      "url": "https://cybertools.hub/tools/url-defang",
-      "domainName": "Network & Exposure Security",
-      "domainUrl": "https://cybertools.hub/domains/network-exposure-security",
       "searchIntents": [
         "url",
         "defang",
@@ -249,18 +240,20 @@
         "When should I use URL Defang/Refang in a Network & Exposure Security workflow?",
         "Give me a safe step-by-step process for using URL Defang/Refang with local mode.",
         "Compare URL Defang/Refang with other tools for url triage and suggest follow-on checks."
-      ],
-      "modeSummary": "Processes data fully in-browser with no outbound calls."
+      ]
     },
     {
       "id": "timestamp",
       "name": "Unix Timestamp",
-      "description": "Convert between Unix timestamps and human dates.",
-      "path": "/tools/timestamp",
+      "url": "https://cybertools.hub/tools/timestamp",
       "domainId": "data-privacy",
+      "domainName": "Data Security & Privacy Engineering",
+      "domainUrl": "https://cybertools.hub/domains/data-security-privacy-engineering",
+      "description": "Convert between Unix timestamps and human dates.",
+      "status": "ready",
       "processingMode": "local",
       "sensitivity": "low",
-      "status": "ready",
+      "modeSummary": "Processes data fully in-browser with no outbound calls.",
       "keywords": [
         "time",
         "unix",
@@ -271,9 +264,6 @@
         "timeline-analysis",
         "data-transformation"
       ],
-      "url": "https://cybertools.hub/tools/timestamp",
-      "domainName": "Data Security & Privacy Engineering",
-      "domainUrl": "https://cybertools.hub/domains/data-security-privacy-engineering",
       "searchIntents": [
         "time",
         "unix",
@@ -286,18 +276,20 @@
         "When should I use Unix Timestamp in a Data Security & Privacy Engineering workflow?",
         "Give me a safe step-by-step process for using Unix Timestamp with local mode.",
         "Compare Unix Timestamp with other tools for time triage and suggest follow-on checks."
-      ],
-      "modeSummary": "Processes data fully in-browser with no outbound calls."
+      ]
     },
     {
       "id": "regex",
       "name": "Regex Tester",
-      "description": "Test regular expressions against text.",
-      "path": "/tools/regex",
+      "url": "https://cybertools.hub/tools/regex",
       "domainId": "application",
+      "domainName": "Application & API Security",
+      "domainUrl": "https://cybertools.hub/domains/application-api-security",
+      "description": "Test regular expressions against text.",
+      "status": "ready",
       "processingMode": "local",
       "sensitivity": "low",
-      "status": "ready",
+      "modeSummary": "Processes data fully in-browser with no outbound calls.",
       "keywords": [
         "regex",
         "test",
@@ -307,9 +299,6 @@
         "input-validation",
         "developer-productivity"
       ],
-      "url": "https://cybertools.hub/tools/regex",
-      "domainName": "Application & API Security",
-      "domainUrl": "https://cybertools.hub/domains/application-api-security",
       "searchIntents": [
         "regex",
         "test",
@@ -321,18 +310,20 @@
         "When should I use Regex Tester in a Application & API Security workflow?",
         "Give me a safe step-by-step process for using Regex Tester with local mode.",
         "Compare Regex Tester with other tools for regex triage and suggest follow-on checks."
-      ],
-      "modeSummary": "Processes data fully in-browser with no outbound calls."
+      ]
     },
     {
       "id": "jwt",
       "name": "JWT Decoder",
-      "description": "Decode and inspect JSON Web Tokens.",
-      "path": "/tools/jwt",
+      "url": "https://cybertools.hub/tools/jwt",
       "domainId": "application",
+      "domainName": "Application & API Security",
+      "domainUrl": "https://cybertools.hub/domains/application-api-security",
+      "description": "Decode and inspect JSON Web Tokens.",
+      "status": "ready",
       "processingMode": "local",
       "sensitivity": "high",
-      "status": "ready",
+      "modeSummary": "Processes data fully in-browser with no outbound calls.",
       "keywords": [
         "jwt",
         "token",
@@ -342,9 +333,6 @@
         "identity-security",
         "token-analysis"
       ],
-      "url": "https://cybertools.hub/tools/jwt",
-      "domainName": "Application & API Security",
-      "domainUrl": "https://cybertools.hub/domains/application-api-security",
       "searchIntents": [
         "jwt",
         "token",
@@ -356,18 +344,20 @@
         "When should I use JWT Decoder in a Application & API Security workflow?",
         "Give me a safe step-by-step process for using JWT Decoder with local mode.",
         "Compare JWT Decoder with other tools for jwt triage and suggest follow-on checks."
-      ],
-      "modeSummary": "Processes data fully in-browser with no outbound calls."
+      ]
     },
     {
       "id": "jwt-verify",
       "name": "JWT/JWS Verifier",
-      "description": "Verify JWT/JWS signatures and optional claims policy with secret, PEM, JWK, or JWKS URL.",
-      "path": "/tools/jwt-verify",
+      "url": "https://cybertools.hub/tools/jwt-verify",
       "domainId": "application",
+      "domainName": "Application & API Security",
+      "domainUrl": "https://cybertools.hub/domains/application-api-security",
+      "description": "Verify JWT/JWS signatures and optional claims policy with secret, PEM, JWK, or JWKS URL.",
+      "status": "new",
       "processingMode": "hybrid",
       "sensitivity": "high",
-      "status": "new",
+      "modeSummary": "Runs local analysis and supports optional outbound lookups when explicitly triggered.",
       "keywords": [
         "jwt",
         "jws",
@@ -379,9 +369,6 @@
         "token-validation",
         "api-authz"
       ],
-      "url": "https://cybertools.hub/tools/jwt-verify",
-      "domainName": "Application & API Security",
-      "domainUrl": "https://cybertools.hub/domains/application-api-security",
       "searchIntents": [
         "jwt",
         "jws",
@@ -395,18 +382,20 @@
         "When should I use JWT/JWS Verifier in a Application & API Security workflow?",
         "Give me a safe step-by-step process for using JWT/JWS Verifier with hybrid mode.",
         "Compare JWT/JWS Verifier with other tools for jwt triage and suggest follow-on checks."
-      ],
-      "modeSummary": "Runs local analysis and supports optional outbound lookups when explicitly triggered."
+      ]
     },
     {
       "id": "email",
       "name": "Email Header Analyzer",
-      "description": "Parse and analyze email headers.",
-      "path": "/tools/email",
+      "url": "https://cybertools.hub/tools/email",
       "domainId": "soc",
+      "domainName": "SOC & Detection Engineering",
+      "domainUrl": "https://cybertools.hub/domains/soc-detection-engineering",
+      "description": "Parse and analyze email headers.",
+      "status": "ready",
       "processingMode": "local",
       "sensitivity": "high",
-      "status": "ready",
+      "modeSummary": "Processes data fully in-browser with no outbound calls.",
       "keywords": [
         "email",
         "header",
@@ -417,9 +406,6 @@
         "triage-speed",
         "soc-throughput"
       ],
-      "url": "https://cybertools.hub/tools/email",
-      "domainName": "SOC & Detection Engineering",
-      "domainUrl": "https://cybertools.hub/domains/soc-detection-engineering",
       "searchIntents": [
         "email",
         "header",
@@ -432,18 +418,20 @@
         "When should I use Email Header Analyzer in a SOC & Detection Engineering workflow?",
         "Give me a safe step-by-step process for using Email Header Analyzer with local mode.",
         "Compare Email Header Analyzer with other tools for email triage and suggest follow-on checks."
-      ],
-      "modeSummary": "Processes data fully in-browser with no outbound calls."
+      ]
     },
     {
       "id": "ioc",
       "name": "IOC Extractor",
-      "description": "Extract URLs, domains, IPs, hashes, and CVEs from raw text.",
-      "path": "/tools/ioc",
+      "url": "https://cybertools.hub/tools/ioc",
       "domainId": "soc",
+      "domainName": "SOC & Detection Engineering",
+      "domainUrl": "https://cybertools.hub/domains/soc-detection-engineering",
+      "description": "Extract URLs, domains, IPs, hashes, and CVEs from raw text.",
+      "status": "new",
       "processingMode": "local",
       "sensitivity": "high",
-      "status": "new",
+      "modeSummary": "Processes data fully in-browser with no outbound calls.",
       "keywords": [
         "ioc",
         "indicators",
@@ -454,9 +442,6 @@
         "soc-throughput",
         "triage-speed"
       ],
-      "url": "https://cybertools.hub/tools/ioc",
-      "domainName": "SOC & Detection Engineering",
-      "domainUrl": "https://cybertools.hub/domains/soc-detection-engineering",
       "searchIntents": [
         "ioc",
         "indicators",
@@ -469,18 +454,20 @@
         "When should I use IOC Extractor in a SOC & Detection Engineering workflow?",
         "Give me a safe step-by-step process for using IOC Extractor with local mode.",
         "Compare IOC Extractor with other tools for ioc triage and suggest follow-on checks."
-      ],
-      "modeSummary": "Processes data fully in-browser with no outbound calls."
+      ]
     },
     {
       "id": "ioc-correlator",
       "name": "IOC Correlator",
-      "description": "Compare two IOC datasets and identify overlap and unique indicators.",
-      "path": "/tools/ioc-correlator",
+      "url": "https://cybertools.hub/tools/ioc-correlator",
       "domainId": "soc",
+      "domainName": "SOC & Detection Engineering",
+      "domainUrl": "https://cybertools.hub/domains/soc-detection-engineering",
+      "description": "Compare two IOC datasets and identify overlap and unique indicators.",
+      "status": "new",
       "processingMode": "local",
       "sensitivity": "high",
-      "status": "new",
+      "modeSummary": "Processes data fully in-browser with no outbound calls.",
       "keywords": [
         "ioc",
         "correlate",
@@ -491,9 +478,6 @@
         "soc-throughput",
         "intel-correlation"
       ],
-      "url": "https://cybertools.hub/tools/ioc-correlator",
-      "domainName": "SOC & Detection Engineering",
-      "domainUrl": "https://cybertools.hub/domains/soc-detection-engineering",
       "searchIntents": [
         "ioc",
         "correlate",
@@ -506,18 +490,20 @@
         "When should I use IOC Correlator in a SOC & Detection Engineering workflow?",
         "Give me a safe step-by-step process for using IOC Correlator with local mode.",
         "Compare IOC Correlator with other tools for ioc triage and suggest follow-on checks."
-      ],
-      "modeSummary": "Processes data fully in-browser with no outbound calls."
+      ]
     },
     {
       "id": "ioc-normalizer",
       "name": "IOC Canonicalizer",
-      "description": "Normalize defanged indicators, unicode/punycode domains, and deduplicate by canonical value.",
-      "path": "/tools/ioc-normalizer",
+      "url": "https://cybertools.hub/tools/ioc-normalizer",
       "domainId": "threat-intel",
+      "domainName": "Threat Intel & DFIR",
+      "domainUrl": "https://cybertools.hub/domains/threat-intel-dfir",
+      "description": "Normalize defanged indicators, unicode/punycode domains, and deduplicate by canonical value.",
+      "status": "new",
       "processingMode": "local",
       "sensitivity": "high",
-      "status": "new",
+      "modeSummary": "Processes data fully in-browser with no outbound calls.",
       "keywords": [
         "ioc",
         "canonicalize",
@@ -528,9 +514,6 @@
         "intel-fidelity",
         "ioc-hygiene"
       ],
-      "url": "https://cybertools.hub/tools/ioc-normalizer",
-      "domainName": "Threat Intel & DFIR",
-      "domainUrl": "https://cybertools.hub/domains/threat-intel-dfir",
       "searchIntents": [
         "ioc",
         "canonicalize",
@@ -543,18 +526,20 @@
         "When should I use IOC Canonicalizer in a Threat Intel & DFIR workflow?",
         "Give me a safe step-by-step process for using IOC Canonicalizer with local mode.",
         "Compare IOC Canonicalizer with other tools for ioc triage and suggest follow-on checks."
-      ],
-      "modeSummary": "Processes data fully in-browser with no outbound calls."
+      ]
     },
     {
       "id": "user-agent",
       "name": "User-Agent Analyzer",
-      "description": "Parse User-Agent strings into browser, OS, device, and automation signals.",
-      "path": "/tools/user-agent",
+      "url": "https://cybertools.hub/tools/user-agent",
       "domainId": "network",
+      "domainName": "Network & Exposure Security",
+      "domainUrl": "https://cybertools.hub/domains/network-exposure-security",
+      "description": "Parse User-Agent strings into browser, OS, device, and automation signals.",
+      "status": "new",
       "processingMode": "local",
       "sensitivity": "medium",
-      "status": "new",
+      "modeSummary": "Processes data fully in-browser with no outbound calls.",
       "keywords": [
         "user-agent",
         "ua",
@@ -565,9 +550,6 @@
         "session-analysis",
         "bot-detection"
       ],
-      "url": "https://cybertools.hub/tools/user-agent",
-      "domainName": "Network & Exposure Security",
-      "domainUrl": "https://cybertools.hub/domains/network-exposure-security",
       "searchIntents": [
         "user-agent",
         "ua",
@@ -580,18 +562,20 @@
         "When should I use User-Agent Analyzer in a Network & Exposure Security workflow?",
         "Give me a safe step-by-step process for using User-Agent Analyzer with local mode.",
         "Compare User-Agent Analyzer with other tools for user-agent triage and suggest follow-on checks."
-      ],
-      "modeSummary": "Processes data fully in-browser with no outbound calls."
+      ]
     },
     {
       "id": "subnet",
       "name": "Subnet Calculator",
-      "description": "Calculate CIDR ranges and netmasks.",
-      "path": "/tools/subnet",
+      "url": "https://cybertools.hub/tools/subnet",
       "domainId": "network",
+      "domainName": "Network & Exposure Security",
+      "domainUrl": "https://cybertools.hub/domains/network-exposure-security",
+      "description": "Calculate CIDR ranges and netmasks.",
+      "status": "ready",
       "processingMode": "local",
       "sensitivity": "low",
-      "status": "ready",
+      "modeSummary": "Processes data fully in-browser with no outbound calls.",
       "keywords": [
         "cidr",
         "subnet",
@@ -602,9 +586,6 @@
         "network-planning",
         "exposure-hygiene"
       ],
-      "url": "https://cybertools.hub/tools/subnet",
-      "domainName": "Network & Exposure Security",
-      "domainUrl": "https://cybertools.hub/domains/network-exposure-security",
       "searchIntents": [
         "cidr",
         "subnet",
@@ -617,18 +598,20 @@
         "When should I use Subnet Calculator in a Network & Exposure Security workflow?",
         "Give me a safe step-by-step process for using Subnet Calculator with local mode.",
         "Compare Subnet Calculator with other tools for cidr triage and suggest follow-on checks."
-      ],
-      "modeSummary": "Processes data fully in-browser with no outbound calls."
+      ]
     },
     {
       "id": "password",
       "name": "Password Generator",
-      "description": "Generate secure random passwords.",
-      "path": "/tools/password",
+      "url": "https://cybertools.hub/tools/password",
       "domainId": "data-privacy",
+      "domainName": "Data Security & Privacy Engineering",
+      "domainUrl": "https://cybertools.hub/domains/data-security-privacy-engineering",
+      "description": "Generate secure random passwords.",
+      "status": "ready",
       "processingMode": "local",
       "sensitivity": "medium",
-      "status": "ready",
+      "modeSummary": "Processes data fully in-browser with no outbound calls.",
       "keywords": [
         "password",
         "secure",
@@ -638,9 +621,6 @@
         "credential-hygiene",
         "identity-security"
       ],
-      "url": "https://cybertools.hub/tools/password",
-      "domainName": "Data Security & Privacy Engineering",
-      "domainUrl": "https://cybertools.hub/domains/data-security-privacy-engineering",
       "searchIntents": [
         "password",
         "secure",
@@ -652,18 +632,20 @@
         "When should I use Password Generator in a Data Security & Privacy Engineering workflow?",
         "Give me a safe step-by-step process for using Password Generator with local mode.",
         "Compare Password Generator with other tools for password triage and suggest follow-on checks."
-      ],
-      "modeSummary": "Processes data fully in-browser with no outbound calls."
+      ]
     },
     {
       "id": "whois",
       "name": "Whois Lookup",
-      "description": "Lookup domain registration details via RDAP (network request).",
-      "path": "/tools/whois",
+      "url": "https://cybertools.hub/tools/whois",
       "domainId": "network",
+      "domainName": "Network & Exposure Security",
+      "domainUrl": "https://cybertools.hub/domains/network-exposure-security",
+      "description": "Lookup domain registration details via RDAP (network request).",
+      "status": "beta",
       "processingMode": "network",
       "sensitivity": "medium",
-      "status": "beta",
+      "modeSummary": "Performs outbound lookups to remote security data sources.",
       "keywords": [
         "whois",
         "domain",
@@ -673,9 +655,6 @@
         "external-exposure",
         "threat-intel-context"
       ],
-      "url": "https://cybertools.hub/tools/whois",
-      "domainName": "Network & Exposure Security",
-      "domainUrl": "https://cybertools.hub/domains/network-exposure-security",
       "searchIntents": [
         "whois",
         "domain",
@@ -687,18 +666,20 @@
         "When should I use Whois Lookup in a Network & Exposure Security workflow?",
         "Give me a safe step-by-step process for using Whois Lookup with network mode.",
         "Compare Whois Lookup with other tools for whois triage and suggest follow-on checks."
-      ],
-      "modeSummary": "Performs outbound lookups to remote security data sources."
+      ]
     },
     {
       "id": "dns-toolkit",
       "name": "DNS Toolkit",
-      "description": "Query DNS-over-HTTPS records and inspect SPF/DMARC posture.",
-      "path": "/tools/dns",
+      "url": "https://cybertools.hub/tools/dns",
       "domainId": "network",
+      "domainName": "Network & Exposure Security",
+      "domainUrl": "https://cybertools.hub/domains/network-exposure-security",
+      "description": "Query DNS-over-HTTPS records and inspect SPF/DMARC posture.",
+      "status": "new",
       "processingMode": "network",
       "sensitivity": "medium",
-      "status": "new",
+      "modeSummary": "Performs outbound lookups to remote security data sources.",
       "keywords": [
         "dns",
         "spf",
@@ -710,9 +691,6 @@
         "external-exposure",
         "email-authentication"
       ],
-      "url": "https://cybertools.hub/tools/dns",
-      "domainName": "Network & Exposure Security",
-      "domainUrl": "https://cybertools.hub/domains/network-exposure-security",
       "searchIntents": [
         "dns",
         "spf",
@@ -726,18 +704,20 @@
         "When should I use DNS Toolkit in a Network & Exposure Security workflow?",
         "Give me a safe step-by-step process for using DNS Toolkit with network mode.",
         "Compare DNS Toolkit with other tools for dns triage and suggest follow-on checks."
-      ],
-      "modeSummary": "Performs outbound lookups to remote security data sources."
+      ]
     },
     {
       "id": "certificate",
       "name": "Certificate Decoder",
-      "description": "Inspect certificate text and derive PEM SHA-256 fingerprints.",
-      "path": "/tools/certificate",
+      "url": "https://cybertools.hub/tools/certificate",
       "domainId": "network",
+      "domainName": "Network & Exposure Security",
+      "domainUrl": "https://cybertools.hub/domains/network-exposure-security",
+      "description": "Inspect certificate text and derive PEM SHA-256 fingerprints.",
+      "status": "beta",
       "processingMode": "local",
       "sensitivity": "medium",
-      "status": "beta",
+      "modeSummary": "Processes data fully in-browser with no outbound calls.",
       "keywords": [
         "ssl",
         "cert",
@@ -748,9 +728,6 @@
         "tls-hardening",
         "integrity-check"
       ],
-      "url": "https://cybertools.hub/tools/certificate",
-      "domainName": "Network & Exposure Security",
-      "domainUrl": "https://cybertools.hub/domains/network-exposure-security",
       "searchIntents": [
         "ssl",
         "cert",
@@ -763,18 +740,20 @@
         "When should I use Certificate Decoder in a Network & Exposure Security workflow?",
         "Give me a safe step-by-step process for using Certificate Decoder with local mode.",
         "Compare Certificate Decoder with other tools for ssl triage and suggest follow-on checks."
-      ],
-      "modeSummary": "Processes data fully in-browser with no outbound calls."
+      ]
     },
     {
       "id": "iplookup",
       "name": "IP Lookup",
-      "description": "Classify IP addresses and optionally enrich with RDAP (network request).",
-      "path": "/tools/ip",
+      "url": "https://cybertools.hub/tools/ip",
       "domainId": "network",
+      "domainName": "Network & Exposure Security",
+      "domainUrl": "https://cybertools.hub/domains/network-exposure-security",
+      "description": "Classify IP addresses and optionally enrich with RDAP (network request).",
+      "status": "beta",
       "processingMode": "network",
       "sensitivity": "medium",
-      "status": "beta",
+      "modeSummary": "Performs outbound lookups to remote security data sources.",
       "keywords": [
         "ip",
         "geolocation",
@@ -784,9 +763,6 @@
         "external-exposure",
         "threat-intel-context"
       ],
-      "url": "https://cybertools.hub/tools/ip",
-      "domainName": "Network & Exposure Security",
-      "domainUrl": "https://cybertools.hub/domains/network-exposure-security",
       "searchIntents": [
         "ip",
         "geolocation",
@@ -798,18 +774,20 @@
         "When should I use IP Lookup in a Network & Exposure Security workflow?",
         "Give me a safe step-by-step process for using IP Lookup with network mode.",
         "Compare IP Lookup with other tools for ip triage and suggest follow-on checks."
-      ],
-      "modeSummary": "Performs outbound lookups to remote security data sources."
+      ]
     },
     {
       "id": "port",
       "name": "Port Checker",
-      "description": "Assess common ports and probe HTTP(S)-compatible endpoints from browser.",
-      "path": "/tools/port",
+      "url": "https://cybertools.hub/tools/port",
       "domainId": "network",
+      "domainName": "Network & Exposure Security",
+      "domainUrl": "https://cybertools.hub/domains/network-exposure-security",
+      "description": "Assess common ports and probe HTTP(S)-compatible endpoints from browser.",
+      "status": "beta",
       "processingMode": "network",
       "sensitivity": "medium",
-      "status": "beta",
+      "modeSummary": "Performs outbound lookups to remote security data sources.",
       "keywords": [
         "port",
         "check",
@@ -819,9 +797,6 @@
         "external-exposure",
         "attack-surface"
       ],
-      "url": "https://cybertools.hub/tools/port",
-      "domainName": "Network & Exposure Security",
-      "domainUrl": "https://cybertools.hub/domains/network-exposure-security",
       "searchIntents": [
         "port",
         "check",
@@ -833,18 +808,20 @@
         "When should I use Port Checker in a Network & Exposure Security workflow?",
         "Give me a safe step-by-step process for using Port Checker with network mode.",
         "Compare Port Checker with other tools for port triage and suggest follow-on checks."
-      ],
-      "modeSummary": "Performs outbound lookups to remote security data sources."
+      ]
     },
     {
       "id": "diff",
       "name": "Text Diff",
-      "description": "Compare two texts and find differences.",
-      "path": "/tools/diff",
+      "url": "https://cybertools.hub/tools/diff",
       "domainId": "data-privacy",
+      "domainName": "Data Security & Privacy Engineering",
+      "domainUrl": "https://cybertools.hub/domains/data-security-privacy-engineering",
+      "description": "Compare two texts and find differences.",
+      "status": "ready",
       "processingMode": "local",
       "sensitivity": "low",
-      "status": "ready",
+      "modeSummary": "Processes data fully in-browser with no outbound calls.",
       "keywords": [
         "diff",
         "compare",
@@ -854,9 +831,6 @@
         "change-review",
         "triage-speed"
       ],
-      "url": "https://cybertools.hub/tools/diff",
-      "domainName": "Data Security & Privacy Engineering",
-      "domainUrl": "https://cybertools.hub/domains/data-security-privacy-engineering",
       "searchIntents": [
         "diff",
         "compare",
@@ -868,18 +842,20 @@
         "When should I use Text Diff in a Data Security & Privacy Engineering workflow?",
         "Give me a safe step-by-step process for using Text Diff with local mode.",
         "Compare Text Diff with other tools for diff triage and suggest follow-on checks."
-      ],
-      "modeSummary": "Processes data fully in-browser with no outbound calls."
+      ]
     },
     {
       "id": "http-headers",
       "name": "HTTP Header Analyzer",
-      "description": "Score HTTP security headers and identify hardening gaps.",
-      "path": "/tools/http-headers",
+      "url": "https://cybertools.hub/tools/http-headers",
       "domainId": "application",
+      "domainName": "Application & API Security",
+      "domainUrl": "https://cybertools.hub/domains/application-api-security",
+      "description": "Score HTTP security headers and identify hardening gaps.",
+      "status": "new",
       "processingMode": "local",
       "sensitivity": "medium",
-      "status": "new",
+      "modeSummary": "Processes data fully in-browser with no outbound calls.",
       "keywords": [
         "http",
         "headers",
@@ -890,9 +866,6 @@
         "web-hardening",
         "api-authz"
       ],
-      "url": "https://cybertools.hub/tools/http-headers",
-      "domainName": "Application & API Security",
-      "domainUrl": "https://cybertools.hub/domains/application-api-security",
       "searchIntents": [
         "http",
         "headers",
@@ -905,18 +878,20 @@
         "When should I use HTTP Header Analyzer in a Application & API Security workflow?",
         "Give me a safe step-by-step process for using HTTP Header Analyzer with local mode.",
         "Compare HTTP Header Analyzer with other tools for http triage and suggest follow-on checks."
-      ],
-      "modeSummary": "Processes data fully in-browser with no outbound calls."
+      ]
     },
     {
       "id": "reputation",
       "name": "Reputation Enricher",
-      "description": "Bulk-enrich domains/IPs with local scoring, RDAP, and optional provider proxy intel.",
-      "path": "/tools/reputation",
+      "url": "https://cybertools.hub/tools/reputation",
       "domainId": "soc",
+      "domainName": "SOC & Detection Engineering",
+      "domainUrl": "https://cybertools.hub/domains/soc-detection-engineering",
+      "description": "Bulk-enrich domains/IPs with local scoring, RDAP, and optional provider proxy intel.",
+      "status": "new",
       "processingMode": "hybrid",
       "sensitivity": "high",
-      "status": "new",
+      "modeSummary": "Runs local analysis and supports optional outbound lookups when explicitly triggered.",
       "keywords": [
         "reputation",
         "bulk",
@@ -928,9 +903,6 @@
         "false-positive-reduction",
         "threat-intel-context"
       ],
-      "url": "https://cybertools.hub/tools/reputation",
-      "domainName": "SOC & Detection Engineering",
-      "domainUrl": "https://cybertools.hub/domains/soc-detection-engineering",
       "searchIntents": [
         "reputation",
         "bulk",
@@ -944,18 +916,20 @@
         "When should I use Reputation Enricher in a SOC & Detection Engineering workflow?",
         "Give me a safe step-by-step process for using Reputation Enricher with hybrid mode.",
         "Compare Reputation Enricher with other tools for reputation triage and suggest follow-on checks."
-      ],
-      "modeSummary": "Runs local analysis and supports optional outbound lookups when explicitly triggered."
+      ]
     },
     {
       "id": "cve-prioritizer",
       "name": "KEV/CVE Prioritizer",
-      "description": "Prioritize CVEs client-side using KEV, NVD feeds, CVSS, EPSS, exploit signals, and asset criticality.",
-      "path": "/tools/cve-prioritizer",
+      "url": "https://cybertools.hub/tools/cve-prioritizer",
       "domainId": "soc",
+      "domainName": "SOC & Detection Engineering",
+      "domainUrl": "https://cybertools.hub/domains/soc-detection-engineering",
+      "description": "Prioritize CVEs client-side using KEV, NVD feeds, CVSS, EPSS, exploit signals, and asset criticality.",
+      "status": "new",
       "processingMode": "local",
       "sensitivity": "high",
-      "status": "new",
+      "modeSummary": "Processes data fully in-browser with no outbound calls.",
       "keywords": [
         "cve",
         "kev",
@@ -966,9 +940,6 @@
         "kev-prioritization",
         "vulnerability-exploitation"
       ],
-      "url": "https://cybertools.hub/tools/cve-prioritizer",
-      "domainName": "SOC & Detection Engineering",
-      "domainUrl": "https://cybertools.hub/domains/soc-detection-engineering",
       "searchIntents": [
         "cve",
         "kev",
@@ -981,18 +952,20 @@
         "When should I use KEV/CVE Prioritizer in a SOC & Detection Engineering workflow?",
         "Give me a safe step-by-step process for using KEV/CVE Prioritizer with local mode.",
         "Compare KEV/CVE Prioritizer with other tools for cve triage and suggest follow-on checks."
-      ],
-      "modeSummary": "Processes data fully in-browser with no outbound calls."
+      ]
     },
     {
       "id": "secrets-scanner",
       "name": "Secrets Scanner",
-      "description": "Detect leaked credentials and high-entropy tokens in pasted content.",
-      "path": "/tools/secrets-scanner",
+      "url": "https://cybertools.hub/tools/secrets-scanner",
       "domainId": "data-privacy",
+      "domainName": "Data Security & Privacy Engineering",
+      "domainUrl": "https://cybertools.hub/domains/data-security-privacy-engineering",
+      "description": "Detect leaked credentials and high-entropy tokens in pasted content.",
+      "status": "new",
       "processingMode": "local",
       "sensitivity": "high",
-      "status": "new",
+      "modeSummary": "Processes data fully in-browser with no outbound calls.",
       "keywords": [
         "secrets",
         "token",
@@ -1003,9 +976,6 @@
         "secrets-sprawl",
         "credential-abuse"
       ],
-      "url": "https://cybertools.hub/tools/secrets-scanner",
-      "domainName": "Data Security & Privacy Engineering",
-      "domainUrl": "https://cybertools.hub/domains/data-security-privacy-engineering",
       "searchIntents": [
         "secrets",
         "token",
@@ -1018,18 +988,20 @@
         "When should I use Secrets Scanner in a Data Security & Privacy Engineering workflow?",
         "Give me a safe step-by-step process for using Secrets Scanner with local mode.",
         "Compare Secrets Scanner with other tools for secrets triage and suggest follow-on checks."
-      ],
-      "modeSummary": "Processes data fully in-browser with no outbound calls."
+      ]
     },
     {
       "id": "stix-taxii",
       "name": "STIX/TAXII Utility",
-      "description": "Parse, validate, compare, and export STIX 2.1 bundles locally.",
-      "path": "/tools/stix-taxii",
+      "url": "https://cybertools.hub/tools/stix-taxii",
       "domainId": "threat-intel",
+      "domainName": "Threat Intel & DFIR",
+      "domainUrl": "https://cybertools.hub/domains/threat-intel-dfir",
+      "description": "Parse, validate, compare, and export STIX 2.1 bundles locally.",
+      "status": "new",
       "processingMode": "local",
       "sensitivity": "high",
-      "status": "new",
+      "modeSummary": "Processes data fully in-browser with no outbound calls.",
       "keywords": [
         "stix",
         "taxii",
@@ -1040,9 +1012,6 @@
         "intel-fidelity",
         "stix-misp-interoperability"
       ],
-      "url": "https://cybertools.hub/tools/stix-taxii",
-      "domainName": "Threat Intel & DFIR",
-      "domainUrl": "https://cybertools.hub/domains/threat-intel-dfir",
       "searchIntents": [
         "stix",
         "taxii",
@@ -1055,18 +1024,20 @@
         "When should I use STIX/TAXII Utility in a Threat Intel & DFIR workflow?",
         "Give me a safe step-by-step process for using STIX/TAXII Utility with local mode.",
         "Compare STIX/TAXII Utility with other tools for stix triage and suggest follow-on checks."
-      ],
-      "modeSummary": "Processes data fully in-browser with no outbound calls."
+      ]
     },
     {
       "id": "domain-spoof",
       "name": "Domain Spoof Detector",
-      "description": "Score suspected spoofed domains using homoglyph, brand abuse, and domain-age signals.",
-      "path": "/tools/domain-spoof",
+      "url": "https://cybertools.hub/tools/domain-spoof",
       "domainId": "soc",
+      "domainName": "SOC & Detection Engineering",
+      "domainUrl": "https://cybertools.hub/domains/soc-detection-engineering",
+      "description": "Score suspected spoofed domains using homoglyph, brand abuse, and domain-age signals.",
+      "status": "new",
       "processingMode": "local",
       "sensitivity": "high",
-      "status": "new",
+      "modeSummary": "Processes data fully in-browser with no outbound calls.",
       "keywords": [
         "domain",
         "spoof",
@@ -1077,9 +1048,6 @@
         "phishing-defense",
         "identity-abuse"
       ],
-      "url": "https://cybertools.hub/tools/domain-spoof",
-      "domainName": "SOC & Detection Engineering",
-      "domainUrl": "https://cybertools.hub/domains/soc-detection-engineering",
       "searchIntents": [
         "domain",
         "spoof",
@@ -1092,18 +1060,20 @@
         "When should I use Domain Spoof Detector in a SOC & Detection Engineering workflow?",
         "Give me a safe step-by-step process for using Domain Spoof Detector with local mode.",
         "Compare Domain Spoof Detector with other tools for domain triage and suggest follow-on checks."
-      ],
-      "modeSummary": "Processes data fully in-browser with no outbound calls."
+      ]
     },
     {
       "id": "sigma-helper",
       "name": "Sigma Linter Helper",
-      "description": "Lint Sigma rules and generate backend query helpers with ATT&CK coverage checks.",
-      "path": "/tools/sigma-helper",
+      "url": "https://cybertools.hub/tools/sigma-helper",
       "domainId": "soc",
+      "domainName": "SOC & Detection Engineering",
+      "domainUrl": "https://cybertools.hub/domains/soc-detection-engineering",
+      "description": "Lint Sigma rules and generate backend query helpers with ATT&CK coverage checks.",
+      "status": "new",
       "processingMode": "local",
       "sensitivity": "high",
-      "status": "new",
+      "modeSummary": "Processes data fully in-browser with no outbound calls.",
       "keywords": [
         "sigma",
         "siem",
@@ -1114,9 +1084,6 @@
         "detection-quality",
         "rule-testing"
       ],
-      "url": "https://cybertools.hub/tools/sigma-helper",
-      "domainName": "SOC & Detection Engineering",
-      "domainUrl": "https://cybertools.hub/domains/soc-detection-engineering",
       "searchIntents": [
         "sigma",
         "siem",
@@ -1129,18 +1096,20 @@
         "When should I use Sigma Linter Helper in a SOC & Detection Engineering workflow?",
         "Give me a safe step-by-step process for using Sigma Linter Helper with local mode.",
         "Compare Sigma Linter Helper with other tools for sigma triage and suggest follow-on checks."
-      ],
-      "modeSummary": "Processes data fully in-browser with no outbound calls."
+      ]
     },
     {
       "id": "yara-local",
       "name": "YARA Local Matcher",
-      "description": "Run local YARA-style matching against text or local files without upload.",
-      "path": "/tools/yara-local",
+      "url": "https://cybertools.hub/tools/yara-local",
       "domainId": "soc",
+      "domainName": "SOC & Detection Engineering",
+      "domainUrl": "https://cybertools.hub/domains/soc-detection-engineering",
+      "description": "Run local YARA-style matching against text or local files without upload.",
+      "status": "new",
       "processingMode": "local",
       "sensitivity": "high",
-      "status": "new",
+      "modeSummary": "Processes data fully in-browser with no outbound calls.",
       "keywords": [
         "yara",
         "malware",
@@ -1151,9 +1120,6 @@
         "malware-triage",
         "soc-throughput"
       ],
-      "url": "https://cybertools.hub/tools/yara-local",
-      "domainName": "SOC & Detection Engineering",
-      "domainUrl": "https://cybertools.hub/domains/soc-detection-engineering",
       "searchIntents": [
         "yara",
         "malware",
@@ -1166,18 +1132,20 @@
         "When should I use YARA Local Matcher in a SOC & Detection Engineering workflow?",
         "Give me a safe step-by-step process for using YARA Local Matcher with local mode.",
         "Compare YARA Local Matcher with other tools for yara triage and suggest follow-on checks."
-      ],
-      "modeSummary": "Processes data fully in-browser with no outbound calls."
+      ]
     },
     {
       "id": "sbom-diff",
       "name": "SBOM Diff & Triage",
-      "description": "Compare CycloneDX/SPDX BOMs and prioritize risky component changes.",
-      "path": "/tools/sbom-diff",
+      "url": "https://cybertools.hub/tools/sbom-diff",
       "domainId": "supply-chain",
+      "domainName": "Software Supply Chain Security",
+      "domainUrl": "https://cybertools.hub/domains/software-supply-chain-security",
+      "description": "Compare CycloneDX/SPDX BOMs and prioritize risky component changes.",
+      "status": "new",
       "processingMode": "local",
       "sensitivity": "high",
-      "status": "new",
+      "modeSummary": "Processes data fully in-browser with no outbound calls.",
       "keywords": [
         "sbom",
         "cyclonedx",
@@ -1188,9 +1156,6 @@
         "supply-chain-risk",
         "vulnerability-exploitation"
       ],
-      "url": "https://cybertools.hub/tools/sbom-diff",
-      "domainName": "Software Supply Chain Security",
-      "domainUrl": "https://cybertools.hub/domains/software-supply-chain-security",
       "searchIntents": [
         "sbom",
         "cyclonedx",
@@ -1203,18 +1168,20 @@
         "When should I use SBOM Diff & Triage in a Software Supply Chain Security workflow?",
         "Give me a safe step-by-step process for using SBOM Diff & Triage with local mode.",
         "Compare SBOM Diff & Triage with other tools for sbom triage and suggest follow-on checks."
-      ],
-      "modeSummary": "Processes data fully in-browser with no outbound calls."
+      ]
     },
     {
       "id": "security-header-builder",
       "name": "Security Header Builder",
-      "description": "Generate CSP and security header presets with explicit compatibility tradeoffs.",
-      "path": "/tools/security-header-builder",
+      "url": "https://cybertools.hub/tools/security-header-builder",
       "domainId": "application",
+      "domainName": "Application & API Security",
+      "domainUrl": "https://cybertools.hub/domains/application-api-security",
+      "description": "Generate CSP and security header presets with explicit compatibility tradeoffs.",
+      "status": "new",
       "processingMode": "local",
       "sensitivity": "medium",
-      "status": "new",
+      "modeSummary": "Processes data fully in-browser with no outbound calls.",
       "keywords": [
         "csp",
         "headers",
@@ -1225,9 +1192,6 @@
         "web-hardening",
         "cors-misconfig"
       ],
-      "url": "https://cybertools.hub/tools/security-header-builder",
-      "domainName": "Application & API Security",
-      "domainUrl": "https://cybertools.hub/domains/application-api-security",
       "searchIntents": [
         "csp",
         "headers",
@@ -1240,18 +1204,20 @@
         "When should I use Security Header Builder in a Application & API Security workflow?",
         "Give me a safe step-by-step process for using Security Header Builder with local mode.",
         "Compare Security Header Builder with other tools for csp triage and suggest follow-on checks."
-      ],
-      "modeSummary": "Processes data fully in-browser with no outbound calls."
+      ]
     },
     {
       "id": "qrcode",
       "name": "QR Code Generator",
-      "description": "Generate QR codes from text.",
-      "path": "/tools/qrcode",
+      "url": "https://cybertools.hub/tools/qrcode",
       "domainId": "data-privacy",
+      "domainName": "Data Security & Privacy Engineering",
+      "domainUrl": "https://cybertools.hub/domains/data-security-privacy-engineering",
+      "description": "Generate QR codes from text.",
+      "status": "ready",
       "processingMode": "local",
       "sensitivity": "low",
-      "status": "ready",
+      "modeSummary": "Processes data fully in-browser with no outbound calls.",
       "keywords": [
         "qr",
         "code",
@@ -1261,9 +1227,6 @@
         "data-transformation",
         "offline-workflow"
       ],
-      "url": "https://cybertools.hub/tools/qrcode",
-      "domainName": "Data Security & Privacy Engineering",
-      "domainUrl": "https://cybertools.hub/domains/data-security-privacy-engineering",
       "searchIntents": [
         "qr",
         "code",
@@ -1275,18 +1238,20 @@
         "When should I use QR Code Generator in a Data Security & Privacy Engineering workflow?",
         "Give me a safe step-by-step process for using QR Code Generator with local mode.",
         "Compare QR Code Generator with other tools for qr triage and suggest follow-on checks."
-      ],
-      "modeSummary": "Processes data fully in-browser with no outbound calls."
+      ]
     },
     {
       "id": "color",
       "name": "Color Converter",
-      "description": "Convert HEX, RGB, and HSL colors.",
-      "path": "/tools/color",
+      "url": "https://cybertools.hub/tools/color",
       "domainId": "data-privacy",
+      "domainName": "Data Security & Privacy Engineering",
+      "domainUrl": "https://cybertools.hub/domains/data-security-privacy-engineering",
+      "description": "Convert HEX, RGB, and HSL colors.",
+      "status": "ready",
       "processingMode": "local",
       "sensitivity": "low",
-      "status": "ready",
+      "modeSummary": "Processes data fully in-browser with no outbound calls.",
       "keywords": [
         "color",
         "hex",
@@ -1297,9 +1262,6 @@
         "developer-productivity",
         "data-transformation"
       ],
-      "url": "https://cybertools.hub/tools/color",
-      "domainName": "Data Security & Privacy Engineering",
-      "domainUrl": "https://cybertools.hub/domains/data-security-privacy-engineering",
       "searchIntents": [
         "color",
         "hex",
@@ -1312,18 +1274,20 @@
         "When should I use Color Converter in a Data Security & Privacy Engineering workflow?",
         "Give me a safe step-by-step process for using Color Converter with local mode.",
         "Compare Color Converter with other tools for color triage and suggest follow-on checks."
-      ],
-      "modeSummary": "Processes data fully in-browser with no outbound calls."
+      ]
     },
     {
       "id": "uuid",
       "name": "UUID Generator",
-      "description": "Generate UUID v4 identifiers.",
-      "path": "/tools/uuid",
+      "url": "https://cybertools.hub/tools/uuid",
       "domainId": "data-privacy",
+      "domainName": "Data Security & Privacy Engineering",
+      "domainUrl": "https://cybertools.hub/domains/data-security-privacy-engineering",
+      "description": "Generate UUID v4 identifiers.",
+      "status": "ready",
       "processingMode": "local",
       "sensitivity": "low",
-      "status": "ready",
+      "modeSummary": "Processes data fully in-browser with no outbound calls.",
       "keywords": [
         "uuid",
         "guid",
@@ -1333,9 +1297,6 @@
         "identifier-generation",
         "developer-productivity"
       ],
-      "url": "https://cybertools.hub/tools/uuid",
-      "domainName": "Data Security & Privacy Engineering",
-      "domainUrl": "https://cybertools.hub/domains/data-security-privacy-engineering",
       "searchIntents": [
         "uuid",
         "guid",
@@ -1347,18 +1308,20 @@
         "When should I use UUID Generator in a Data Security & Privacy Engineering workflow?",
         "Give me a safe step-by-step process for using UUID Generator with local mode.",
         "Compare UUID Generator with other tools for uuid triage and suggest follow-on checks."
-      ],
-      "modeSummary": "Processes data fully in-browser with no outbound calls."
+      ]
     },
     {
       "id": "markdown",
       "name": "Markdown Preview",
-      "description": "Preview Markdown text.",
-      "path": "/tools/markdown",
+      "url": "https://cybertools.hub/tools/markdown",
       "domainId": "data-privacy",
+      "domainName": "Data Security & Privacy Engineering",
+      "domainUrl": "https://cybertools.hub/domains/data-security-privacy-engineering",
+      "description": "Preview Markdown text.",
+      "status": "ready",
       "processingMode": "local",
       "sensitivity": "low",
-      "status": "ready",
+      "modeSummary": "Processes data fully in-browser with no outbound calls.",
       "keywords": [
         "markdown",
         "preview",
@@ -1368,9 +1331,6 @@
         "documentation-workflow",
         "developer-productivity"
       ],
-      "url": "https://cybertools.hub/tools/markdown",
-      "domainName": "Data Security & Privacy Engineering",
-      "domainUrl": "https://cybertools.hub/domains/data-security-privacy-engineering",
       "searchIntents": [
         "markdown",
         "preview",
@@ -1382,18 +1342,20 @@
         "When should I use Markdown Preview in a Data Security & Privacy Engineering workflow?",
         "Give me a safe step-by-step process for using Markdown Preview with local mode.",
         "Compare Markdown Preview with other tools for markdown triage and suggest follow-on checks."
-      ],
-      "modeSummary": "Processes data fully in-browser with no outbound calls."
+      ]
     },
     {
       "id": "html",
       "name": "HTML Encoder",
-      "description": "Encode and decode HTML entities.",
-      "path": "/tools/html",
+      "url": "https://cybertools.hub/tools/html",
       "domainId": "data-privacy",
+      "domainName": "Data Security & Privacy Engineering",
+      "domainUrl": "https://cybertools.hub/domains/data-security-privacy-engineering",
+      "description": "Encode and decode HTML entities.",
+      "status": "ready",
       "processingMode": "local",
       "sensitivity": "low",
-      "status": "ready",
+      "modeSummary": "Processes data fully in-browser with no outbound calls.",
       "keywords": [
         "html",
         "encode",
@@ -1403,9 +1365,6 @@
         "data-transformation",
         "xss-safety"
       ],
-      "url": "https://cybertools.hub/tools/html",
-      "domainName": "Data Security & Privacy Engineering",
-      "domainUrl": "https://cybertools.hub/domains/data-security-privacy-engineering",
       "searchIntents": [
         "html",
         "encode",
@@ -1417,18 +1376,20 @@
         "When should I use HTML Encoder in a Data Security & Privacy Engineering workflow?",
         "Give me a safe step-by-step process for using HTML Encoder with local mode.",
         "Compare HTML Encoder with other tools for html triage and suggest follow-on checks."
-      ],
-      "modeSummary": "Processes data fully in-browser with no outbound calls."
+      ]
     },
     {
       "id": "alert-dedupe",
       "name": "Alert Deduplication Simulator",
-      "description": "Cluster noisy alerts into deterministic buckets to estimate SOC false-positive reduction.",
-      "path": "/tools/alert-dedupe",
+      "url": "https://cybertools.hub/tools/alert-dedupe",
       "domainId": "soc",
+      "domainName": "SOC & Detection Engineering",
+      "domainUrl": "https://cybertools.hub/domains/soc-detection-engineering",
+      "description": "Cluster noisy alerts into deterministic buckets to estimate SOC false-positive reduction.",
+      "status": "new",
       "processingMode": "local",
       "sensitivity": "high",
-      "status": "new",
+      "modeSummary": "Processes data fully in-browser with no outbound calls.",
       "keywords": [
         "alert",
         "dedupe",
@@ -1439,9 +1400,6 @@
         "false-positive-reduction",
         "soc-throughput"
       ],
-      "url": "https://cybertools.hub/tools/alert-dedupe",
-      "domainName": "SOC & Detection Engineering",
-      "domainUrl": "https://cybertools.hub/domains/soc-detection-engineering",
       "searchIntents": [
         "alert",
         "dedupe",
@@ -1454,18 +1412,20 @@
         "When should I use Alert Deduplication Simulator in a SOC & Detection Engineering workflow?",
         "Give me a safe step-by-step process for using Alert Deduplication Simulator with local mode.",
         "Compare Alert Deduplication Simulator with other tools for alert triage and suggest follow-on checks."
-      ],
-      "modeSummary": "Processes data fully in-browser with no outbound calls."
+      ]
     },
     {
       "id": "detection-unit-test",
       "name": "Detection Rule Unit Test Harness",
-      "description": "Run Sigma-like rule fixtures against expected detections to validate detection quality.",
-      "path": "/tools/detection-unit-test",
+      "url": "https://cybertools.hub/tools/detection-unit-test",
       "domainId": "soc",
+      "domainName": "SOC & Detection Engineering",
+      "domainUrl": "https://cybertools.hub/domains/soc-detection-engineering",
+      "description": "Run Sigma-like rule fixtures against expected detections to validate detection quality.",
+      "status": "new",
       "processingMode": "local",
       "sensitivity": "high",
-      "status": "new",
+      "modeSummary": "Processes data fully in-browser with no outbound calls.",
       "keywords": [
         "sigma",
         "unit test",
@@ -1476,9 +1436,6 @@
         "detection-quality",
         "rule-testing"
       ],
-      "url": "https://cybertools.hub/tools/detection-unit-test",
-      "domainName": "SOC & Detection Engineering",
-      "domainUrl": "https://cybertools.hub/domains/soc-detection-engineering",
       "searchIntents": [
         "sigma",
         "unit test",
@@ -1491,18 +1448,20 @@
         "When should I use Detection Rule Unit Test Harness in a SOC & Detection Engineering workflow?",
         "Give me a safe step-by-step process for using Detection Rule Unit Test Harness with local mode.",
         "Compare Detection Rule Unit Test Harness with other tools for sigma triage and suggest follow-on checks."
-      ],
-      "modeSummary": "Processes data fully in-browser with no outbound calls."
+      ]
     },
     {
       "id": "attack-coverage",
       "name": "ATT&CK Coverage Heatmap",
-      "description": "Summarize ATT&CK tactic and technique coverage from rule metadata.",
-      "path": "/tools/attack-coverage",
+      "url": "https://cybertools.hub/tools/attack-coverage",
       "domainId": "soc",
+      "domainName": "SOC & Detection Engineering",
+      "domainUrl": "https://cybertools.hub/domains/soc-detection-engineering",
+      "description": "Summarize ATT&CK tactic and technique coverage from rule metadata.",
+      "status": "new",
       "processingMode": "local",
       "sensitivity": "medium",
-      "status": "new",
+      "modeSummary": "Processes data fully in-browser with no outbound calls.",
       "keywords": [
         "attack",
         "heatmap",
@@ -1513,9 +1472,6 @@
         "attack-coverage",
         "detection-quality"
       ],
-      "url": "https://cybertools.hub/tools/attack-coverage",
-      "domainName": "SOC & Detection Engineering",
-      "domainUrl": "https://cybertools.hub/domains/soc-detection-engineering",
       "searchIntents": [
         "attack",
         "heatmap",
@@ -1528,18 +1484,20 @@
         "When should I use ATT&CK Coverage Heatmap in a SOC & Detection Engineering workflow?",
         "Give me a safe step-by-step process for using ATT&CK Coverage Heatmap with local mode.",
         "Compare ATT&CK Coverage Heatmap with other tools for attack triage and suggest follow-on checks."
-      ],
-      "modeSummary": "Processes data fully in-browser with no outbound calls."
+      ]
     },
     {
       "id": "event-timeline",
       "name": "Event Timeline Composer",
-      "description": "Compose and normalize incident event timelines for triage and post-incident review.",
-      "path": "/tools/event-timeline",
+      "url": "https://cybertools.hub/tools/event-timeline",
       "domainId": "soc",
+      "domainName": "SOC & Detection Engineering",
+      "domainUrl": "https://cybertools.hub/domains/soc-detection-engineering",
+      "description": "Compose and normalize incident event timelines for triage and post-incident review.",
+      "status": "new",
       "processingMode": "local",
       "sensitivity": "high",
-      "status": "new",
+      "modeSummary": "Processes data fully in-browser with no outbound calls.",
       "keywords": [
         "timeline",
         "incident",
@@ -1550,9 +1508,6 @@
         "triage-speed",
         "incident-response"
       ],
-      "url": "https://cybertools.hub/tools/event-timeline",
-      "domainName": "SOC & Detection Engineering",
-      "domainUrl": "https://cybertools.hub/domains/soc-detection-engineering",
       "searchIntents": [
         "timeline",
         "incident",
@@ -1565,18 +1520,20 @@
         "When should I use Event Timeline Composer in a SOC & Detection Engineering workflow?",
         "Give me a safe step-by-step process for using Event Timeline Composer with local mode.",
         "Compare Event Timeline Composer with other tools for timeline triage and suggest follow-on checks."
-      ],
-      "modeSummary": "Processes data fully in-browser with no outbound calls."
+      ]
     },
     {
       "id": "log-schema-mapper",
       "name": "Log Schema Mapper",
-      "description": "Map raw log fields to ECS/OCSF hints for faster normalization and ingestion planning.",
-      "path": "/tools/log-schema-mapper",
+      "url": "https://cybertools.hub/tools/log-schema-mapper",
       "domainId": "soc",
+      "domainName": "SOC & Detection Engineering",
+      "domainUrl": "https://cybertools.hub/domains/soc-detection-engineering",
+      "description": "Map raw log fields to ECS/OCSF hints for faster normalization and ingestion planning.",
+      "status": "new",
       "processingMode": "local",
       "sensitivity": "high",
-      "status": "new",
+      "modeSummary": "Processes data fully in-browser with no outbound calls.",
       "keywords": [
         "ecs",
         "ocsf",
@@ -1587,9 +1544,6 @@
         "schema-normalization",
         "soc-throughput"
       ],
-      "url": "https://cybertools.hub/tools/log-schema-mapper",
-      "domainName": "SOC & Detection Engineering",
-      "domainUrl": "https://cybertools.hub/domains/soc-detection-engineering",
       "searchIntents": [
         "ecs",
         "ocsf",
@@ -1602,18 +1556,20 @@
         "When should I use Log Schema Mapper in a SOC & Detection Engineering workflow?",
         "Give me a safe step-by-step process for using Log Schema Mapper with local mode.",
         "Compare Log Schema Mapper with other tools for ecs triage and suggest follow-on checks."
-      ],
-      "modeSummary": "Processes data fully in-browser with no outbound calls."
+      ]
     },
     {
       "id": "ioc-confidence-ttl",
       "name": "IOC Confidence + TTL Scorer",
-      "description": "Score indicator confidence and suggest TTL decay windows for operational feeds.",
-      "path": "/tools/ioc-confidence-ttl",
+      "url": "https://cybertools.hub/tools/ioc-confidence-ttl",
       "domainId": "threat-intel",
+      "domainName": "Threat Intel & DFIR",
+      "domainUrl": "https://cybertools.hub/domains/threat-intel-dfir",
+      "description": "Score indicator confidence and suggest TTL decay windows for operational feeds.",
+      "status": "new",
       "processingMode": "local",
       "sensitivity": "high",
-      "status": "new",
+      "modeSummary": "Processes data fully in-browser with no outbound calls.",
       "keywords": [
         "ioc",
         "confidence",
@@ -1624,9 +1580,6 @@
         "intel-fidelity",
         "ioc-freshness"
       ],
-      "url": "https://cybertools.hub/tools/ioc-confidence-ttl",
-      "domainName": "Threat Intel & DFIR",
-      "domainUrl": "https://cybertools.hub/domains/threat-intel-dfir",
       "searchIntents": [
         "ioc",
         "confidence",
@@ -1639,18 +1592,20 @@
         "When should I use IOC Confidence + TTL Scorer in a Threat Intel & DFIR workflow?",
         "Give me a safe step-by-step process for using IOC Confidence + TTL Scorer with local mode.",
         "Compare IOC Confidence + TTL Scorer with other tools for ioc triage and suggest follow-on checks."
-      ],
-      "modeSummary": "Processes data fully in-browser with no outbound calls."
+      ]
     },
     {
       "id": "misp-stix-mapper",
       "name": "MISP/STIX Mapper",
-      "description": "Transform simplified MISP exports into STIX bundles and run consistency checks.",
-      "path": "/tools/misp-stix-mapper",
+      "url": "https://cybertools.hub/tools/misp-stix-mapper",
       "domainId": "threat-intel",
+      "domainName": "Threat Intel & DFIR",
+      "domainUrl": "https://cybertools.hub/domains/threat-intel-dfir",
+      "description": "Transform simplified MISP exports into STIX bundles and run consistency checks.",
+      "status": "new",
       "processingMode": "local",
       "sensitivity": "high",
-      "status": "new",
+      "modeSummary": "Processes data fully in-browser with no outbound calls.",
       "keywords": [
         "misp",
         "stix",
@@ -1661,9 +1616,6 @@
         "stix-misp-interoperability",
         "intel-fidelity"
       ],
-      "url": "https://cybertools.hub/tools/misp-stix-mapper",
-      "domainName": "Threat Intel & DFIR",
-      "domainUrl": "https://cybertools.hub/domains/threat-intel-dfir",
       "searchIntents": [
         "misp",
         "stix",
@@ -1676,18 +1628,20 @@
         "When should I use MISP/STIX Mapper in a Threat Intel & DFIR workflow?",
         "Give me a safe step-by-step process for using MISP/STIX Mapper with local mode.",
         "Compare MISP/STIX Mapper with other tools for misp triage and suggest follow-on checks."
-      ],
-      "modeSummary": "Processes data fully in-browser with no outbound calls."
+      ]
     },
     {
       "id": "artifact-integrity",
       "name": "Artifact Integrity Packager",
-      "description": "Build chain-of-custody manifests with hash attestations for forensic artifacts.",
-      "path": "/tools/artifact-integrity",
+      "url": "https://cybertools.hub/tools/artifact-integrity",
       "domainId": "threat-intel",
+      "domainName": "Threat Intel & DFIR",
+      "domainUrl": "https://cybertools.hub/domains/threat-intel-dfir",
+      "description": "Build chain-of-custody manifests with hash attestations for forensic artifacts.",
+      "status": "new",
       "processingMode": "local",
       "sensitivity": "high",
-      "status": "new",
+      "modeSummary": "Processes data fully in-browser with no outbound calls.",
       "keywords": [
         "forensics",
         "integrity",
@@ -1698,9 +1652,6 @@
         "chain-of-custody",
         "dfir"
       ],
-      "url": "https://cybertools.hub/tools/artifact-integrity",
-      "domainName": "Threat Intel & DFIR",
-      "domainUrl": "https://cybertools.hub/domains/threat-intel-dfir",
       "searchIntents": [
         "forensics",
         "integrity",
@@ -1713,18 +1664,20 @@
         "When should I use Artifact Integrity Packager in a Threat Intel & DFIR workflow?",
         "Give me a safe step-by-step process for using Artifact Integrity Packager with local mode.",
         "Compare Artifact Integrity Packager with other tools for forensics triage and suggest follow-on checks."
-      ],
-      "modeSummary": "Processes data fully in-browser with no outbound calls."
+      ]
     },
     {
       "id": "exposure-normalizer",
       "name": "External Exposure Normalizer",
-      "description": "Normalize Nmap/Masscan/Shodan imports into a comparable exposure inventory.",
-      "path": "/tools/exposure-normalizer",
+      "url": "https://cybertools.hub/tools/exposure-normalizer",
       "domainId": "network",
+      "domainName": "Network & Exposure Security",
+      "domainUrl": "https://cybertools.hub/domains/network-exposure-security",
+      "description": "Normalize Nmap/Masscan/Shodan imports into a comparable exposure inventory.",
+      "status": "new",
       "processingMode": "local",
       "sensitivity": "medium",
-      "status": "new",
+      "modeSummary": "Processes data fully in-browser with no outbound calls.",
       "keywords": [
         "nmap",
         "masscan",
@@ -1735,9 +1688,6 @@
         "external-exposure",
         "asset-visibility"
       ],
-      "url": "https://cybertools.hub/tools/exposure-normalizer",
-      "domainName": "Network & Exposure Security",
-      "domainUrl": "https://cybertools.hub/domains/network-exposure-security",
       "searchIntents": [
         "nmap",
         "masscan",
@@ -1750,18 +1700,20 @@
         "When should I use External Exposure Normalizer in a Network & Exposure Security workflow?",
         "Give me a safe step-by-step process for using External Exposure Normalizer with local mode.",
         "Compare External Exposure Normalizer with other tools for nmap triage and suggest follow-on checks."
-      ],
-      "modeSummary": "Processes data fully in-browser with no outbound calls."
+      ]
     },
     {
       "id": "firewall-acl-analyzer",
       "name": "Firewall/ACL Conflict Analyzer",
-      "description": "Detect duplicate, shadowed, and overly permissive firewall or ACL rules.",
-      "path": "/tools/firewall-acl-analyzer",
+      "url": "https://cybertools.hub/tools/firewall-acl-analyzer",
       "domainId": "network",
+      "domainName": "Network & Exposure Security",
+      "domainUrl": "https://cybertools.hub/domains/network-exposure-security",
+      "description": "Detect duplicate, shadowed, and overly permissive firewall or ACL rules.",
+      "status": "new",
       "processingMode": "local",
       "sensitivity": "high",
-      "status": "new",
+      "modeSummary": "Processes data fully in-browser with no outbound calls.",
       "keywords": [
         "firewall",
         "acl",
@@ -1772,9 +1724,6 @@
         "acl-conflict",
         "network-hardening"
       ],
-      "url": "https://cybertools.hub/tools/firewall-acl-analyzer",
-      "domainName": "Network & Exposure Security",
-      "domainUrl": "https://cybertools.hub/domains/network-exposure-security",
       "searchIntents": [
         "firewall",
         "acl",
@@ -1787,18 +1736,20 @@
         "When should I use Firewall/ACL Conflict Analyzer in a Network & Exposure Security workflow?",
         "Give me a safe step-by-step process for using Firewall/ACL Conflict Analyzer with local mode.",
         "Compare Firewall/ACL Conflict Analyzer with other tools for firewall triage and suggest follow-on checks."
-      ],
-      "modeSummary": "Processes data fully in-browser with no outbound calls."
+      ]
     },
     {
       "id": "tls-risk-explainer",
       "name": "TLS Risk Explainer",
-      "description": "Explain TLS protocol/cipher/certificate risks from pasted scanner output.",
-      "path": "/tools/tls-risk-explainer",
+      "url": "https://cybertools.hub/tools/tls-risk-explainer",
       "domainId": "network",
+      "domainName": "Network & Exposure Security",
+      "domainUrl": "https://cybertools.hub/domains/network-exposure-security",
+      "description": "Explain TLS protocol/cipher/certificate risks from pasted scanner output.",
+      "status": "new",
       "processingMode": "local",
       "sensitivity": "medium",
-      "status": "new",
+      "modeSummary": "Processes data fully in-browser with no outbound calls.",
       "keywords": [
         "tls",
         "ssl",
@@ -1809,9 +1760,6 @@
         "tls-hardening",
         "external-exposure"
       ],
-      "url": "https://cybertools.hub/tools/tls-risk-explainer",
-      "domainName": "Network & Exposure Security",
-      "domainUrl": "https://cybertools.hub/domains/network-exposure-security",
       "searchIntents": [
         "tls",
         "ssl",
@@ -1824,18 +1772,20 @@
         "When should I use TLS Risk Explainer in a Network & Exposure Security workflow?",
         "Give me a safe step-by-step process for using TLS Risk Explainer with local mode.",
         "Compare TLS Risk Explainer with other tools for tls triage and suggest follow-on checks."
-      ],
-      "modeSummary": "Processes data fully in-browser with no outbound calls."
+      ]
     },
     {
       "id": "openapi-authz-gap",
       "name": "OpenAPI AuthZ Gap Analyzer",
-      "description": "Find missing or weak authorization requirements in OpenAPI documents.",
-      "path": "/tools/openapi-authz-gap",
+      "url": "https://cybertools.hub/tools/openapi-authz-gap",
       "domainId": "application",
+      "domainName": "Application & API Security",
+      "domainUrl": "https://cybertools.hub/domains/application-api-security",
+      "description": "Find missing or weak authorization requirements in OpenAPI documents.",
+      "status": "new",
       "processingMode": "local",
       "sensitivity": "high",
-      "status": "new",
+      "modeSummary": "Processes data fully in-browser with no outbound calls.",
       "keywords": [
         "openapi",
         "authz",
@@ -1846,9 +1796,6 @@
         "api-authz",
         "detection-quality"
       ],
-      "url": "https://cybertools.hub/tools/openapi-authz-gap",
-      "domainName": "Application & API Security",
-      "domainUrl": "https://cybertools.hub/domains/application-api-security",
       "searchIntents": [
         "openapi",
         "authz",
@@ -1861,18 +1808,20 @@
         "When should I use OpenAPI AuthZ Gap Analyzer in a Application & API Security workflow?",
         "Give me a safe step-by-step process for using OpenAPI AuthZ Gap Analyzer with local mode.",
         "Compare OpenAPI AuthZ Gap Analyzer with other tools for openapi triage and suggest follow-on checks."
-      ],
-      "modeSummary": "Processes data fully in-browser with no outbound calls."
+      ]
     },
     {
       "id": "cors-policy-analyzer",
       "name": "CORS Policy Analyzer",
-      "description": "Assess CORS response policies and explain cross-origin abuse risk.",
-      "path": "/tools/cors-policy-analyzer",
+      "url": "https://cybertools.hub/tools/cors-policy-analyzer",
       "domainId": "application",
+      "domainName": "Application & API Security",
+      "domainUrl": "https://cybertools.hub/domains/application-api-security",
+      "description": "Assess CORS response policies and explain cross-origin abuse risk.",
+      "status": "new",
       "processingMode": "local",
       "sensitivity": "medium",
-      "status": "new",
+      "modeSummary": "Processes data fully in-browser with no outbound calls.",
       "keywords": [
         "cors",
         "origin",
@@ -1883,9 +1832,6 @@
         "cors-misconfig",
         "api-authz"
       ],
-      "url": "https://cybertools.hub/tools/cors-policy-analyzer",
-      "domainName": "Application & API Security",
-      "domainUrl": "https://cybertools.hub/domains/application-api-security",
       "searchIntents": [
         "cors",
         "origin",
@@ -1898,18 +1844,20 @@
         "When should I use CORS Policy Analyzer in a Application & API Security workflow?",
         "Give me a safe step-by-step process for using CORS Policy Analyzer with local mode.",
         "Compare CORS Policy Analyzer with other tools for cors triage and suggest follow-on checks."
-      ],
-      "modeSummary": "Processes data fully in-browser with no outbound calls."
+      ]
     },
     {
       "id": "oauth-oidc-linter",
       "name": "OAuth/OIDC Scope Minimizer",
-      "description": "Lint scope and token policy inputs to reduce excess identity permissions.",
-      "path": "/tools/oauth-oidc-linter",
+      "url": "https://cybertools.hub/tools/oauth-oidc-linter",
       "domainId": "cloud-iam",
+      "domainName": "Cloud & IAM Security",
+      "domainUrl": "https://cybertools.hub/domains/cloud-iam-security",
+      "description": "Lint scope and token policy inputs to reduce excess identity permissions.",
+      "status": "new",
       "processingMode": "local",
       "sensitivity": "high",
-      "status": "new",
+      "modeSummary": "Processes data fully in-browser with no outbound calls.",
       "keywords": [
         "oauth",
         "oidc",
@@ -1920,9 +1868,6 @@
         "identity-governance",
         "least-privilege"
       ],
-      "url": "https://cybertools.hub/tools/oauth-oidc-linter",
-      "domainName": "Cloud & IAM Security",
-      "domainUrl": "https://cybertools.hub/domains/cloud-iam-security",
       "searchIntents": [
         "oauth",
         "oidc",
@@ -1935,18 +1880,20 @@
         "When should I use OAuth/OIDC Scope Minimizer in a Cloud & IAM Security workflow?",
         "Give me a safe step-by-step process for using OAuth/OIDC Scope Minimizer with local mode.",
         "Compare OAuth/OIDC Scope Minimizer with other tools for oauth triage and suggest follow-on checks."
-      ],
-      "modeSummary": "Processes data fully in-browser with no outbound calls."
+      ]
     },
     {
       "id": "iam-policy-analyzer",
       "name": "IAM Policy Analyzer",
-      "description": "Lint AWS/Azure/GCP-style policies for wildcard privilege and risky grants.",
-      "path": "/tools/iam-policy-analyzer",
+      "url": "https://cybertools.hub/tools/iam-policy-analyzer",
       "domainId": "cloud-iam",
+      "domainName": "Cloud & IAM Security",
+      "domainUrl": "https://cybertools.hub/domains/cloud-iam-security",
+      "description": "Lint AWS/Azure/GCP-style policies for wildcard privilege and risky grants.",
+      "status": "new",
       "processingMode": "local",
       "sensitivity": "high",
-      "status": "new",
+      "modeSummary": "Processes data fully in-browser with no outbound calls.",
       "keywords": [
         "iam",
         "aws",
@@ -1958,9 +1905,6 @@
         "identity-governance",
         "least-privilege"
       ],
-      "url": "https://cybertools.hub/tools/iam-policy-analyzer",
-      "domainName": "Cloud & IAM Security",
-      "domainUrl": "https://cybertools.hub/domains/cloud-iam-security",
       "searchIntents": [
         "iam",
         "aws",
@@ -1974,18 +1918,20 @@
         "When should I use IAM Policy Analyzer in a Cloud & IAM Security workflow?",
         "Give me a safe step-by-step process for using IAM Policy Analyzer with local mode.",
         "Compare IAM Policy Analyzer with other tools for iam triage and suggest follow-on checks."
-      ],
-      "modeSummary": "Processes data fully in-browser with no outbound calls."
+      ]
     },
     {
       "id": "lockfile-risk-diff",
       "name": "Lockfile Risk Diff",
-      "description": "Diff lockfiles and flag dependency-confusion and naming-risk heuristics.",
-      "path": "/tools/lockfile-risk-diff",
+      "url": "https://cybertools.hub/tools/lockfile-risk-diff",
       "domainId": "supply-chain",
+      "domainName": "Software Supply Chain Security",
+      "domainUrl": "https://cybertools.hub/domains/software-supply-chain-security",
+      "description": "Diff lockfiles and flag dependency-confusion and naming-risk heuristics.",
+      "status": "new",
       "processingMode": "local",
       "sensitivity": "high",
-      "status": "new",
+      "modeSummary": "Processes data fully in-browser with no outbound calls.",
       "keywords": [
         "lockfile",
         "dependency",
@@ -1996,9 +1942,6 @@
         "supply-chain-risk",
         "dependency-confusion"
       ],
-      "url": "https://cybertools.hub/tools/lockfile-risk-diff",
-      "domainName": "Software Supply Chain Security",
-      "domainUrl": "https://cybertools.hub/domains/software-supply-chain-security",
       "searchIntents": [
         "lockfile",
         "dependency",
@@ -2011,18 +1954,20 @@
         "When should I use Lockfile Risk Diff in a Software Supply Chain Security workflow?",
         "Give me a safe step-by-step process for using Lockfile Risk Diff with local mode.",
         "Compare Lockfile Risk Diff with other tools for lockfile triage and suggest follow-on checks."
-      ],
-      "modeSummary": "Processes data fully in-browser with no outbound calls."
+      ]
     },
     {
       "id": "ai-prompt-injection-triage",
       "name": "AI Prompt Injection Triage",
-      "description": "Assess prompt, tool-call, and retrieval payloads for injection and policy-bypass patterns.",
-      "path": "/tools/ai-prompt-injection-triage",
+      "url": "https://cybertools.hub/tools/ai-prompt-injection-triage",
       "domainId": "application",
+      "domainName": "Application & API Security",
+      "domainUrl": "https://cybertools.hub/domains/application-api-security",
+      "description": "Assess prompt, tool-call, and retrieval payloads for injection and policy-bypass patterns.",
+      "status": "planned",
       "processingMode": "local",
       "sensitivity": "high",
-      "status": "planned",
+      "modeSummary": "Processes data fully in-browser with no outbound calls.",
       "keywords": [
         "ai",
         "llm",
@@ -2033,9 +1978,6 @@
         "ai-security-governance",
         "prompt-injection"
       ],
-      "url": "https://cybertools.hub/tools/ai-prompt-injection-triage",
-      "domainName": "Application & API Security",
-      "domainUrl": "https://cybertools.hub/domains/application-api-security",
       "searchIntents": [
         "ai",
         "llm",
@@ -2048,18 +1990,20 @@
         "When should I use AI Prompt Injection Triage in a Application & API Security workflow?",
         "Give me a safe step-by-step process for using AI Prompt Injection Triage with local mode.",
         "Compare AI Prompt Injection Triage with other tools for ai triage and suggest follow-on checks."
-      ],
-      "modeSummary": "Processes data fully in-browser with no outbound calls."
+      ]
     },
     {
       "id": "browser-session-triage",
       "name": "Browser Session Triage",
-      "description": "Correlate browser telemetry and identity events to investigate session-token abuse patterns.",
-      "path": "/tools/browser-session-triage",
+      "url": "https://cybertools.hub/tools/browser-session-triage",
       "domainId": "soc",
+      "domainName": "SOC & Detection Engineering",
+      "domainUrl": "https://cybertools.hub/domains/soc-detection-engineering",
+      "description": "Correlate browser telemetry and identity events to investigate session-token abuse patterns.",
+      "status": "planned",
       "processingMode": "local",
       "sensitivity": "high",
-      "status": "planned",
+      "modeSummary": "Processes data fully in-browser with no outbound calls.",
       "keywords": [
         "browser",
         "session",
@@ -2070,9 +2014,6 @@
         "identity-abuse",
         "soc-throughput"
       ],
-      "url": "https://cybertools.hub/tools/browser-session-triage",
-      "domainName": "SOC & Detection Engineering",
-      "domainUrl": "https://cybertools.hub/domains/soc-detection-engineering",
       "searchIntents": [
         "browser",
         "session",
@@ -2085,18 +2026,20 @@
         "When should I use Browser Session Triage in a SOC & Detection Engineering workflow?",
         "Give me a safe step-by-step process for using Browser Session Triage with local mode.",
         "Compare Browser Session Triage with other tools for browser triage and suggest follow-on checks."
-      ],
-      "modeSummary": "Processes data fully in-browser with no outbound calls."
+      ]
     },
     {
       "id": "identity-blast-radius-simulator",
       "name": "Identity Blast Radius Simulator",
-      "description": "Estimate lateral movement and privilege spread from compromised identities.",
-      "path": "/tools/identity-blast-radius-simulator",
+      "url": "https://cybertools.hub/tools/identity-blast-radius-simulator",
       "domainId": "cloud-iam",
+      "domainName": "Cloud & IAM Security",
+      "domainUrl": "https://cybertools.hub/domains/cloud-iam-security",
+      "description": "Estimate lateral movement and privilege spread from compromised identities.",
+      "status": "planned",
       "processingMode": "local",
       "sensitivity": "high",
-      "status": "planned",
+      "modeSummary": "Processes data fully in-browser with no outbound calls.",
       "keywords": [
         "identity",
         "blast radius",
@@ -2107,9 +2050,6 @@
         "identity-governance",
         "least-privilege"
       ],
-      "url": "https://cybertools.hub/tools/identity-blast-radius-simulator",
-      "domainName": "Cloud & IAM Security",
-      "domainUrl": "https://cybertools.hub/domains/cloud-iam-security",
       "searchIntents": [
         "identity",
         "blast radius",
@@ -2122,18 +2062,20 @@
         "When should I use Identity Blast Radius Simulator in a Cloud & IAM Security workflow?",
         "Give me a safe step-by-step process for using Identity Blast Radius Simulator with local mode.",
         "Compare Identity Blast Radius Simulator with other tools for identity triage and suggest follow-on checks."
-      ],
-      "modeSummary": "Processes data fully in-browser with no outbound calls."
+      ]
     },
     {
       "id": "saas-oauth-app-risk",
       "name": "SaaS OAuth App Risk Assessor",
-      "description": "Score third-party SaaS OAuth grants for risky scopes, tenant exposure, and consent drift.",
-      "path": "/tools/saas-oauth-app-risk",
+      "url": "https://cybertools.hub/tools/saas-oauth-app-risk",
       "domainId": "cloud-iam",
+      "domainName": "Cloud & IAM Security",
+      "domainUrl": "https://cybertools.hub/domains/cloud-iam-security",
+      "description": "Score third-party SaaS OAuth grants for risky scopes, tenant exposure, and consent drift.",
+      "status": "planned",
       "processingMode": "local",
       "sensitivity": "high",
-      "status": "planned",
+      "modeSummary": "Processes data fully in-browser with no outbound calls.",
       "keywords": [
         "saas",
         "oauth",
@@ -2144,9 +2086,6 @@
         "identity-governance",
         "oauth-risk"
       ],
-      "url": "https://cybertools.hub/tools/saas-oauth-app-risk",
-      "domainName": "Cloud & IAM Security",
-      "domainUrl": "https://cybertools.hub/domains/cloud-iam-security",
       "searchIntents": [
         "saas",
         "oauth",
@@ -2159,18 +2098,20 @@
         "When should I use SaaS OAuth App Risk Assessor in a Cloud & IAM Security workflow?",
         "Give me a safe step-by-step process for using SaaS OAuth App Risk Assessor with local mode.",
         "Compare SaaS OAuth App Risk Assessor with other tools for saas triage and suggest follow-on checks."
-      ],
-      "modeSummary": "Processes data fully in-browser with no outbound calls."
+      ]
     },
     {
       "id": "kev-patch-sla-tracker",
       "name": "KEV Patch SLA Tracker",
-      "description": "Track active KEV exposure against internal patch SLAs and escalation thresholds.",
-      "path": "/tools/kev-patch-sla-tracker",
+      "url": "https://cybertools.hub/tools/kev-patch-sla-tracker",
       "domainId": "network",
+      "domainName": "Network & Exposure Security",
+      "domainUrl": "https://cybertools.hub/domains/network-exposure-security",
+      "description": "Track active KEV exposure against internal patch SLAs and escalation thresholds.",
+      "status": "planned",
       "processingMode": "hybrid",
       "sensitivity": "high",
-      "status": "planned",
+      "modeSummary": "Runs local analysis and supports optional outbound lookups when explicitly triggered.",
       "keywords": [
         "kev",
         "patching",
@@ -2181,9 +2122,6 @@
         "kev-prioritization",
         "external-exposure"
       ],
-      "url": "https://cybertools.hub/tools/kev-patch-sla-tracker",
-      "domainName": "Network & Exposure Security",
-      "domainUrl": "https://cybertools.hub/domains/network-exposure-security",
       "searchIntents": [
         "kev",
         "patching",
@@ -2196,18 +2134,20 @@
         "When should I use KEV Patch SLA Tracker in a Network & Exposure Security workflow?",
         "Give me a safe step-by-step process for using KEV Patch SLA Tracker with hybrid mode.",
         "Compare KEV Patch SLA Tracker with other tools for kev triage and suggest follow-on checks."
-      ],
-      "modeSummary": "Runs local analysis and supports optional outbound lookups when explicitly triggered."
+      ]
     },
     {
       "id": "data-minimization-checker",
       "name": "Data Minimization Policy Checker",
-      "description": "Validate event fields against data minimization and retention policy constraints.",
-      "path": "/tools/data-minimization-checker",
+      "url": "https://cybertools.hub/tools/data-minimization-checker",
       "domainId": "data-privacy",
+      "domainName": "Data Security & Privacy Engineering",
+      "domainUrl": "https://cybertools.hub/domains/data-security-privacy-engineering",
+      "description": "Validate event fields against data minimization and retention policy constraints.",
+      "status": "planned",
       "processingMode": "local",
       "sensitivity": "high",
-      "status": "planned",
+      "modeSummary": "Processes data fully in-browser with no outbound calls.",
       "keywords": [
         "privacy",
         "retention",
@@ -2218,9 +2158,6 @@
         "privacy-governance",
         "data-minimization"
       ],
-      "url": "https://cybertools.hub/tools/data-minimization-checker",
-      "domainName": "Data Security & Privacy Engineering",
-      "domainUrl": "https://cybertools.hub/domains/data-security-privacy-engineering",
       "searchIntents": [
         "privacy",
         "retention",
@@ -2233,18 +2170,20 @@
         "When should I use Data Minimization Policy Checker in a Data Security & Privacy Engineering workflow?",
         "Give me a safe step-by-step process for using Data Minimization Policy Checker with local mode.",
         "Compare Data Minimization Policy Checker with other tools for privacy triage and suggest follow-on checks."
-      ],
-      "modeSummary": "Processes data fully in-browser with no outbound calls."
+      ]
     },
     {
       "id": "ai-connector-egress-audit",
       "name": "AI Connector Egress Audit",
-      "description": "Review outbound connector payloads and destinations for policy and data-loss risk.",
-      "path": "/tools/ai-connector-egress-audit",
+      "url": "https://cybertools.hub/tools/ai-connector-egress-audit",
       "domainId": "data-privacy",
+      "domainName": "Data Security & Privacy Engineering",
+      "domainUrl": "https://cybertools.hub/domains/data-security-privacy-engineering",
+      "description": "Review outbound connector payloads and destinations for policy and data-loss risk.",
+      "status": "planned",
       "processingMode": "hybrid",
       "sensitivity": "high",
-      "status": "planned",
+      "modeSummary": "Runs local analysis and supports optional outbound lookups when explicitly triggered.",
       "keywords": [
         "ai connector",
         "egress",
@@ -2255,9 +2194,6 @@
         "ai-security-governance",
         "data-exfiltration"
       ],
-      "url": "https://cybertools.hub/tools/ai-connector-egress-audit",
-      "domainName": "Data Security & Privacy Engineering",
-      "domainUrl": "https://cybertools.hub/domains/data-security-privacy-engineering",
       "searchIntents": [
         "ai connector",
         "egress",
@@ -2270,18 +2206,20 @@
         "When should I use AI Connector Egress Audit in a Data Security & Privacy Engineering workflow?",
         "Give me a safe step-by-step process for using AI Connector Egress Audit with hybrid mode.",
         "Compare AI Connector Egress Audit with other tools for ai connector triage and suggest follow-on checks."
-      ],
-      "modeSummary": "Runs local analysis and supports optional outbound lookups when explicitly triggered."
+      ]
     },
     {
       "id": "model-supply-chain-audit",
       "name": "Model Supply Chain Audit",
-      "description": "Assess AI model provenance, dependency lineage, and package integrity controls.",
-      "path": "/tools/model-supply-chain-audit",
+      "url": "https://cybertools.hub/tools/model-supply-chain-audit",
       "domainId": "supply-chain",
+      "domainName": "Software Supply Chain Security",
+      "domainUrl": "https://cybertools.hub/domains/software-supply-chain-security",
+      "description": "Assess AI model provenance, dependency lineage, and package integrity controls.",
+      "status": "planned",
       "processingMode": "local",
       "sensitivity": "high",
-      "status": "planned",
+      "modeSummary": "Processes data fully in-browser with no outbound calls.",
       "keywords": [
         "model",
         "ai",
@@ -2292,9 +2230,6 @@
         "supply-chain-risk",
         "ai-model-governance"
       ],
-      "url": "https://cybertools.hub/tools/model-supply-chain-audit",
-      "domainName": "Software Supply Chain Security",
-      "domainUrl": "https://cybertools.hub/domains/software-supply-chain-security",
       "searchIntents": [
         "model",
         "ai",
@@ -2307,18 +2242,20 @@
         "When should I use Model Supply Chain Audit in a Software Supply Chain Security workflow?",
         "Give me a safe step-by-step process for using Model Supply Chain Audit with local mode.",
         "Compare Model Supply Chain Audit with other tools for model triage and suggest follow-on checks."
-      ],
-      "modeSummary": "Processes data fully in-browser with no outbound calls."
+      ]
     },
     {
       "id": "soar-playbook-dry-runner",
       "name": "SOAR Playbook Dry Runner",
-      "description": "Run incident playbook branches against sample alerts to validate escalation and containment logic before production rollout.",
-      "path": "/tools/soar-playbook-dry-runner",
+      "url": "https://cybertools.hub/tools/soar-playbook-dry-runner",
       "domainId": "soc",
+      "domainName": "SOC & Detection Engineering",
+      "domainUrl": "https://cybertools.hub/domains/soc-detection-engineering",
+      "description": "Run incident playbook branches against sample alerts to validate escalation and containment logic before production rollout.",
+      "status": "planned",
       "processingMode": "local",
       "sensitivity": "high",
-      "status": "planned",
+      "modeSummary": "Processes data fully in-browser with no outbound calls.",
       "keywords": [
         "soar",
         "playbook",
@@ -2330,9 +2267,6 @@
         "incident-response",
         "automation"
       ],
-      "url": "https://cybertools.hub/tools/soar-playbook-dry-runner",
-      "domainName": "SOC & Detection Engineering",
-      "domainUrl": "https://cybertools.hub/domains/soc-detection-engineering",
       "searchIntents": [
         "soar",
         "playbook",
@@ -2345,18 +2279,20 @@
         "When should I use SOAR Playbook Dry Runner in a SOC & Detection Engineering workflow?",
         "Give me a safe step-by-step process for using SOAR Playbook Dry Runner with local mode.",
         "Compare SOAR Playbook Dry Runner with other tools for soar triage and suggest follow-on checks."
-      ],
-      "modeSummary": "Processes data fully in-browser with no outbound calls."
+      ]
     },
     {
       "id": "xdr-detection-tuning-benchmark",
       "name": "XDR Detection Tuning Benchmark",
-      "description": "Benchmark detection noise, precision, and suppression impact using representative endpoint and identity event samples.",
-      "path": "/tools/xdr-detection-tuning-benchmark",
+      "url": "https://cybertools.hub/tools/xdr-detection-tuning-benchmark",
       "domainId": "soc",
+      "domainName": "SOC & Detection Engineering",
+      "domainUrl": "https://cybertools.hub/domains/soc-detection-engineering",
+      "description": "Benchmark detection noise, precision, and suppression impact using representative endpoint and identity event samples.",
+      "status": "planned",
       "processingMode": "local",
       "sensitivity": "high",
-      "status": "planned",
+      "modeSummary": "Processes data fully in-browser with no outbound calls.",
       "keywords": [
         "xdr",
         "detection tuning",
@@ -2368,9 +2304,6 @@
         "detection-quality",
         "soc-throughput"
       ],
-      "url": "https://cybertools.hub/tools/xdr-detection-tuning-benchmark",
-      "domainName": "SOC & Detection Engineering",
-      "domainUrl": "https://cybertools.hub/domains/soc-detection-engineering",
       "searchIntents": [
         "xdr",
         "detection tuning",
@@ -2384,18 +2317,20 @@
         "When should I use XDR Detection Tuning Benchmark in a SOC & Detection Engineering workflow?",
         "Give me a safe step-by-step process for using XDR Detection Tuning Benchmark with local mode.",
         "Compare XDR Detection Tuning Benchmark with other tools for xdr triage and suggest follow-on checks."
-      ],
-      "modeSummary": "Processes data fully in-browser with no outbound calls."
+      ]
     },
     {
       "id": "threat-feed-fusion-normalizer",
       "name": "Threat Feed Fusion Normalizer",
-      "description": "Merge commercial and open intelligence feeds into a deduplicated confidence-weighted indicator dataset.",
-      "path": "/tools/threat-feed-fusion-normalizer",
+      "url": "https://cybertools.hub/tools/threat-feed-fusion-normalizer",
       "domainId": "threat-intel",
+      "domainName": "Threat Intel & DFIR",
+      "domainUrl": "https://cybertools.hub/domains/threat-intel-dfir",
+      "description": "Merge commercial and open intelligence feeds into a deduplicated confidence-weighted indicator dataset.",
+      "status": "planned",
       "processingMode": "local",
       "sensitivity": "high",
-      "status": "planned",
+      "modeSummary": "Processes data fully in-browser with no outbound calls.",
       "keywords": [
         "threat intel",
         "feed fusion",
@@ -2407,9 +2342,6 @@
         "ioc-freshness",
         "intel-correlation"
       ],
-      "url": "https://cybertools.hub/tools/threat-feed-fusion-normalizer",
-      "domainName": "Threat Intel & DFIR",
-      "domainUrl": "https://cybertools.hub/domains/threat-intel-dfir",
       "searchIntents": [
         "threat intel",
         "feed fusion",
@@ -2423,18 +2355,20 @@
         "When should I use Threat Feed Fusion Normalizer in a Threat Intel & DFIR workflow?",
         "Give me a safe step-by-step process for using Threat Feed Fusion Normalizer with local mode.",
         "Compare Threat Feed Fusion Normalizer with other tools for threat intel triage and suggest follow-on checks."
-      ],
-      "modeSummary": "Processes data fully in-browser with no outbound calls."
+      ]
     },
     {
       "id": "campaign-graph-builder",
       "name": "Campaign Graph Builder",
-      "description": "Build actor-campaign-infrastructure graphs from incidents to visualize cluster overlap and repeated tradecraft.",
-      "path": "/tools/campaign-graph-builder",
+      "url": "https://cybertools.hub/tools/campaign-graph-builder",
       "domainId": "threat-intel",
+      "domainName": "Threat Intel & DFIR",
+      "domainUrl": "https://cybertools.hub/domains/threat-intel-dfir",
+      "description": "Build actor-campaign-infrastructure graphs from incidents to visualize cluster overlap and repeated tradecraft.",
+      "status": "planned",
       "processingMode": "local",
       "sensitivity": "high",
-      "status": "planned",
+      "modeSummary": "Processes data fully in-browser with no outbound calls.",
       "keywords": [
         "campaign",
         "graph",
@@ -2446,9 +2380,6 @@
         "dfir",
         "campaign-tracking"
       ],
-      "url": "https://cybertools.hub/tools/campaign-graph-builder",
-      "domainName": "Threat Intel & DFIR",
-      "domainUrl": "https://cybertools.hub/domains/threat-intel-dfir",
       "searchIntents": [
         "campaign",
         "graph",
@@ -2462,18 +2393,20 @@
         "When should I use Campaign Graph Builder in a Threat Intel & DFIR workflow?",
         "Give me a safe step-by-step process for using Campaign Graph Builder with local mode.",
         "Compare Campaign Graph Builder with other tools for campaign triage and suggest follow-on checks."
-      ],
-      "modeSummary": "Processes data fully in-browser with no outbound calls."
+      ]
     },
     {
       "id": "asm-change-diff-tracker",
       "name": "Attack Surface Change Tracker",
-      "description": "Track newly exposed ports, services, and hostnames between scans to prioritize risky external drift.",
-      "path": "/tools/asm-change-diff-tracker",
+      "url": "https://cybertools.hub/tools/asm-change-diff-tracker",
       "domainId": "network",
+      "domainName": "Network & Exposure Security",
+      "domainUrl": "https://cybertools.hub/domains/network-exposure-security",
+      "description": "Track newly exposed ports, services, and hostnames between scans to prioritize risky external drift.",
+      "status": "planned",
       "processingMode": "hybrid",
       "sensitivity": "high",
-      "status": "planned",
+      "modeSummary": "Runs local analysis and supports optional outbound lookups when explicitly triggered.",
       "keywords": [
         "attack surface",
         "asm",
@@ -2485,9 +2418,6 @@
         "asset-visibility",
         "attack-surface"
       ],
-      "url": "https://cybertools.hub/tools/asm-change-diff-tracker",
-      "domainName": "Network & Exposure Security",
-      "domainUrl": "https://cybertools.hub/domains/network-exposure-security",
       "searchIntents": [
         "attack surface",
         "asm",
@@ -2501,18 +2431,20 @@
         "When should I use Attack Surface Change Tracker in a Network & Exposure Security workflow?",
         "Give me a safe step-by-step process for using Attack Surface Change Tracker with hybrid mode.",
         "Compare Attack Surface Change Tracker with other tools for attack surface triage and suggest follow-on checks."
-      ],
-      "modeSummary": "Runs local analysis and supports optional outbound lookups when explicitly triggered."
+      ]
     },
     {
       "id": "waf-rule-risk-simulator",
       "name": "WAF Rule Risk Simulator",
-      "description": "Simulate allow/deny outcomes for common payload families to identify blind spots and overbroad bypasses.",
-      "path": "/tools/waf-rule-risk-simulator",
+      "url": "https://cybertools.hub/tools/waf-rule-risk-simulator",
       "domainId": "network",
+      "domainName": "Network & Exposure Security",
+      "domainUrl": "https://cybertools.hub/domains/network-exposure-security",
+      "description": "Simulate allow/deny outcomes for common payload families to identify blind spots and overbroad bypasses.",
+      "status": "planned",
       "processingMode": "local",
       "sensitivity": "medium",
-      "status": "planned",
+      "modeSummary": "Processes data fully in-browser with no outbound calls.",
       "keywords": [
         "waf",
         "rule testing",
@@ -2524,9 +2456,6 @@
         "network-hardening",
         "false-positive-reduction"
       ],
-      "url": "https://cybertools.hub/tools/waf-rule-risk-simulator",
-      "domainName": "Network & Exposure Security",
-      "domainUrl": "https://cybertools.hub/domains/network-exposure-security",
       "searchIntents": [
         "waf",
         "rule testing",
@@ -2540,18 +2469,20 @@
         "When should I use WAF Rule Risk Simulator in a Network & Exposure Security workflow?",
         "Give me a safe step-by-step process for using WAF Rule Risk Simulator with local mode.",
         "Compare WAF Rule Risk Simulator with other tools for waf triage and suggest follow-on checks."
-      ],
-      "modeSummary": "Processes data fully in-browser with no outbound calls."
+      ]
     },
     {
       "id": "sast-finding-deduplicator",
       "name": "SAST Finding Deduplicator",
-      "description": "Normalize and deduplicate findings from multiple SAST engines to reduce triage duplication and priority conflicts.",
-      "path": "/tools/sast-finding-deduplicator",
+      "url": "https://cybertools.hub/tools/sast-finding-deduplicator",
       "domainId": "application",
+      "domainName": "Application & API Security",
+      "domainUrl": "https://cybertools.hub/domains/application-api-security",
+      "description": "Normalize and deduplicate findings from multiple SAST engines to reduce triage duplication and priority conflicts.",
+      "status": "planned",
       "processingMode": "local",
       "sensitivity": "medium",
-      "status": "planned",
+      "modeSummary": "Processes data fully in-browser with no outbound calls.",
       "keywords": [
         "sast",
         "dedupe",
@@ -2563,9 +2494,6 @@
         "appsec-triage",
         "developer-productivity"
       ],
-      "url": "https://cybertools.hub/tools/sast-finding-deduplicator",
-      "domainName": "Application & API Security",
-      "domainUrl": "https://cybertools.hub/domains/application-api-security",
       "searchIntents": [
         "sast",
         "dedupe",
@@ -2579,18 +2507,20 @@
         "When should I use SAST Finding Deduplicator in a Application & API Security workflow?",
         "Give me a safe step-by-step process for using SAST Finding Deduplicator with local mode.",
         "Compare SAST Finding Deduplicator with other tools for sast triage and suggest follow-on checks."
-      ],
-      "modeSummary": "Processes data fully in-browser with no outbound calls."
+      ]
     },
     {
       "id": "api-abuse-pattern-lab",
       "name": "API Abuse Pattern Lab",
-      "description": "Replay known API abuse scenarios against request/response samples to detect authz bypass and business logic weakness.",
-      "path": "/tools/api-abuse-pattern-lab",
+      "url": "https://cybertools.hub/tools/api-abuse-pattern-lab",
       "domainId": "application",
+      "domainName": "Application & API Security",
+      "domainUrl": "https://cybertools.hub/domains/application-api-security",
+      "description": "Replay known API abuse scenarios against request/response samples to detect authz bypass and business logic weakness.",
+      "status": "planned",
       "processingMode": "local",
       "sensitivity": "high",
-      "status": "planned",
+      "modeSummary": "Processes data fully in-browser with no outbound calls.",
       "keywords": [
         "api abuse",
         "authz bypass",
@@ -2602,9 +2532,6 @@
         "business-logic-abuse",
         "detection-quality"
       ],
-      "url": "https://cybertools.hub/tools/api-abuse-pattern-lab",
-      "domainName": "Application & API Security",
-      "domainUrl": "https://cybertools.hub/domains/application-api-security",
       "searchIntents": [
         "api abuse",
         "authz bypass",
@@ -2618,18 +2545,20 @@
         "When should I use API Abuse Pattern Lab in a Application & API Security workflow?",
         "Give me a safe step-by-step process for using API Abuse Pattern Lab with local mode.",
         "Compare API Abuse Pattern Lab with other tools for api abuse triage and suggest follow-on checks."
-      ],
-      "modeSummary": "Processes data fully in-browser with no outbound calls."
+      ]
     },
     {
       "id": "cloud-permission-drift-detector",
       "name": "Cloud Permission Drift Detector",
-      "description": "Compare IAM snapshots across time to surface risky privilege expansion, wildcard growth, and stale exceptions.",
-      "path": "/tools/cloud-permission-drift-detector",
+      "url": "https://cybertools.hub/tools/cloud-permission-drift-detector",
       "domainId": "cloud-iam",
+      "domainName": "Cloud & IAM Security",
+      "domainUrl": "https://cybertools.hub/domains/cloud-iam-security",
+      "description": "Compare IAM snapshots across time to surface risky privilege expansion, wildcard growth, and stale exceptions.",
+      "status": "planned",
       "processingMode": "local",
       "sensitivity": "high",
-      "status": "planned",
+      "modeSummary": "Processes data fully in-browser with no outbound calls.",
       "keywords": [
         "iam drift",
         "privilege creep",
@@ -2641,9 +2570,6 @@
         "identity-governance",
         "drift-detection"
       ],
-      "url": "https://cybertools.hub/tools/cloud-permission-drift-detector",
-      "domainName": "Cloud & IAM Security",
-      "domainUrl": "https://cybertools.hub/domains/cloud-iam-security",
       "searchIntents": [
         "iam drift",
         "privilege creep",
@@ -2657,18 +2583,20 @@
         "When should I use Cloud Permission Drift Detector in a Cloud & IAM Security workflow?",
         "Give me a safe step-by-step process for using Cloud Permission Drift Detector with local mode.",
         "Compare Cloud Permission Drift Detector with other tools for iam drift triage and suggest follow-on checks."
-      ],
-      "modeSummary": "Processes data fully in-browser with no outbound calls."
+      ]
     },
     {
       "id": "saas-entitlement-reviewer",
       "name": "SaaS Entitlement Reviewer",
-      "description": "Review SaaS admin and high-risk permissions for orphaned accounts, over-privileged roles, and separation-of-duty conflicts.",
-      "path": "/tools/saas-entitlement-reviewer",
+      "url": "https://cybertools.hub/tools/saas-entitlement-reviewer",
       "domainId": "cloud-iam",
+      "domainName": "Cloud & IAM Security",
+      "domainUrl": "https://cybertools.hub/domains/cloud-iam-security",
+      "description": "Review SaaS admin and high-risk permissions for orphaned accounts, over-privileged roles, and separation-of-duty conflicts.",
+      "status": "planned",
       "processingMode": "local",
       "sensitivity": "high",
-      "status": "planned",
+      "modeSummary": "Processes data fully in-browser with no outbound calls.",
       "keywords": [
         "saas",
         "entitlements",
@@ -2680,9 +2608,6 @@
         "least-privilege",
         "access-review"
       ],
-      "url": "https://cybertools.hub/tools/saas-entitlement-reviewer",
-      "domainName": "Cloud & IAM Security",
-      "domainUrl": "https://cybertools.hub/domains/cloud-iam-security",
       "searchIntents": [
         "saas",
         "entitlements",
@@ -2696,18 +2621,20 @@
         "When should I use SaaS Entitlement Reviewer in a Cloud & IAM Security workflow?",
         "Give me a safe step-by-step process for using SaaS Entitlement Reviewer with local mode.",
         "Compare SaaS Entitlement Reviewer with other tools for saas triage and suggest follow-on checks."
-      ],
-      "modeSummary": "Processes data fully in-browser with no outbound calls."
+      ]
     },
     {
       "id": "container-image-policy-linter",
       "name": "Container Image Policy Linter",
-      "description": "Lint container image metadata and package manifests against supply-chain policy guardrails.",
-      "path": "/tools/container-image-policy-linter",
+      "url": "https://cybertools.hub/tools/container-image-policy-linter",
       "domainId": "supply-chain",
+      "domainName": "Software Supply Chain Security",
+      "domainUrl": "https://cybertools.hub/domains/software-supply-chain-security",
+      "description": "Lint container image metadata and package manifests against supply-chain policy guardrails.",
+      "status": "planned",
       "processingMode": "local",
       "sensitivity": "high",
-      "status": "planned",
+      "modeSummary": "Processes data fully in-browser with no outbound calls.",
       "keywords": [
         "container",
         "image policy",
@@ -2719,9 +2646,6 @@
         "container-security",
         "policy-linting"
       ],
-      "url": "https://cybertools.hub/tools/container-image-policy-linter",
-      "domainName": "Software Supply Chain Security",
-      "domainUrl": "https://cybertools.hub/domains/software-supply-chain-security",
       "searchIntents": [
         "container",
         "image policy",
@@ -2735,18 +2659,20 @@
         "When should I use Container Image Policy Linter in a Software Supply Chain Security workflow?",
         "Give me a safe step-by-step process for using Container Image Policy Linter with local mode.",
         "Compare Container Image Policy Linter with other tools for container triage and suggest follow-on checks."
-      ],
-      "modeSummary": "Processes data fully in-browser with no outbound calls."
+      ]
     },
     {
       "id": "artifact-provenance-verifier",
       "name": "Artifact Provenance Verifier",
-      "description": "Validate software artifact provenance attestations and signing metadata for tamper and origin anomalies.",
-      "path": "/tools/artifact-provenance-verifier",
+      "url": "https://cybertools.hub/tools/artifact-provenance-verifier",
       "domainId": "supply-chain",
+      "domainName": "Software Supply Chain Security",
+      "domainUrl": "https://cybertools.hub/domains/software-supply-chain-security",
+      "description": "Validate software artifact provenance attestations and signing metadata for tamper and origin anomalies.",
+      "status": "planned",
       "processingMode": "local",
       "sensitivity": "high",
-      "status": "planned",
+      "modeSummary": "Processes data fully in-browser with no outbound calls.",
       "keywords": [
         "artifact",
         "provenance",
@@ -2758,9 +2684,6 @@
         "supply-chain-risk",
         "integrity-check"
       ],
-      "url": "https://cybertools.hub/tools/artifact-provenance-verifier",
-      "domainName": "Software Supply Chain Security",
-      "domainUrl": "https://cybertools.hub/domains/software-supply-chain-security",
       "searchIntents": [
         "artifact",
         "provenance",
@@ -2774,18 +2697,20 @@
         "When should I use Artifact Provenance Verifier in a Software Supply Chain Security workflow?",
         "Give me a safe step-by-step process for using Artifact Provenance Verifier with local mode.",
         "Compare Artifact Provenance Verifier with other tools for artifact triage and suggest follow-on checks."
-      ],
-      "modeSummary": "Processes data fully in-browser with no outbound calls."
+      ]
     },
     {
       "id": "dlp-rule-tester",
       "name": "DLP Rule Tester",
-      "description": "Test data-loss-prevention patterns against realistic payload samples to tune precision and reduce analyst fatigue.",
-      "path": "/tools/dlp-rule-tester",
+      "url": "https://cybertools.hub/tools/dlp-rule-tester",
       "domainId": "data-privacy",
+      "domainName": "Data Security & Privacy Engineering",
+      "domainUrl": "https://cybertools.hub/domains/data-security-privacy-engineering",
+      "description": "Test data-loss-prevention patterns against realistic payload samples to tune precision and reduce analyst fatigue.",
+      "status": "planned",
       "processingMode": "local",
       "sensitivity": "high",
-      "status": "planned",
+      "modeSummary": "Processes data fully in-browser with no outbound calls.",
       "keywords": [
         "dlp",
         "rule testing",
@@ -2797,9 +2722,6 @@
         "privacy-governance",
         "false-positive-reduction"
       ],
-      "url": "https://cybertools.hub/tools/dlp-rule-tester",
-      "domainName": "Data Security & Privacy Engineering",
-      "domainUrl": "https://cybertools.hub/domains/data-security-privacy-engineering",
       "searchIntents": [
         "dlp",
         "rule testing",
@@ -2813,18 +2735,20 @@
         "When should I use DLP Rule Tester in a Data Security & Privacy Engineering workflow?",
         "Give me a safe step-by-step process for using DLP Rule Tester with local mode.",
         "Compare DLP Rule Tester with other tools for dlp triage and suggest follow-on checks."
-      ],
-      "modeSummary": "Processes data fully in-browser with no outbound calls."
+      ]
     },
     {
       "id": "retention-policy-conflict-finder",
       "name": "Retention Policy Conflict Finder",
-      "description": "Detect retention-policy conflicts between legal, privacy, and security logging requirements.",
-      "path": "/tools/retention-policy-conflict-finder",
+      "url": "https://cybertools.hub/tools/retention-policy-conflict-finder",
       "domainId": "data-privacy",
+      "domainName": "Data Security & Privacy Engineering",
+      "domainUrl": "https://cybertools.hub/domains/data-security-privacy-engineering",
+      "description": "Detect retention-policy conflicts between legal, privacy, and security logging requirements.",
+      "status": "planned",
       "processingMode": "local",
       "sensitivity": "high",
-      "status": "planned",
+      "modeSummary": "Processes data fully in-browser with no outbound calls.",
       "keywords": [
         "retention",
         "policy conflict",
@@ -2836,9 +2760,6 @@
         "privacy-governance",
         "compliance-hygiene"
       ],
-      "url": "https://cybertools.hub/tools/retention-policy-conflict-finder",
-      "domainName": "Data Security & Privacy Engineering",
-      "domainUrl": "https://cybertools.hub/domains/data-security-privacy-engineering",
       "searchIntents": [
         "retention",
         "policy conflict",
@@ -2852,8 +2773,7 @@
         "When should I use Retention Policy Conflict Finder in a Data Security & Privacy Engineering workflow?",
         "Give me a safe step-by-step process for using Retention Policy Conflict Finder with local mode.",
         "Compare Retention Policy Conflict Finder with other tools for retention triage and suggest follow-on checks."
-      ],
-      "modeSummary": "Processes data fully in-browser with no outbound calls."
+      ]
     }
   ]
 }

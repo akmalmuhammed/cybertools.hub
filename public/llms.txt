@@ -1,4 +1,4 @@
-# CyberTools Hub
+# Secutil
 
 Local-first cybersecurity tools for SOC, threat intel, network, application, cloud IAM, supply chain, and privacy workflows.
 
@@ -6,6 +6,12 @@ Local-first cybersecurity tools for SOC, threat intel, network, application, clo
 - https://cybertools.hub/
 - https://cybertools.hub/tools
 - https://cybertools.hub/about
+
+## Machine-Readable Feeds
+- https://cybertools.hub/tool-index.json
+- https://cybertools.hub/ai-index.json
+- https://cybertools.hub/ai-tools.jsonl
+- https://cybertools.hub/tools-feed.xml
 
 ## Domain Pages
 - [SOC & Detection Engineering](https://cybertools.hub/domains/soc-detection-engineering): Alert triage speed, rule quality, and incident response workflow acceleration.

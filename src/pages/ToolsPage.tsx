@@ -15,7 +15,7 @@ export default function ToolsPage() {
     {
       "@context": "https://schema.org",
       "@type": "CollectionPage",
-      name: "CyberTools Hub Security Tool Inventory",
+      name: "Secutil Security Tool Inventory",
       description:
         "Domain-indexed security tool inventory covering SOC, threat intel, network, application, cloud IAM, supply chain, and data privacy workflows.",
       url: "/tools",
@@ -23,7 +23,7 @@ export default function ToolsPage() {
     {
       "@context": "https://schema.org",
       "@type": "ItemList",
-      name: "CyberTools Hub Tool Inventory",
+      name: "Secutil Tool Inventory",
       itemListElement: TOOLS.map((tool, index) => ({
         "@type": "ListItem",
         position: index + 1,
@@ -31,6 +31,28 @@ export default function ToolsPage() {
         url: tool.path,
         description: tool.description,
       })),
+    },
+    {
+      "@context": "https://schema.org",
+      "@type": "FAQPage",
+      mainEntity: [
+        {
+          "@type": "Question",
+          name: "Can I filter tools by processing mode?",
+          acceptedAnswer: {
+            "@type": "Answer",
+            text: "Yes. The tools inventory supports local, hybrid, and network mode filters to match privacy requirements.",
+          },
+        },
+        {
+          "@type": "Question",
+          name: "Are all listed tools available now?",
+          acceptedAnswer: {
+            "@type": "Answer",
+            text: "The catalog includes ready, beta, new, and planned tools. Planned tools include structured specs and domain alignment before implementation.",
+          },
+        },
+      ],
     },
   ];
 
@@ -47,6 +69,10 @@ export default function ToolsPage() {
           "cloud iam tools",
           "supply chain security",
           "privacy engineering tools",
+        ]}
+        breadcrumbItems={[
+          { name: "Home", url: "/" },
+          { name: "Tools", url: "/tools" },
         ]}
         structuredData={inventoryStructuredData}
       />

@@ -83,7 +83,7 @@
     "version": "0.2.0",
     "configurations": [
       {
-        "name": "Chrome: CyberTools Hub",
+        "name": "Chrome: Secutil",
         "type": "pwa-chrome",
         "request": "launch",
         "url": "http://127.0.0.1:5173",
@@ -94,7 +94,7 @@
       {
         "name": "Dev + Chrome",
         "configurations": [
-          "Chrome: CyberTools Hub"
+          "Chrome: Secutil"
         ],
         "preLaunchTask": "Dev Server"
       }

@@ -41,6 +41,28 @@ export default function DomainPage() {
         url: tool.path,
       })),
     },
+    {
+      "@context": "https://schema.org",
+      "@type": "FAQPage",
+      mainEntity: [
+        {
+          "@type": "Question",
+          name: `How many ${domain.name} tools are available?`,
+          acceptedAnswer: {
+            "@type": "Answer",
+            text: `${tools.length} tools are currently listed in this domain, with explicit processing-mode labels for privacy-aware selection.`,
+          },
+        },
+        {
+          "@type": "Question",
+          name: `Do ${domain.name} tools run locally?`,
+          acceptedAnswer: {
+            "@type": "Answer",
+            text: `${domain.privacyNotice}`,
+          },
+        },
+      ],
+    },
   ];
 
   return (
@@ -54,6 +76,11 @@ export default function DomainPage() {
           `${domain.id} tools`,
           "local-first security tools",
           "privacy-first security workflows",
+        ]}
+        breadcrumbItems={[
+          { name: "Home", url: "/" },
+          { name: "Tools", url: "/tools" },
+          { name: domain.name, url: `/domains/${domain.slug}` },
         ]}
         structuredData={structuredData}
       />

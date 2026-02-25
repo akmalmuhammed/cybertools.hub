@@ -13,7 +13,7 @@ import type { ErrorObject } from "ajv"
 import { SEO } from "@/components/features/SEO"
 
 export default function JsonTool() {
-    const [input, setInput] = useState('{"name": "CyberTools", "type": "Hub"}')
+    const [input, setInput] = useState('{"name": "Secutil", "type": "Workspace"}')
     const [error, setError] = useState<string | null>(null)
     const [errorLine, setErrorLine] = useState<number | null>(null)
     const [parsed, setParsed] = useState<object | null>(null)
@@ -99,12 +99,32 @@ export default function JsonTool() {
             <SEO
                 title="JSON Formatter and Validator"
                 description="Format, minify, validate, diff, and schema-check JSON locally in your browser with tree and editor views."
+                canonical="/tools/json"
                 keywords={[
                     "json formatter",
                     "json validator",
                     "json diff",
                     "json schema validation",
                 ]}
+                breadcrumbItems={[
+                    { name: "Home", url: "/" },
+                    { name: "Tools", url: "/tools" },
+                    { name: "Data Security & Privacy Engineering", url: "/domains/data-security-privacy-engineering" },
+                    { name: "JSON Formatter", url: "/tools/json" },
+                ]}
+                structuredData={{
+                    "@context": "https://schema.org",
+                    "@type": "SoftwareApplication",
+                    name: "JSON Formatter",
+                    description: "Browser-based JSON formatter, validator, schema checker, and diff tool.",
+                    applicationCategory: "Data Security Tool",
+                    operatingSystem: "Web Browser",
+                    offers: {
+                        "@type": "Offer",
+                        price: "0",
+                        priceCurrency: "USD",
+                    },
+                }}
             />
             <div className="flex flex-col space-y-2">
                 <h1 className="text-3xl font-bold tracking-tight">JSON Formatter</h1>

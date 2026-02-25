@@ -1,4 +1,4 @@
-import assert from "node:assert/strict";
+﻿import assert from "node:assert/strict";
 import fs from "node:fs";
 import path from "node:path";
 import test from "node:test";
@@ -19,6 +19,10 @@ function readText(filePath: string): string {
 
 function readPublicFile(relativePath: string): string {
   return readText(path.join("public", relativePath));
+}
+
+function extractLocs(xml: string): string[] {
+  return Array.from(xml.matchAll(/<loc>([^<]+)<\/loc>/g)).map((match) => match[1]);
 }
 
 function extractArraySection(source: string, marker: string): string {
@@ -91,31 +95,51 @@ function parseDomains(): DomainEntry[] {
 const TOOLS = parseTools();
 const DOMAINS = parseDomains();
 
-test("robots.txt includes sitemap pointer", () => {
+test("robots.txt includes sitemap and AI index pointers", () => {
   const robots = readPublicFile("robots.txt");
   assert.equal(robots.includes("User-agent: *"), true);
   assert.equal(robots.includes("Allow: /"), true);
   assert.equal(robots.includes("Sitemap: https://cybertools.hub/sitemap.xml"), true);
+  assert.equal(robots.includes("Sitemap: https://cybertools.hub/sitemap-static.xml"), true);
+  assert.equal(robots.includes("Sitemap: https://cybertools.hub/sitemap-domains.xml"), true);
+  assert.equal(robots.includes("Sitemap: https://cybertools.hub/sitemap-tools.xml"), true);
+  assert.equal(robots.includes("LLM-Index: https://cybertools.hub/llms.txt"), true);
+  assert.equal(robots.includes("AI-Index: https://cybertools.hub/ai-index.json"), true);
 });
 
-test("sitemap.xml includes static, domain, and tool routes", () => {
-  const sitemap = readPublicFile("sitemap.xml");
-  const locs = Array.from(sitemap.matchAll(/<loc>([^<]+)<\/loc>/g)).map((match) => match[1]);
+test("segmented sitemap files include static, domain, and tool URLs", () => {
+  const sitemapIndex = readPublicFile("sitemap.xml");
+  const sitemapStatic = readPublicFile("sitemap-static.xml");
+  const sitemapDomains = readPublicFile("sitemap-domains.xml");
+  const sitemapTools = readPublicFile("sitemap-tools.xml");
 
-  const expectedUrls = [
+  const indexLocs = extractLocs(sitemapIndex);
+  const staticLocs = extractLocs(sitemapStatic);
+  const domainLocs = extractLocs(sitemapDomains);
+  const toolLocs = extractLocs(sitemapTools);
+
+  [
+    "https://cybertools.hub/sitemap-static.xml",
+    "https://cybertools.hub/sitemap-domains.xml",
+    "https://cybertools.hub/sitemap-tools.xml",
+  ].forEach((url) => {
+    assert.equal(indexLocs.includes(url), true, `sitemap index missing ${url}`);
+  });
+
+  [
     "https://cybertools.hub/",
     "https://cybertools.hub/tools",
     "https://cybertools.hub/about",
-    ...DOMAINS.map((domain) => `https://cybertools.hub/domains/${domain.slug}`),
-    ...TOOLS.map((tool) => `https://cybertools.hub${tool.path}`),
-  ];
+  ].forEach((url) => {
+    assert.equal(staticLocs.includes(url), true, `static sitemap missing ${url}`);
+  });
 
-  expectedUrls.forEach((expectedUrl) => {
-    assert.equal(
-      locs.includes(expectedUrl),
-      true,
-      `sitemap is missing URL entry: ${expectedUrl}`,
-    );
+  DOMAINS.map((domain) => `https://cybertools.hub/domains/${domain.slug}`).forEach((url) => {
+    assert.equal(domainLocs.includes(url), true, `domains sitemap missing ${url}`);
+  });
+
+  TOOLS.map((tool) => `https://cybertools.hub${tool.path}`).forEach((url) => {
+    assert.equal(toolLocs.includes(url), true, `tools sitemap missing ${url}`);
   });
 });
 
@@ -124,12 +148,13 @@ test("llms indexes and JSON catalog stay aligned with tool registry", () => {
   const llmsFull = readPublicFile("llms-full.txt");
   const toolIndex = JSON.parse(readPublicFile("tool-index.json")) as {
     counts: { tools: number; domains: number };
-    tools: Array<{ id: string; url: string }>;
+    tools: Array<{ id: string; url: string; domainUrl: string; searchIntents: string[] }>;
     domains: Array<{ id: string; url: string }>;
   };
 
   assert.equal(toolIndex.counts.tools, TOOLS.length);
   assert.equal(toolIndex.counts.domains, DOMAINS.length);
+  assert.equal(llms.includes("https://cybertools.hub/ai-index.json"), true);
 
   TOOLS.forEach((tool) => {
     assert.equal(
@@ -142,11 +167,10 @@ test("llms indexes and JSON catalog stay aligned with tool registry", () => {
       true,
       `llms-full.txt is missing tool id: ${tool.id}`,
     );
-    assert.equal(
-      toolIndex.tools.some((entry) => entry.id === tool.id && entry.url === `https://cybertools.hub${tool.path}`),
-      true,
-      `tool-index.json is missing tool entry: ${tool.id}`,
-    );
+    const toolRecord = toolIndex.tools.find((entry) => entry.id === tool.id);
+    assert.notEqual(toolRecord, undefined, `tool-index.json missing tool entry: ${tool.id}`);
+    assert.equal(toolRecord?.url, `https://cybertools.hub${tool.path}`);
+    assert.equal((toolRecord?.searchIntents.length ?? 0) > 0, true, `tool-index.json missing intents for ${tool.id}`);
   });
 
   DOMAINS.forEach((domain) => {
@@ -156,5 +180,38 @@ test("llms indexes and JSON catalog stay aligned with tool registry", () => {
       true,
       `tool-index.json is missing domain entry: ${domain.id}`,
     );
+  });
+});
+
+test("AI indexes and feed stay aligned with tool registry", () => {
+  const aiIndex = JSON.parse(readPublicFile("ai-index.json")) as {
+    tools: Array<{ id: string; url: string; recommendedPrompts: string[] }>;
+    domains: Array<{ id: string; url: string }>;
+  };
+  const aiToolsJsonl = readPublicFile("ai-tools.jsonl")
+    .trim()
+    .split("\n")
+    .filter(Boolean)
+    .map((line) => JSON.parse(line) as { id: string; url: string; searchIntents: string[] });
+  const toolsFeed = readPublicFile("tools-feed.xml");
+
+  assert.equal(aiIndex.tools.length, TOOLS.length);
+  assert.equal(aiIndex.domains.length, DOMAINS.length);
+  assert.equal(aiToolsJsonl.length, TOOLS.length);
+
+  TOOLS.forEach((tool) => {
+    const expectedUrl = `https://cybertools.hub${tool.path}`;
+    const aiTool = aiIndex.tools.find((entry) => entry.id === tool.id);
+    const aiJsonlTool = aiToolsJsonl.find((entry) => entry.id === tool.id);
+
+    assert.notEqual(aiTool, undefined, `ai-index.json missing ${tool.id}`);
+    assert.equal(aiTool?.url, expectedUrl, `ai-index.json URL mismatch for ${tool.id}`);
+    assert.equal((aiTool?.recommendedPrompts.length ?? 0) > 0, true, `ai-index prompts missing for ${tool.id}`);
+
+    assert.notEqual(aiJsonlTool, undefined, `ai-tools.jsonl missing ${tool.id}`);
+    assert.equal(aiJsonlTool?.url, expectedUrl, `ai-tools.jsonl URL mismatch for ${tool.id}`);
+    assert.equal((aiJsonlTool?.searchIntents.length ?? 0) > 0, true, `ai-tools.jsonl intents missing for ${tool.id}`);
+
+    assert.equal(toolsFeed.includes(expectedUrl), true, `tools-feed.xml missing ${tool.path}`);
   });
 });

@@ -8,21 +8,49 @@ export default function AboutPage() {
         <div className="max-w-4xl mx-auto space-y-16 py-10">
             <SEO
                 title="About"
-                description="Learn about the philosophy behind CyberTools Hub - local-first security tools with explicit network-intel modes."
+                description="Learn about the philosophy behind Secutil - local-first security tools with explicit network-intel modes."
                 canonical="/about"
                 keywords={[
-                    "about cybertools hub",
+                    "about secutil",
                     "local-first security",
                     "privacy first cybersecurity tools",
                     "browser-based security utilities",
                 ]}
-                structuredData={{
-                    "@context": "https://schema.org",
-                    "@type": "AboutPage",
-                    name: "About CyberTools Hub",
-                    description: "Local-first security tooling philosophy, privacy model, and operating principles.",
-                    url: "/about",
-                }}
+                breadcrumbItems={[
+                    { name: "Home", url: "/" },
+                    { name: "About", url: "/about" },
+                ]}
+                structuredData={[
+                    {
+                        "@context": "https://schema.org",
+                        "@type": "AboutPage",
+                        name: "About Secutil",
+                        description: "Local-first security tooling philosophy, privacy model, and operating principles.",
+                        url: "/about",
+                    },
+                    {
+                        "@context": "https://schema.org",
+                        "@type": "FAQPage",
+                        mainEntity: [
+                            {
+                                "@type": "Question",
+                                name: "Does Secutil process tool inputs locally?",
+                                acceptedAnswer: {
+                                    "@type": "Answer",
+                                    text: "Most Secutil tools process data fully in-browser. Tools that require outbound lookups are explicitly labeled before use.",
+                                },
+                            },
+                            {
+                                "@type": "Question",
+                                name: "Which teams is Secutil built for?",
+                                acceptedAnswer: {
+                                    "@type": "Answer",
+                                    text: "Secutil is built for SOC analysts, threat-intel teams, application security engineers, cloud IAM teams, and privacy-focused defenders.",
+                                },
+                            },
+                        ],
+                    },
+                ]}
             />
             {/* Hero Section */}
             <div className="text-center space-y-6">
@@ -38,7 +66,7 @@ export default function AboutPage() {
                     Security utilities built for <span className="text-primary">clear data handling</span>
                 </h1>
                 <p className="text-xl text-muted-foreground max-w-2xl mx-auto">
-                    CyberTools Hub focuses on local-first execution, explicit network disclosure, and practical workflows for analysts and developers.
+                    Secutil focuses on local-first execution, explicit network disclosure, and practical workflows for analysts and developers.
                 </p>
             </div>
 
@@ -95,7 +123,7 @@ export default function AboutPage() {
                         Sending this data to unknown backends introduces avoidable risk.
                     </p>
                     <p>
-                        CyberTools Hub uses a local-first approach so analysis can run on your device by default.
+                        Secutil uses a local-first approach so analysis can run on your device by default.
                         For tools that require external lookups (WHOIS, DNS, RDAP, JWKS, or provider proxies), the interface labels this clearly so usage decisions are explicit.
                     </p>
                 </div>

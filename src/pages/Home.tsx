@@ -66,11 +66,12 @@ export default function Home() {
           "application security utilities",
           "cloud iam security tooling",
         ]}
+        breadcrumbItems={[{ name: "Home", url: "/" }]}
         structuredData={[
           {
             "@context": "https://schema.org",
             "@type": "WebSite",
-            name: "CyberTools Hub",
+            name: "Secutil",
             url: "/",
             potentialAction: {
               "@type": "SearchAction",
@@ -81,7 +82,7 @@ export default function Home() {
           {
             "@context": "https://schema.org",
             "@type": "WebApplication",
-            name: "CyberTools Hub",
+            name: "Secutil",
             description:
               "Local-first cybersecurity tools for SOC, threat intel, network, application, cloud IAM, supply chain, and privacy workflows.",
             applicationCategory: "SecurityApplication",
@@ -94,14 +95,45 @@ export default function Home() {
           },
           {
             "@context": "https://schema.org",
+            "@type": "Organization",
+            name: "Secutil",
+            url: "/",
+            sameAs: [
+              "https://github.com/akmalmuhammed/cybertools.hub",
+            ],
+          },
+          {
+            "@context": "https://schema.org",
             "@type": "ItemList",
-            name: "Popular CyberTools Hub Tools",
+            name: "Popular Secutil Tools",
             itemListElement: marqueeTools.map((tool, index) => ({
               "@type": "ListItem",
               position: index + 1,
               name: tool.name,
               url: `/tools?q=${encodeURIComponent(tool.name)}`,
             })),
+          },
+          {
+            "@context": "https://schema.org",
+            "@type": "FAQPage",
+            mainEntity: [
+              {
+                "@type": "Question",
+                name: "Do Secutil tools run locally?",
+                acceptedAnswer: {
+                  "@type": "Answer",
+                  text: "Most tools run fully in-browser. Network and hybrid tools are labeled before any outbound call.",
+                },
+              },
+              {
+                "@type": "Question",
+                name: "Can I browse tools by security domain?",
+                acceptedAnswer: {
+                  "@type": "Answer",
+                  text: "Yes. Tools are grouped across SOC, threat intel, network, application, cloud IAM, supply chain, and data privacy domains.",
+                },
+              },
+            ],
           },
         ]}
       />
@@ -328,7 +360,7 @@ export default function Home() {
           </div>
           <Button asChild size="lg" className="h-11 px-6">
             <Link to="/tools">
-              Open CyberTools Hub
+              Open Secutil
               <ArrowRight className="ml-2 h-4 w-4" />
             </Link>
           </Button>

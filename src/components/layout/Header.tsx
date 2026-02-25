@@ -22,7 +22,7 @@ function headerTitle(pathname: string): string {
   if (pathname === "/") return "Mission Overview";
   if (pathname === "/tools") return "Tool Operations";
   if (pathname.startsWith("/domains/")) return "Domain Workspace";
-  if (pathname === "/about") return "About CyberTools Hub";
+  if (pathname === "/about") return "About Secutil";
   return "Tool Workspace";
 }
 

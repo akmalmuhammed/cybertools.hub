@@ -18,6 +18,12 @@ export default function HashTool() {
                     "md5 hash tool",
                     "file hash checker",
                 ]}
+                breadcrumbItems={[
+                    { name: "Home", url: "/" },
+                    { name: "Tools", url: "/tools" },
+                    { name: "Data Security & Privacy Engineering", url: "/domains/data-security-privacy-engineering" },
+                    { name: "Hash Generator", url: "/tools/hash" },
+                ]}
                 structuredData={{
                     "@context": "https://schema.org",
                     "@type": "SoftwareApplication",

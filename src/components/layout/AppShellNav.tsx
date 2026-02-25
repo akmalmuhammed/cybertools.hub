@@ -111,8 +111,8 @@ export function AppShellNav() {
         <Link
           to="/"
           className="h-10 w-10 rounded-xl border border-primary/35 bg-primary/10 text-primary flex items-center justify-center shadow-[0_0_32px_-12px_rgba(16,185,129,0.9)]"
-          title="CyberTools Hub"
-          aria-label="CyberTools Hub"
+          title="Secutil"
+          aria-label="Secutil"
         >
           <Layers className="h-5 w-5" />
         </Link>

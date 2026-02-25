@@ -7,11 +7,18 @@ export default function EmailHeaderTool() {
             <SEO
                 title="Email Header Analyzer"
                 description="Analyze SPF, DKIM, DMARC alignment, hop path integrity, and phishing delivery signals from email headers."
+                canonical="/tools/email"
                 keywords={[
                     "email header analyzer",
                     "spf dkim dmarc checker",
                     "phishing email analysis",
                     "mail header forensics",
+                ]}
+                breadcrumbItems={[
+                    { name: "Home", url: "/" },
+                    { name: "Tools", url: "/tools" },
+                    { name: "SOC & Detection Engineering", url: "/domains/soc-detection-engineering" },
+                    { name: "Email Header Analyzer", url: "/tools/email" },
                 ]}
                 structuredData={{
                     "@context": "https://schema.org",

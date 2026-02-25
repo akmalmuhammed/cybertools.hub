@@ -1,6 +1,6 @@
-# CyberTools Hub
+# Secutil
 
-CyberTools Hub is a local-first security utility workspace for SOC analysts, threat-intel teams, AppSec engineers, cloud/IAM teams, and incident responders.
+Secutil is a local-first security utility workspace for SOC analysts, threat-intel teams, AppSec engineers, cloud/IAM teams, and incident responders.
 
 Most tools execute fully in the browser. Tools that require network access are explicitly labeled.
 
@@ -15,10 +15,16 @@ Most tools execute fully in the browser. Tools that require network access are e
 4. Privacy-oriented UI with explicit network mode labeling.
 5. SEO and LLM discovery assets generated from the tool registry:
    - `public/sitemap.xml`
+   - `public/sitemap-static.xml`
+   - `public/sitemap-domains.xml`
+   - `public/sitemap-tools.xml`
    - `public/robots.txt`
    - `public/llms.txt`
    - `public/llms-full.txt`
    - `public/tool-index.json`
+   - `public/ai-index.json`
+   - `public/ai-tools.jsonl`
+   - `public/tools-feed.xml`
 
 ## Tool Domains
 
