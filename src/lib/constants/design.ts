@@ -9,12 +9,12 @@ export const DESIGN_SYSTEM = {
             border: 'hsl(0, 0%, 0%)',
         },
         dark: {
-            background: 'hsl(0, 0%, 100%)',
-            foreground: 'hsl(0, 0%, 0%)',
+            background: 'hsl(0, 0%, 8%)',
+            foreground: 'hsl(0, 0%, 95%)',
             primary: 'hsl(145, 81%, 50%)',
-            muted: 'hsl(0, 0%, 96%)',
-            card: 'hsl(0, 0%, 100%)',
-            border: 'hsl(0, 0%, 0%)',
+            muted: 'hsl(0, 0%, 16%)',
+            card: 'hsl(0, 0%, 11%)',
+            border: 'hsl(0, 0%, 28%)',
         }
     },
     animations: {
