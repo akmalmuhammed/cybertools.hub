@@ -1,11 +1,11 @@
 import {
-  Activity,
-  AppWindow,
-  FileDiff,
-  Key,
-  Lock,
+  Bug,
+  CloudCog,
+  Fingerprint,
   Network,
-  Search,
+  PackageSearch,
+  Radar,
+  ShieldAlert,
   type LucideIcon,
 } from "lucide-react";
 import { TOOLS } from "@/lib/constants/tools";
@@ -29,7 +29,7 @@ export const TOOL_DOMAINS: ToolDomain[] = [
     name: "SOC & Detection Engineering",
     description: "Alert triage speed, rule quality, and incident response workflow acceleration.",
     privacyNotice: "Mostly local analytics; optional enrichment is explicitly gated.",
-    icon: Activity,
+    icon: ShieldAlert,
     accentClass: "text-emerald-300 bg-emerald-500/15 border-emerald-400/30",
   },
   {
@@ -38,7 +38,7 @@ export const TOOL_DOMAINS: ToolDomain[] = [
     name: "Threat Intel & DFIR",
     description: "IOC quality scoring, exchange format normalization, and forensic packaging.",
     privacyNotice: "Intel normalization runs local-first with optional external context lookups.",
-    icon: Search,
+    icon: Radar,
     accentClass: "text-cyan-300 bg-cyan-500/15 border-cyan-400/30",
   },
   {
@@ -56,7 +56,7 @@ export const TOOL_DOMAINS: ToolDomain[] = [
     name: "Application & API Security",
     description: "API contract abuse checks, authz drift detection, and browser policy hardening.",
     privacyNotice: "Contract linting and policy checks process documents fully in-browser.",
-    icon: AppWindow,
+    icon: Bug,
     accentClass: "text-amber-300 bg-amber-500/15 border-amber-400/30",
   },
   {
@@ -65,7 +65,7 @@ export const TOOL_DOMAINS: ToolDomain[] = [
     name: "Cloud & IAM Security",
     description: "Identity policy review and least-privilege hygiene across cloud providers.",
     privacyNotice: "Policy linting is local; no cloud credentials are required by default.",
-    icon: Key,
+    icon: CloudCog,
     accentClass: "text-sky-300 bg-sky-500/15 border-sky-400/30",
   },
   {
@@ -74,7 +74,7 @@ export const TOOL_DOMAINS: ToolDomain[] = [
     name: "Software Supply Chain Security",
     description: "Dependency risk diffing, tamper evidence, and provenance-oriented checks.",
     privacyNotice: "SBOM and lockfile analysis remain local unless users opt into lookups.",
-    icon: FileDiff,
+    icon: PackageSearch,
     accentClass: "text-rose-300 bg-rose-500/15 border-rose-400/30",
   },
   {
@@ -83,7 +83,7 @@ export const TOOL_DOMAINS: ToolDomain[] = [
     name: "Data Security & Privacy Engineering",
     description: "Sensitive-data handling, leakage detection, and privacy-preserving processing.",
     privacyNotice: "Privacy-focused tools prioritize local-only processing and explicit consent.",
-    icon: Lock,
+    icon: Fingerprint,
     accentClass: "text-lime-300 bg-lime-500/15 border-lime-400/30",
   },
 ];

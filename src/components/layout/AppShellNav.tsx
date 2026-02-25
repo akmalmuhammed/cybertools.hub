@@ -21,19 +21,34 @@ interface NavItem {
   label: string;
   href: string;
   icon: ComponentType<{ className?: string }>;
+  shortLabel?: string;
   domainId?: ToolDomainId;
 }
 
 const DESKTOP_ITEMS: NavItem[] = [
-  { label: "Home", href: "/", icon: Home },
+  { label: "Home", shortLabel: "Home", href: "/", icon: Home },
   ...TOOL_DOMAINS.map((domain) => ({
     label: domain.name,
+    shortLabel:
+      domain.id === "soc"
+        ? "SOC"
+        : domain.id === "threat-intel"
+          ? "Threat Intel"
+          : domain.id === "network"
+            ? "Network"
+            : domain.id === "application"
+              ? "AppSec"
+              : domain.id === "cloud-iam"
+                ? "Cloud IAM"
+                : domain.id === "supply-chain"
+                  ? "Supply Chain"
+                  : "Data Privacy",
     href: getDomainQueryPath(domain.id),
     icon: domain.icon,
     domainId: domain.id,
   })),
-  { label: "All Tools", href: "/tools", icon: Layers },
-  { label: "About", href: "/about", icon: Info },
+  { label: "All Tools", shortLabel: "All Tools", href: "/tools", icon: Layers },
+  { label: "About", shortLabel: "About", href: "/about", icon: Info },
 ];
 
 const SOC_ICON = TOOL_DOMAINS.find((domain) => domain.id === "soc")?.icon ?? Layers;
@@ -106,21 +121,32 @@ export function AppShellNav() {
           {DESKTOP_ITEMS.map((item) => {
             const active = isItemActive(item, location.pathname, location.search, activeDomain);
             return (
-              <Link
-                key={item.href}
-                to={item.href}
-                title={item.label}
-                aria-label={item.label}
-                aria-current={active ? "page" : undefined}
-                className={cn(
-                  "h-11 w-11 rounded-xl flex items-center justify-center border transition-colors",
-                  active
-                    ? "border-primary/55 bg-primary/18 text-primary"
-                    : "border-transparent text-muted-foreground hover:text-foreground hover:bg-muted/70",
-                )}
-              >
-                <item.icon className="h-5 w-5" />
-              </Link>
+              <div key={item.href} className="relative group">
+                <Link
+                  to={item.href}
+                  title={item.label}
+                  aria-label={item.label}
+                  aria-current={active ? "page" : undefined}
+                  className={cn(
+                    "h-11 w-11 rounded-xl flex items-center justify-center border transition-colors",
+                    active
+                      ? "border-primary/55 bg-primary/18 text-primary"
+                      : "border-transparent text-muted-foreground hover:text-foreground hover:bg-muted/70",
+                  )}
+                >
+                  <item.icon className="h-5 w-5" />
+                </Link>
+                <span
+                  className={cn(
+                    "pointer-events-none absolute left-[3.3rem] top-1/2 -translate-y-1/2 whitespace-nowrap rounded-md border border-border/60 bg-background/95 px-2 py-1 text-[11px] font-medium text-foreground shadow-md transition-all duration-150",
+                    active
+                      ? "opacity-100 translate-x-0"
+                      : "opacity-0 -translate-x-1 group-hover:opacity-100 group-hover:translate-x-0",
+                  )}
+                >
+                  {item.shortLabel ?? item.label}
+                </span>
+              </div>
             );
           })}
         </nav>
