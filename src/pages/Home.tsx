@@ -147,18 +147,19 @@ export default function Home() {
             transition={{ duration: 0.45 }}
             className="space-y-6"
           >
-            <Badge className="rounded-full border border-primary/35 bg-primary/15 px-3 py-1 text-[11px] uppercase tracking-[0.16em] text-primary">
-              Production Security Operations Platform
-            </Badge>
+            <div className="inline-flex items-center rounded-full border border-primary/35 bg-primary/15 px-3 py-1 text-[11px] font-medium uppercase tracking-[0.16em] text-primary">
+              <span className="mr-2 inline-flex h-2 w-2 rounded-full bg-primary animate-pulse" />
+              v1.0.0 Ready for Production
+            </div>
             <h1 className="font-display text-4xl leading-tight sm:text-5xl lg:text-6xl">
-              Cybersecurity SaaS tooling built for
+              Your Security Arsenal,
               <span className="block bg-gradient-to-r from-emerald-300 via-cyan-300 to-blue-300 bg-clip-text text-transparent">
-                privacy-first execution.
+                Simplified
               </span>
             </h1>
             <p className="max-w-2xl text-base text-muted-foreground sm:text-lg">
-              Run analyst-grade workflows across SOC, threat intel, network, appsec, cloud IAM, supply chain, and data privacy.
-              Most tools process data locally in your browser, with explicit controls for optional outbound lookups.
+              Free, privacy-first security utilities for SOC analysts, penetration testers, and developers.
+              Core analysis runs locally in your browser, with clearly marked optional network lookups.
             </p>
             <div className="flex flex-wrap gap-3">
               <Button asChild size="lg" className="h-11 px-6">
