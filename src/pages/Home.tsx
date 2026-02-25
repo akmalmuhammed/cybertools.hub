@@ -133,7 +133,7 @@ export default function Home() {
         ]}
       />
 
-      <section className="relative overflow-hidden rounded-md border border-border/60 bg-background px-6 py-16 sm:px-10 sm:py-20 lg:py-24">
+      <section className="relative overflow-hidden rounded-md bg-background px-6 py-16 sm:px-10 sm:py-20 lg:py-24">
         <div className="pointer-events-none absolute inset-0 bg-[radial-gradient(circle_at_50%_18%,hsl(var(--primary)/0.28),hsl(var(--background))_42%)]" />
         <div className="pointer-events-none absolute inset-0 opacity-40 [background-image:linear-gradient(to_right,hsl(var(--foreground)/0.08)_1px,transparent_1px),linear-gradient(to_bottom,hsl(var(--foreground)/0.08)_1px,transparent_1px)] [background-size:56px_56px]" />
         <div className="pointer-events-none absolute inset-x-10 top-[18%] h-56 rounded-full bg-primary/20 blur-3xl" />
@@ -141,10 +141,13 @@ export default function Home() {
           initial={{ opacity: 0, y: 18 }}
           animate={{ opacity: 1, y: 0 }}
           transition={{ duration: 0.45 }}
-          className="relative mx-auto flex max-w-5xl flex-col items-center text-center"
+          className="relative mr-auto flex w-full max-w-5xl flex-col items-start text-left"
         >
           <div className="inline-flex items-center rounded-full border border-border/70 bg-background/90 px-4 py-1.5 text-sm font-semibold text-foreground backdrop-blur-sm">
-            <span className="mr-2 inline-flex h-2 w-2 rounded-full bg-primary animate-pulse" />
+            <span className="relative mr-2 inline-flex h-2.5 w-2.5">
+              <span className="absolute inline-flex h-full w-full rounded-full bg-primary/75 animate-ping" />
+              <span className="relative inline-flex h-2.5 w-2.5 rounded-full bg-primary shadow-[0_0_10px_rgba(25,231,110,0.7)] animate-pulse" />
+            </span>
             v1.0.0 Ready for Production
           </div>
           <h1 className="mt-8 text-[clamp(3rem,8vw,5.5rem)] font-bold tracking-tight text-foreground">
