@@ -70,7 +70,7 @@ export function HashFile() {
             reader.onload = (e) => {
                 if (e.target?.result) {
                     const arrayBuffer = e.target.result as ArrayBuffer
-                    const wordArray = CryptoJS.lib.WordArray.create(new Uint8Array(arrayBuffer) as any)
+                    const wordArray = CryptoJS.lib.WordArray.create(arrayBuffer)
 
                     md5.update(wordArray)
                     sha1.update(wordArray)

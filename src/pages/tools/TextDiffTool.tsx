@@ -1,5 +1,6 @@
 import { ToolTemplate } from "@/components/tools/ToolTemplate"
 import { diffText } from "@/lib/utils/text"
+import type { Change } from "diff"
 
 export default function TextDiffTool() {
     // Diff tool needs 2 inputs. ToolTemplate is 1 input.
@@ -32,12 +33,18 @@ function TextDiffToolInternal() {
 
     const renderOutput = (output: string) => {
         if (!output) return null;
-        let diffs;
-        try { diffs = JSON.parse(output) } catch { return null }
+        let diffs: Change[];
+        try {
+            const parsed = JSON.parse(output) as unknown;
+            if (!Array.isArray(parsed)) return null;
+            diffs = parsed as Change[];
+        } catch {
+            return null;
+        }
 
         return (
             <div className="bg-muted/50 p-4 rounded-md font-mono text-sm whitespace-pre-wrap border border-border min-h-[300px]">
-                {diffs.map((part: any, i: number) => {
+                {diffs.map((part: Change, i: number) => {
                     const color = part.added ? 'bg-green-500/30 text-green-700 dark:text-green-400' :
                         part.removed ? 'bg-red-500/30 text-red-700 dark:text-red-400' :
                             'text-foreground';

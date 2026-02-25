@@ -26,6 +26,7 @@ export default function UuidTool() {
             description="Generate standard UUID v4 identifiers."
             actionLabel="Generate New UUID"
             placeholder="Click Generate to create a new UUID"
+            requiresInput={false}
             onProcess={process}
             renderOutput={renderOutput}
         />

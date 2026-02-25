@@ -1,11 +1,11 @@
-import { NormalizedSignals, ScoreComponent, ScoringResult } from "./types";
+import { NormalizedSignals, ScoreComponent, ScoringResult, ValidationPenalty } from "./types.js";
 
 export class TrustCalculator {
     static calculate(
         headerResult: ScoreComponent,
         bodyResult: ScoreComponent,
         crossResult: ScoreComponent,
-        attachmentResult: { totalPenalty: number; penalties: any[] },
+        attachmentResult: { totalPenalty: number; penalties: ValidationPenalty[] },
         signals: NormalizedSignals
     ): ScoringResult['trust'] {
 

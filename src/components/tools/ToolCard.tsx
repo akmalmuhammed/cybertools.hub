@@ -12,7 +12,7 @@ interface ToolCardProps {
 }
 
 export function ToolCard({ tool, isFavorite, onToggleFavorite }: ToolCardProps) {
-    const Icon = tool.icon as any // Lucide icon
+    const Icon = tool.icon
 
     return (
         <Link to={tool.path} className="group block h-full">

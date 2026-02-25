@@ -1,13 +1,13 @@
-import { NormalizedSignals } from "./types";
+import { NormalizedSignals, ValidationPenalty } from "./types.js";
 
 export class AttachmentScorer {
-    static score(signals: NormalizedSignals): { totalPenalty: number; penalties: any[] } {
+    static score(signals: NormalizedSignals): { totalPenalty: number; penalties: ValidationPenalty[] } {
         if (!signals.attachmentAnalysisEnabled || signals.attachments.length === 0) {
             return { totalPenalty: 0, penalties: [] };
         }
 
         let totalPenalty = 0;
-        const penalties = [];
+        const penalties: ValidationPenalty[] = [];
 
         for (const att of signals.attachments) {
             let basePenalty = 0;

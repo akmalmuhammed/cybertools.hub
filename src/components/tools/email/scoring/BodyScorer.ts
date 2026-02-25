@@ -1,4 +1,4 @@
-import { NormalizedSignals, ScoreComponent } from "./types";
+import { NormalizedSignals, ScoreComponent } from "./types.js";
 
 export class BodyScorer {
     static score(signals: NormalizedSignals): ScoreComponent {

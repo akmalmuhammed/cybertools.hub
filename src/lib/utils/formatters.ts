@@ -4,7 +4,7 @@ export function formatJSON(input: string, spaces: number = 2): string {
     try {
         const obj = JSON.parse(input)
         return JSON.stringify(obj, null, spaces)
-    } catch (e) {
+    } catch {
         throw new Error("Invalid JSON")
     }
 }
@@ -13,7 +13,7 @@ export function minifyJSON(input: string): string {
     try {
         const obj = JSON.parse(input)
         return JSON.stringify(obj)
-    } catch (e) {
+    } catch {
         throw new Error("Invalid JSON")
     }
 }
@@ -22,8 +22,9 @@ export function validateJSON(input: string): { valid: boolean, error?: string } 
     try {
         JSON.parse(input)
         return { valid: true }
-    } catch (e) {
-        return { valid: false, error: (e as Error).message }
+    } catch (error) {
+        const message = error instanceof Error ? error.message : "Invalid JSON"
+        return { valid: false, error: message }
     }
 }
 
@@ -36,7 +37,7 @@ export function formatXML(input: string): string {
     input.split(/>\s*</).forEach(function (node) {
         if (node.match(/^\/\w/)) indent = indent.substring(tab.length);
         formatted += indent + '<' + node + '>\r\n';
-        if (node.match(/^<?\w[^>]*[^\/]$/)) indent += tab;
+        if (node.match(/^<?\w[^>]*[^/]$/)) indent += tab;
     });
     return formatted.substring(1, formatted.length - 3);
 }
@@ -47,7 +48,7 @@ export function formatYAML(input: string): string {
     try {
         const obj = yaml.load(input);
         return yaml.dump(obj);
-    } catch (e) {
+    } catch {
         throw new Error("Invalid YAML")
     }
 }
@@ -56,7 +57,7 @@ export function jsonToYaml(input: string): string {
     try {
         const obj = JSON.parse(input)
         return yaml.dump(obj)
-    } catch (e) {
+    } catch {
         throw new Error("Invalid JSON input")
     }
 }

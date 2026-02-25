@@ -1,8 +1,8 @@
 import { useEffect, useRef, useState } from 'react'
-import * as jsondiffpatch from 'jsondiffpatch'
 import './jsondiffpatch.css'
 import { Label } from '@/components/ui/label'
 import { JsonEditor } from './JsonEditor'
+import { renderJsonDiffHtml } from '@/lib/utils/json-diff'
 
 
 interface JsonDiffProps {
@@ -13,8 +13,8 @@ interface JsonDiffProps {
 export function JsonDiff({ initialLeft = '{}', initialRight = '{}' }: JsonDiffProps) {
     const [leftInput, setLeftInput] = useState(initialLeft)
     const [rightInput, setRightInput] = useState(initialRight)
-    const [leftJson, setLeftJson] = useState<any>(null)
-    const [rightJson, setRightJson] = useState<any>(null)
+    const [leftJson, setLeftJson] = useState<unknown | null>(null)
+    const [rightJson, setRightJson] = useState<unknown | null>(null)
     const [leftError, setLeftError] = useState<string | null>(null)
     const [rightError, setRightError] = useState<string | null>(null)
     const diffContainerRef = useRef<HTMLDivElement>(null)
@@ -23,7 +23,7 @@ export function JsonDiff({ initialLeft = '{}', initialRight = '{}' }: JsonDiffPr
         try {
             setLeftJson(JSON.parse(leftInput))
             setLeftError(null)
-        } catch (e) {
+        } catch {
             setLeftJson(null)
             setLeftError("Invalid JSON")
         }
@@ -33,7 +33,7 @@ export function JsonDiff({ initialLeft = '{}', initialRight = '{}' }: JsonDiffPr
         try {
             setRightJson(JSON.parse(rightInput))
             setRightError(null)
-        } catch (e) {
+        } catch {
             setRightJson(null)
             setRightError("Invalid JSON")
         }
@@ -44,21 +44,8 @@ export function JsonDiff({ initialLeft = '{}', initialRight = '{}' }: JsonDiffPr
         diffContainerRef.current.innerHTML = ''
 
         if (leftJson && rightJson) {
-            const instance = jsondiffpatch.create({
-                objectHash: function (obj: any) {
-                    // Try to identify objects by ID or Name if possible, else default
-                    return obj._id || obj.id || obj.name || JSON.stringify(obj);
-                }
-            });
-            const delta = instance.diff(leftJson, rightJson)
-
-            if (delta) {
-                // @ts-ignore - formatting is available in browser build
-                const html = jsondiffpatch.formatters.html.format(delta, leftJson)
-                diffContainerRef.current.innerHTML = html
-            } else {
-                diffContainerRef.current.innerHTML = '<div class="p-4 text-muted-foreground">No differences found. Objects are identical.</div>'
-            }
+            const { html } = renderJsonDiffHtml(leftJson, rightJson)
+            diffContainerRef.current.innerHTML = html
         }
     }, [leftJson, rightJson])
 

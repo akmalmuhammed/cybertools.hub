@@ -25,6 +25,23 @@ export default function JwtTool() {
 
         return (
             <div className="flex flex-col gap-4 overflow-y-auto max-h-[500px] pr-2">
+                <div className="p-3 rounded-md border bg-muted/20 text-sm">
+                    <div><span className="font-semibold">Algorithm:</span> {data.algorithm || "Unknown"}</div>
+                    <div><span className="font-semibold">Type:</span> {data.tokenType || "Unknown"}</div>
+                    <div className="text-amber-700 dark:text-amber-400">
+                        <span className="font-semibold">Verification:</span> Signature not verified
+                    </div>
+                    {data.expiresAt && <div><span className="font-semibold">Expires:</span> {data.expiresAt}</div>}
+                    {typeof data.expired === "boolean" && (
+                        <div className={data.expired ? "text-red-600 dark:text-red-400" : "text-green-600 dark:text-green-400"}>
+                            <span className="font-semibold">Token Status:</span> {data.expired ? "Expired" : "Not expired"}
+                        </div>
+                    )}
+                    <div className="text-xs text-muted-foreground mt-1">
+                        {data.verificationNote}
+                    </div>
+                </div>
+
                 <div className="space-y-2">
                     <div className="flex items-center justify-between">
                         <h3 className="text-sm font-semibold text-muted-foreground uppercase">Header</h3>

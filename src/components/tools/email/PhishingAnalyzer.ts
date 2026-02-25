@@ -1,7 +1,8 @@
-import { BodyAnalyzer, BodyAnalysisResult } from "./BodyAnalyzer";
-import { AttachmentScanner, AttachmentMeta } from "./AttachmentScanner";
-import { CrossContextValidator, CrossContextAnalysis } from "./CrossContextValidator";
-import { AnalysisResult } from "./HeaderParser";
+import { BodyAnalyzer, BodyAnalysisResult } from "./BodyAnalyzer.js";
+import { AttachmentScanner, AttachmentMeta } from "./AttachmentScanner.js";
+import { CrossContextValidator, CrossContextAnalysis } from "./CrossContextValidator.js";
+import { AnalysisResult } from "./HeaderParser.js";
+import type { Attachment } from "postal-mime";
 
 export interface PhishingAnalysisResult {
     body: BodyAnalysisResult | null;
@@ -13,7 +14,7 @@ export class PhishingAnalyzer {
     static async analyze(
         text: string | null,
         html: string | null,
-        rawAttachments: any[],
+        rawAttachments: Attachment[],
         headerAnalysis: AnalysisResult,
         analyzeBody: boolean,
         analyzeAttachments: boolean

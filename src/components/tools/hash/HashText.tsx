@@ -9,10 +9,13 @@ import { CopyButton } from '@/components/features/CopyButton'
 import { Download, ChevronDown, ChevronUp, Check } from 'lucide-react'
 import { cn } from '@/lib/utils/cn'
 
+type HashResult = Awaited<ReturnType<typeof generateAllHashes>>
+type BulkHashResult = HashResult & { input: string }
+
 export function HashText() {
     const [input, setInput] = useState('')
     const [isBulk, setIsBulk] = useState(false)
-    const [hashes, setHashes] = useState<any>(null)
+    const [hashes, setHashes] = useState<HashResult | BulkHashResult[] | null>(null)
     const [loading, setLoading] = useState(false)
 
     // V2 Options
@@ -39,7 +42,7 @@ export function HashText() {
                 if (lines.length > 500) {
                     // Limit handled by UI thread naturally
                 }
-                const results = await Promise.all(lines.map(async line => {
+                const results: BulkHashResult[] = await Promise.all(lines.map(async line => {
                     const h = await generateAllHashes(line.trim(), options)
                     return { input: line.trim(), ...h }
                 }))
@@ -71,7 +74,14 @@ export function HashText() {
         a.href = url
         a.download = 'hashes.csv'
         a.click()
+        URL.revokeObjectURL(url)
     }
+
+    const trimmedVerify = verifyHash.trim().toLowerCase()
+    const singleHashValues = hashes && !Array.isArray(hashes)
+        ? [hashes.md5, hashes.sha1, hashes.sha256, hashes.sha512]
+        : []
+    const hasSingleMatch = !!trimmedVerify && singleHashValues.some((hashValue) => hashValue.toLowerCase() === trimmedVerify)
 
     return (
         <div className="space-y-6">
@@ -158,7 +168,7 @@ export function HashText() {
                                 onChange={(e) => setVerifyHash(e.target.value)}
                                 className={cn(
                                     "font-mono text-sm",
-                                    verifyHash && Object.values(hashes).some((h: any) => h.toLowerCase() === verifyHash.trim().toLowerCase())
+                                    hasSingleMatch
                                         ? "border-green-500 ring-green-500/20"
                                         : verifyHash ? "border-destructive ring-destructive/20" : ""
                                 )}
@@ -166,11 +176,11 @@ export function HashText() {
                         </div>
                         {verifyHash && (
                             <p className={cn("text-xs mt-1 font-medium",
-                                Object.values(hashes).some((h: any) => h.toLowerCase() === verifyHash.trim().toLowerCase())
+                                hasSingleMatch
                                     ? "text-green-600"
                                     : "text-destructive"
                             )}>
-                                {Object.values(hashes).some((h: any) => h.toLowerCase() === verifyHash.trim().toLowerCase())
+                                {hasSingleMatch
                                     ? "✓ Match found!"
                                     : "✗ No match found"}
                             </p>
@@ -198,7 +208,7 @@ export function HashText() {
                                     </tr>
                                 </thead>
                                 <tbody>
-                                    {hashes.map((h: any, i: number) => (
+                                    {hashes.map((h: BulkHashResult, i: number) => (
                                         <tr key={i} className="border-t">
                                             <td className="p-3 font-mono max-w-[200px] truncate" title={h.input}>{h.input}</td>
                                             <td className="p-3 font-mono text-xs">{upperCase ? h.md5.toUpperCase() : h.md5}</td>

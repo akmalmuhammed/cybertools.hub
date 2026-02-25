@@ -7,8 +7,13 @@ interface JsonTreeProps {
     data: object
 }
 
+type JsonSelectEvent = {
+    namespace: Array<string | null>
+    name: string | null
+}
+
 // Recursive filter function
-const filterJson = (data: any, searchTerm: string): any => {
+const filterJson = (data: unknown, searchTerm: string): unknown => {
     if (!searchTerm) return data
 
     const lowerTerm = searchTerm.toLowerCase()
@@ -29,17 +34,17 @@ const filterJson = (data: any, searchTerm: string): any => {
     }
 
     if (typeof data === 'object' && data !== null) {
-        const filtered: any = {}
+        const filtered: Record<string, unknown> = {}
         let hasMatch = false
 
-        Object.keys(data).forEach(key => {
+        Object.entries(data).forEach(([key, value]) => {
             // Check if key matches
             if (key.toLowerCase().includes(lowerTerm)) {
-                filtered[key] = data[key]
+                filtered[key] = value
                 hasMatch = true
             } else {
                 // Check if value matches (recursive)
-                const filteredValue = filterJson(data[key], searchTerm)
+                const filteredValue = filterJson(value, searchTerm)
                 if (filteredValue !== undefined) {
                     filtered[key] = filteredValue
                     hasMatch = true
@@ -70,19 +75,21 @@ export function JsonTree({ data }: JsonTreeProps) {
         return result === undefined ? {} : result
     }, [data, searchTerm])
 
-    const handleSelect = (select: any) => {
+    const handleSelect = (select: JsonSelectEvent) => {
         // Construct path
         // select.namespace is an array of keys/indexes leading to the parent
         // select.name is the key of the selected item
-        const pathSegments = [...select.namespace, select.name]
+        const pathSegments = [...select.namespace, select.name].filter(
+            (segment): segment is string => segment !== null
+        )
         let path = '$'
 
         pathSegments.forEach(segment => {
-            if (typeof segment === 'number') {
+            if (/^\d+$/.test(segment)) {
                 path += `[${segment}]`
-            } else if (typeof segment === 'string' && /^[a-zA-Z_$][a-zA-Z0-9_$]*$/.test(segment)) {
+            } else if (/^[a-zA-Z_$][a-zA-Z0-9_$]*$/.test(segment)) {
                 path += `.${segment}`
-            } else if (typeof segment === 'string') {
+            } else {
                 path += `["${segment}"]`
             }
         })

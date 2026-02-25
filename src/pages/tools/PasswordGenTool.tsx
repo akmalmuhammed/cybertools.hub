@@ -23,6 +23,7 @@ export default function PasswordGenTool() {
             description="Generate strong, secure passwords locally."
             actionLabel="Generate"
             placeholder="Click Generate to create a password (input text is ignored)"
+            requiresInput={false}
             controls={
                 <div className="space-y-4 p-4 border rounded-md">
                     <div className="flex flex-col gap-2">

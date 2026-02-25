@@ -1,32 +1,45 @@
-// Helper to support UTF-8 (Unicode) strings
-function utf8_to_b64(str: string) {
-    return btoa(unescape(encodeURIComponent(str)));
+function ensureBase64Support() {
+    if (typeof btoa !== "function" || typeof atob !== "function") {
+        throw new Error("Base64 helpers are unavailable in this runtime");
+    }
 }
 
-function b64_to_utf8(str: string) {
-    return decodeURIComponent(escape(atob(str)));
+function utf8ToBase64(value: string): string {
+    ensureBase64Support();
+    const bytes = new TextEncoder().encode(value);
+    const binary = Array.from(bytes)
+        .map((byte) => String.fromCharCode(byte))
+        .join("");
+    return btoa(binary);
+}
+
+function base64ToUtf8(value: string): string {
+    ensureBase64Support();
+    const binary = atob(value);
+    const bytes = Uint8Array.from(binary, (char) => char.charCodeAt(0));
+    return new TextDecoder().decode(bytes);
 }
 
 export function encodeBase64(input: string): string {
     try {
-        return utf8_to_b64(input)
-    } catch (e) {
+        return utf8ToBase64(input)
+    } catch {
         throw new Error("Invalid input for Base64 encoding")
     }
 }
 
 export function decodeBase64(input: string): string {
     try {
-        return b64_to_utf8(input)
-    } catch (e) {
+        return base64ToUtf8(input)
+    } catch {
         throw new Error("Invalid Base64 string")
     }
 }
 
 export function encodeBase64Url(input: string): string {
     try {
-        return utf8_to_b64(input).replace(/\+/g, '-').replace(/\//g, '_').replace(/=+$/, '')
-    } catch (e) {
+        return utf8ToBase64(input).replace(/\+/g, '-').replace(/\//g, '_').replace(/=+$/, '')
+    } catch {
         throw new Error("Invalid input for Base64 URL encoding")
     }
 }
@@ -37,8 +50,8 @@ export function decodeBase64Url(input: string): string {
         while (base64.length % 4) {
             base64 += '='
         }
-        return b64_to_utf8(base64)
-    } catch (e) {
+        return base64ToUtf8(base64)
+    } catch {
         throw new Error("Invalid Base64 URL string")
     }
 }
@@ -65,6 +78,16 @@ export function encodeHTML(input: string): string {
 }
 
 export function decodeHTML(input: string): string {
-    const doc = new DOMParser().parseFromString(input, 'text/html')
-    return doc.documentElement.textContent || ''
+    if (typeof DOMParser !== "undefined") {
+        const doc = new DOMParser().parseFromString(input, "text/html");
+        return doc.documentElement.textContent || "";
+    }
+
+    // Fallback for non-DOM runtimes (test environment).
+    return input
+        .replace(/&lt;/g, "<")
+        .replace(/&gt;/g, ">")
+        .replace(/&quot;/g, '"')
+        .replace(/&#039;/g, "'")
+        .replace(/&amp;/g, "&");
 }

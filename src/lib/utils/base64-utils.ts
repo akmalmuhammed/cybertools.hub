@@ -87,7 +87,6 @@ export function isText(bytes: Uint8Array): boolean {
     // If it contains null bytes (except maybe very sparse) or lots of low control chars 
     // (excluding \t \r \n), it's binary.
 
-    let textChars = 0;
     let controlChars = 0;
     const len = Math.min(bytes.length, 1000); // Check first 1KB
 
@@ -99,8 +98,6 @@ export function isText(bytes: Uint8Array): boolean {
         // Allowed control chars: Tab (9), LF (10), CR (13)
         if ((b < 32) && (b !== 9 && b !== 10 && b !== 13)) {
             controlChars++;
-        } else {
-            textChars++;
         }
     }
 
@@ -125,7 +122,9 @@ export function detectContentType(decoded: string): ContentType {
         if (typeof parsed === 'object' && parsed !== null) {
             return 'json';
         }
-    } catch { }
+    } catch {
+        // Non-JSON input should continue to binary/text detection.
+    }
 
     // Convert the decoded "binary string" to Uint8Array for robust binary detection
     const bytes = new Uint8Array(decoded.length);

@@ -1,5 +1,5 @@
-import { AnalysisResult } from "./HeaderParser";
-import { BodyAnalysisResult } from "./BodyAnalyzer";
+import { AnalysisResult } from "./HeaderParser.js";
+import { BodyAnalysisResult } from "./BodyAnalyzer.js";
 
 export interface CrossContextAnalysis {
     flags: { type: string; description: string; risk: 'low' | 'medium' | 'high' }[];
@@ -7,6 +7,11 @@ export interface CrossContextAnalysis {
 }
 
 export class CrossContextValidator {
+    private static getHeaderString(value: AnalysisResult['headers'][string] | undefined): string {
+        if (!value) return '';
+        return Array.isArray(value) ? value[0] || '' : value;
+    }
+
     static validate(headers: AnalysisResult, body: BodyAnalysisResult | null): CrossContextAnalysis {
         const result: CrossContextAnalysis = {
             flags: [],
@@ -15,8 +20,8 @@ export class CrossContextValidator {
 
         if (!body) return result; // Cannot validate without body
 
-        const from = headers.headers['From'] || '';
-        const replyTo = headers.headers['Reply-To'];
+        const from = this.getHeaderString(headers.headers['from']);
+        const replyTo = this.getHeaderString(headers.headers['reply-to']);
         // Subject is unused
         const bodyText = (body.textContent || "") + (body.htmlContent || "");
 

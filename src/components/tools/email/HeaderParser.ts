@@ -1,4 +1,5 @@
 import PostalMime from 'postal-mime';
+import type { Attachment } from 'postal-mime';
 
 export interface EmailHop {
     from: string;
@@ -18,10 +19,13 @@ export interface AuthStatus {
     aligned?: boolean;
 }
 
+type HeaderValue = string | string[];
+type HeaderMap = Record<string, HeaderValue>;
+
 export interface AnalysisResult {
     verdict: 'likely_legit' | 'suspicious' | 'high_risk' | 'neutral';
     score: number; // 0-100
-    headers: Record<string, any>;
+    headers: HeaderMap;
     rawHeaders: string;
     auth: {
         spf: AuthStatus;
@@ -54,17 +58,15 @@ export class HeaderParser {
 
         // 2. Extract Headers manually for better fidelity on specific fields
         // PostalMime puts all headers in email.headers array
-        const headerMap: Record<string, any> = {};
+        const headerMap: HeaderMap = {};
         email.headers.forEach(h => {
             // specialized handling for array headers like Received
-            if (headerMap[h.key]) {
-                if (Array.isArray(headerMap[h.key])) {
-                    headerMap[h.key].push(h.value);
-                } else {
-                    headerMap[h.key] = [headerMap[h.key], h.value];
-                }
+            const normalizedKey = h.key.toLowerCase();
+            const existing = headerMap[normalizedKey];
+            if (existing !== undefined) {
+                headerMap[normalizedKey] = Array.isArray(existing) ? [...existing, h.value] : [existing, h.value];
             } else {
-                headerMap[h.key] = h.value;
+                headerMap[normalizedKey] = h.value;
             }
         });
 
@@ -73,35 +75,34 @@ export class HeaderParser {
         // If PostalMime found headers, TRUST IT and skip manual fallback to avoid duplication.
         if (Object.keys(headerMap).length === 0) {
             const lines = rawInput.split(/\r?\n/);
-            let currentKey = "";
+            let currentKeyNormalized = "";
 
             lines.forEach(line => {
                 // Standard header line: "Key: Value"
                 const match = line.match(/^([a-zA-Z0-9-]+):\s*(.*)$/);
                 if (match) {
-                    currentKey = match[1]; // Case-sensitive store
-                    let val = match[2];
+                    currentKeyNormalized = match[1].toLowerCase();
+                    const val = match[2];
                     // val = this.decodeHeaderValue(val); // Decode RFC 2047 (Not implemented manually, rely on PostalMime mostly)
 
-                    const normKey = currentKey;
+                    const normKey = currentKeyNormalized;
 
-                    if (headerMap[normKey]) {
-                        if (Array.isArray(headerMap[normKey])) {
-                            headerMap[normKey].push(val);
-                        } else {
-                            headerMap[normKey] = [headerMap[normKey], val];
-                        }
+                    const existing = headerMap[normKey];
+                    if (existing !== undefined) {
+                        headerMap[normKey] = Array.isArray(existing) ? [...existing, val] : [existing, val];
                     } else {
                         headerMap[normKey] = val;
                     }
-                } else if (/^\s+/.test(line) && currentKey) {
+                } else if (/^\s+/.test(line) && currentKeyNormalized) {
                     // Folded header (continuation)
-                    let val = line.trim();
-                    if (Array.isArray(headerMap[currentKey])) {
-                        const arr = headerMap[currentKey];
-                        arr[arr.length - 1] += " " + val;
-                    } else {
-                        headerMap[currentKey] += " " + val;
+                    const val = line.trim();
+                    const existing = headerMap[currentKeyNormalized];
+                    if (Array.isArray(existing)) {
+                        const arr = [...existing];
+                        arr[arr.length - 1] = `${arr[arr.length - 1]} ${val}`;
+                        headerMap[currentKeyNormalized] = arr;
+                    } else if (typeof existing === "string") {
+                        headerMap[currentKeyNormalized] = `${existing} ${val}`;
                     }
                 }
             });
@@ -120,7 +121,8 @@ export class HeaderParser {
         const hops = this.analyzeHops(getHeader('Received'));
 
         // 5. Anomalies & Verdict
-        const { verdict, score, anomalies } = this.calculateVerdict(headerMap, auth, hops);
+        const verdictResult = this.calculateVerdict(headerMap, auth, hops);
+        const { verdict, score, anomalies } = verdictResult;
 
         // 6. Artifacts
         const artifacts = this.extractArtifacts(headerMap, hops);
@@ -147,7 +149,7 @@ export class HeaderParser {
             hops,
             artifacts,
             anomalies,
-            scoreFactors: (this.calculateVerdict(headerMap, auth, hops)).scoreFactors,
+            scoreFactors: verdictResult.scoreFactors,
             impersonationAlert,
             recommendedActions,
             arc,
@@ -156,7 +158,7 @@ export class HeaderParser {
         };
     }
 
-    private static async analyzeAttachments(attachments: any[]): Promise<AnalysisResult['attachments']> {
+    private static async analyzeAttachments(attachments: Attachment[]): Promise<AnalysisResult['attachments']> {
         if (!attachments || attachments.length === 0) return [];
 
         const results: AnalysisResult['attachments'] = [];
@@ -164,14 +166,19 @@ export class HeaderParser {
         for (const att of attachments) {
             let hash = "";
             // Calculate SHA-256 if content is present
-            if (att.content && (att.content instanceof Uint8Array || att.content instanceof ArrayBuffer)) {
-                hash = await this.calculateHash(att.content);
+            if (att.content instanceof Uint8Array || att.content instanceof ArrayBuffer) {
+                const normalizedContent =
+                    att.content instanceof Uint8Array ? Uint8Array.from(att.content).buffer : att.content;
+                hash = await this.calculateHash(normalizedContent);
             }
+
+            const size =
+                typeof att.content === 'string' ? att.content.length : att.content.byteLength;
 
             results.push({
                 filename: att.filename || 'unknown',
                 mimeType: att.mimeType || 'application/octet-stream',
-                size: att.content ? att.content.length : 0,
+                size,
                 hash
             });
         }
@@ -189,10 +196,10 @@ export class HeaderParser {
         }
     }
 
-    private static analyzeARC(headers: any): AnalysisResult['arc'] {
+    private static analyzeARC(headers: HeaderMap): AnalysisResult['arc'] {
         // ARC checks consist of ARC-Authentication-Results, ARC-Seal, ARC-Message-Signature
-        const arcResults = headers['ARC-Authentication-Results'];
-        const arcSeal = headers['ARC-Seal'];
+        const arcResults = headers['arc-authentication-results'];
+        const arcSeal = headers['arc-seal'];
 
         if (!arcResults && !arcSeal) return { status: 'none', details: [] };
 
@@ -203,18 +210,18 @@ export class HeaderParser {
         if (arcResults) {
             const val = Array.isArray(arcResults) ? arcResults[0] : arcResults;
             details.push(`Results: ${val}`);
-            if (val.includes('arc=pass')) status = 'pass';
-            else if (val.includes('arc=fail')) status = 'fail';
+            if (val.toLowerCase().includes('arc=pass')) status = 'pass';
+            else if (val.toLowerCase().includes('arc=fail')) status = 'fail';
         }
 
         // Check ARC-Seal (chain validation)
         if (arcSeal) {
             const val = Array.isArray(arcSeal) ? arcSeal[0] : arcSeal;
             // Extract "cv=pass"
-            if (val.includes('cv=pass')) {
+            if (val.toLowerCase().includes('cv=pass')) {
                 if (status !== 'fail') status = 'pass';
                 details.push("Chain Validation: Pass");
-            } else if (val.includes('cv=fail')) {
+            } else if (val.toLowerCase().includes('cv=fail')) {
                 status = 'fail';
                 details.push("Chain Validation: Fail");
             }
@@ -223,14 +230,14 @@ export class HeaderParser {
         return { status, details };
     }
 
-    private static analyzeXHeaders(headers: any): AnalysisResult['xHeaders'] {
+    private static analyzeXHeaders(headers: HeaderMap): AnalysisResult['xHeaders'] {
         const interesting = [
-            { key: 'X-Spam-Status', label: 'Spam Status' },
-            { key: 'X-Spam-Score', label: 'Spam Score' },
-            { key: 'X-Mailer', label: 'Mailer Client' },
-            { key: 'X-Distribution', label: 'Distribution List' },
-            { key: 'X-Originating-IP', label: 'Originating IP' },
-            { key: 'X-Gophish', label: 'GoPhish Header (Phishing Tool)' }
+            { key: 'x-spam-status', displayKey: 'X-Spam-Status', label: 'Spam Status' },
+            { key: 'x-spam-score', displayKey: 'X-Spam-Score', label: 'Spam Score' },
+            { key: 'x-mailer', displayKey: 'X-Mailer', label: 'Mailer Client' },
+            { key: 'x-distribution', displayKey: 'X-Distribution', label: 'Distribution List' },
+            { key: 'x-originating-ip', displayKey: 'X-Originating-IP', label: 'Originating IP' },
+            { key: 'x-gophish', displayKey: 'X-Gophish', label: 'GoPhish Header (Phishing Tool)' }
         ];
 
         const xHeaders: AnalysisResult['xHeaders'] = [];
@@ -241,21 +248,21 @@ export class HeaderParser {
                 let explanation = "";
                 const vStr = String(val).toLowerCase();
 
-                if (item.key === 'X-Spam-Status') {
+                if (item.key === 'x-spam-status') {
                     if (vStr.startsWith('yes')) explanation = "Upstream server marked this as SPAM.";
                     else if (vStr.startsWith('no')) explanation = "Upstream server marked this as NOT SPAM.";
                 }
 
-                if (item.key === 'X-Mailer') {
+                if (item.key === 'x-mailer') {
                     if (vStr.includes('php')) explanation = "Sent via PHP script. Common in automated alerts or spam scripts.";
                 }
 
-                if (item.key === 'X-Gophish') {
+                if (item.key === 'x-gophish') {
                     explanation = "**CRITICAL**: Sent via GoPhish framework. Likely a simulation or phishing test.";
                 }
 
                 xHeaders.push({
-                    key: item.key,
+                    key: item.displayKey,
                     value: String(val),
                     explanation: explanation || item.label
                 });
@@ -303,8 +310,8 @@ export class HeaderParser {
         return actions;
     }
 
-    private static detectImpersonation(headers: any, auth: AnalysisResult['auth']): string | undefined {
-        const from = headers['From'] || '';
+    private static detectImpersonation(headers: HeaderMap, auth: AnalysisResult['auth']): string | undefined {
+        const from = this.getFirstHeaderValue(headers['from']);
         const highValueKeywords = ['admin', 'subport', 'security', 'hr', 'payroll', 'finance', 'ceo', 'it group', 'microsoft', 'google'];
 
         // Extract Display Name: "Display Name" <email@domain.com>
@@ -374,7 +381,7 @@ export class HeaderParser {
         return "";
     }
 
-    private static analyzeAuth(authHeader: string | string[]): AnalysisResult['auth'] {
+    private static analyzeAuth(authHeader: string | string[] | undefined): AnalysisResult['auth'] {
         // Default state
         const result: AnalysisResult['auth'] = {
             spf: { status: 'none', details: 'No SPF check found' },
@@ -400,7 +407,7 @@ export class HeaderParser {
         // SPF
         const spfMatch = mainHeader.match(/spf=(\w+)/i);
         if (spfMatch) {
-            result.spf.status = spfMatch[1].toLowerCase() as any;
+            result.spf.status = this.parseAuthStatus(spfMatch[1]);
             result.spf.details = mainHeader.match(/spf=[^;]+/)?.[0] || 'Found in headers';
         }
         result.spf.explanation = this.getAuthExplanation('spf', result.spf.status, result.spf.details);
@@ -408,7 +415,7 @@ export class HeaderParser {
         // DKIM
         const dkimMatch = mainHeader.match(/dkim=(\w+)/i);
         if (dkimMatch) {
-            result.dkim.status = dkimMatch[1].toLowerCase() as any;
+            result.dkim.status = this.parseAuthStatus(dkimMatch[1]);
             result.dkim.details = mainHeader.match(/dkim=[^;]+/)?.[0] || 'Found in headers';
         }
         result.dkim.explanation = this.getAuthExplanation('dkim', result.dkim.status, result.dkim.details);
@@ -416,7 +423,7 @@ export class HeaderParser {
         // DMARC
         const dmarcMatch = mainHeader.match(/dmarc=(\w+)/i);
         if (dmarcMatch) {
-            result.dmarc.status = dmarcMatch[1].toLowerCase() as any;
+            result.dmarc.status = this.parseAuthStatus(dmarcMatch[1]);
             result.dmarc.details = mainHeader.match(/dmarc=[^;]+/)?.[0] || 'Found in headers';
         }
         result.dmarc.explanation = this.getAuthExplanation('dmarc', result.dmarc.status, result.dmarc.details);
@@ -424,7 +431,20 @@ export class HeaderParser {
         return result;
     }
 
-    private static analyzeHops(receivedHeaders: string | string[]): EmailHop[] {
+    private static parseAuthStatus(rawStatus: string): AuthStatus['status'] {
+        const status = rawStatus.toLowerCase();
+        if (status === 'pass' || status === 'fail' || status === 'neutral' || status === 'none' || status === 'softfail' || status === 'policy' || status === 'temperror' || status === 'permerror') {
+            return status;
+        }
+        return 'none';
+    }
+
+    private static getFirstHeaderValue(value: HeaderValue | undefined): string {
+        if (!value) return '';
+        return Array.isArray(value) ? value[0] || '' : value;
+    }
+
+    private static analyzeHops(receivedHeaders: string | string[] | undefined): EmailHop[] {
         if (!receivedHeaders) return [];
         const headers = Array.isArray(receivedHeaders) ? receivedHeaders : [receivedHeaders];
         const hops: EmailHop[] = [];
@@ -493,8 +513,8 @@ export class HeaderParser {
         return hops;
     }
 
-    private static calculateVerdict(headers: any, auth: AnalysisResult['auth'], hops: EmailHop[]) {
-        let score = 50; // Neutral start
+    private static calculateVerdict(headers: HeaderMap, auth: AnalysisResult['auth'], hops: EmailHop[]) {
+        let score = 0;
         const anomalies: string[] = [];
         const factors: { label: string; score: number }[] = [];
 
@@ -528,8 +548,8 @@ export class HeaderParser {
         }
 
         // 2. Mismatch Checks
-        const from = headers['From'];
-        const returnPath = headers['Return-Path'];
+        const from = headers['from'];
+        const returnPath = headers['return-path'];
 
         if (typeof from === 'string' && typeof returnPath === 'string') {
             const fromDomain = from.match(/@([\w.-]+)/)?.[1];
@@ -569,7 +589,7 @@ export class HeaderParser {
         return { verdict, score, anomalies, scoreFactors: factors };
     }
 
-    private static extractArtifacts(headers: any, hops: EmailHop[]): AnalysisResult['artifacts'] {
+    private static extractArtifacts(headers: HeaderMap, hops: EmailHop[]): AnalysisResult['artifacts'] {
         const artifacts: AnalysisResult['artifacts'] = [];
         const seen = new Set();
         const ipRegex = /(\d{1,3}\.\d{1,3}\.\d{1,3}\.\d{1,3})|([0-9a-fA-F]{1,4}:){7,7}[0-9a-fA-F]{1,4}|([0-9a-fA-F]{1,4}:){1,7}:|([0-9a-fA-F]{1,4}:){1,6}:[0-9a-fA-F]{1,4}|([0-9a-fA-F]{1,4}:){1,5}(:[0-9a-fA-F]{1,4}){1,2}|([0-9a-fA-F]{1,4}:){1,4}(:[0-9a-fA-F]{1,4}){1,3}|([0-9a-fA-F]{1,4}:){1,3}(:[0-9a-fA-F]{1,4}){1,4}|([0-9a-fA-F]{1,4}:){1,2}(:[0-9a-fA-F]{1,4}){1,5}|[0-9a-fA-F]{1,4}:((:[0-9a-fA-F]{1,4}){1,6})|:((:[0-9a-fA-F]{1,4}){1,7}|:)|fe80:(:[0-9a-fA-F]{0,4}){0,4}%[0-9a-zA-Z]{1,}|::(ffff(:0{1,4}){0,1}:){0,1}((25[0-5]|(2[0-4]|1{0,1}[0-9]){0,1}[0-9])\.){3,3}(25[0-5]|(2[0-4]|1{0,1}[0-9]){0,1}[0-9])|([0-9a-fA-F]{1,4}:){1,4}:((25[0-5]|(2[0-4]|1{0,1}[0-9]){0,1}[0-9])\.){3,3}(25[0-5]|(2[0-4]|1{0,1}[0-9]){0,1}[0-9])/g;
@@ -591,9 +611,9 @@ export class HeaderParser {
 
         // 2. Extract IPs from Auth Headers & X-Headers
         // We grep specifically for "sender ip", "client-ip", "originating-ip" patterns or just scan specific headers
-        const interestKeys = ['Authentication-Results', 'Arc-Authentication-Results', 'Received-SPF', 'X-Originating-IP', 'X-Sender-IP', 'X-Client-IP'];
+        const interestKeys = ['authentication-results', 'arc-authentication-results', 'received-spf', 'x-originating-ip', 'x-sender-ip', 'x-client-ip'];
         interestKeys.forEach(key => {
-            const foundKey = Object.keys(headers).find(k => k.toLowerCase() === key.toLowerCase());
+            const foundKey = Object.keys(headers).find(k => k.toLowerCase() === key);
             if (foundKey) {
                 const val = headers[foundKey];
                 const strVal = Array.isArray(val) ? val.join(' ') : val;
@@ -607,19 +627,22 @@ export class HeaderParser {
         });
 
         // Extract Message-ID
-        if (headers['Message-ID']) {
-            add('message-id', headers['Message-ID'].replace(/[<>]/g, ''), 'Message-ID');
+        if (headers['message-id']) {
+            const messageId = this.getFirstHeaderValue(headers['message-id']);
+            add('message-id', messageId.replace(/[<>]/g, ''), 'Message-ID');
         }
 
         // Extract Return-Path
-        if (headers['Return-Path']) {
-            add('email', headers['Return-Path'].replace(/[<>]/g, ''), 'Return-Path');
+        if (headers['return-path']) {
+            const returnPath = this.getFirstHeaderValue(headers['return-path']);
+            add('email', returnPath.replace(/[<>]/g, ''), 'Return-Path');
         }
 
         // Extract From/To/Reply-To
-        ['From', 'To', 'Reply-To'].forEach(key => {
+        ['from', 'to', 'reply-to'].forEach(key => {
             if (headers[key]) {
-                const emailMatch = headers[key].match(/([a-zA-Z0-9._-]+@[a-zA-Z0-9._-]+\.[a-zA-Z0-9_-]+)/);
+                const headerValue = this.getFirstHeaderValue(headers[key]);
+                const emailMatch = headerValue.match(/([a-zA-Z0-9._-]+@[a-zA-Z0-9._-]+\.[a-zA-Z0-9_-]+)/);
                 if (emailMatch) add('email', emailMatch[1], key);
             }
         });

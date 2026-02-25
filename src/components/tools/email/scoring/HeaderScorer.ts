@@ -1,5 +1,5 @@
-import { NormalizedSignals, ScoreComponent } from "./types";
-import { TRUSTED_MAIL_SERVERS } from "./Config";
+import { NormalizedSignals, ScoreComponent } from "./types.js";
+import { TRUSTED_MAIL_SERVERS } from "./Config.js";
 
 export class HeaderScorer {
     static score(signals: NormalizedSignals): ScoreComponent {

@@ -17,6 +17,7 @@ interface ToolTemplateProps {
   description: string
   placeholder?: string
   initialInput?: string
+  requiresInput?: boolean
   onProcess: (input: string) => Promise<string> | string
   examples?: string[]
   controls?: ReactNode
@@ -29,6 +30,7 @@ export function ToolTemplate({
   description,
   placeholder = "Enter text here...",
   initialInput = "",
+  requiresInput = true,
   onProcess,
   examples = [],
   controls,
@@ -54,7 +56,7 @@ export function ToolTemplate({
   }, [location.pathname, addToHistory])
 
   const handleProcess = useCallback(async () => {
-    if (!input.trim()) return
+    if (requiresInput && !input.trim()) return
 
     setIsLoading(true)
     setError(null)
@@ -76,7 +78,7 @@ export function ToolTemplate({
     } finally {
       setIsLoading(false)
     }
-  }, [input, onProcess, toast])
+  }, [input, onProcess, toast, requiresInput])
 
   const handleClear = () => {
     setInput("")
@@ -112,7 +114,7 @@ export function ToolTemplate({
               </div>
             )}
             <div className="flex items-center gap-2">
-              <Button onClick={handleProcess} disabled={isLoading || !input.trim()} className="flex-1">
+              <Button onClick={handleProcess} disabled={isLoading || (requiresInput && !input.trim())} className="flex-1">
                 {isLoading && <Loader2 className="mr-2 h-4 w-4 animate-spin" />}
                 {actionLabel}
               </Button>

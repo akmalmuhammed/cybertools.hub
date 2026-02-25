@@ -1,3 +1,5 @@
+import type { Attachment } from "postal-mime";
+
 export interface AttachmentMeta {
     filename: string;
     mimeType: string;
@@ -7,12 +9,14 @@ export interface AttachmentMeta {
 }
 
 export class AttachmentScanner {
-    static analyze(attachments: any[]): AttachmentMeta[] {
+    static analyze(attachments: Attachment[]): AttachmentMeta[] {
         return attachments.map(att => {
+            const contentLength =
+                typeof att.content === "string" ? att.content.length : att.content.byteLength;
             const meta: AttachmentMeta = {
                 filename: att.filename || 'unknown',
                 mimeType: att.mimeType || 'application/octet-stream',
-                size: att.content ? att.content.length : 0,
+                size: contentLength,
                 riskScore: 0,
                 warnings: []
             };

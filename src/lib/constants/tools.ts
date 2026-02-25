@@ -2,7 +2,7 @@ import {
     Binary, FileJson, Hash, Link, Calculator,
     Regex, Shield, Mail, Network, Key,
     Search, Globe, FileDigit, Divide, FileDiff,
-    QrCode, Palette, Fingerprint, FileType, Code
+    QrCode, Palette, Fingerprint, FileType, Code, MonitorSmartphone
 } from "lucide-react"
 import { Tool } from "@/types/tool.types"
 
@@ -49,6 +49,16 @@ export const TOOLS: Tool[] = [
         keywords: ["url", "encode", "decode", "uri"]
     },
     {
+        id: "url-defang",
+        name: "URL Defang/Refang",
+        description: "Defang/refang URLs and canonicalize links for IOC workflows.",
+        path: "/tools/url-defang",
+        icon: Link,
+        category: "security",
+        status: "new",
+        keywords: ["url", "defang", "refang", "canonicalize"]
+    },
+    {
         id: "timestamp",
         name: "Unix Timestamp",
         description: "Convert between Unix timestamps and human dates.",
@@ -67,7 +77,7 @@ export const TOOLS: Tool[] = [
         path: "/tools/regex",
         icon: Regex,
         category: "application",
-        status: "planned",
+        status: "ready",
         keywords: ["regex", "test", "match"]
     },
     {
@@ -77,8 +87,18 @@ export const TOOLS: Tool[] = [
         path: "/tools/jwt",
         icon: Key,
         category: "security",
-        status: "planned",
+        status: "ready",
         keywords: ["jwt", "token", "decode"]
+    },
+    {
+        id: "jwt-verify",
+        name: "JWT/JWS Verifier",
+        description: "Verify JWT/JWS signatures and optional claims policy with secret, PEM, JWK, or JWKS URL.",
+        path: "/tools/jwt-verify",
+        icon: Key,
+        category: "security",
+        status: "new",
+        keywords: ["jwt", "jws", "verify", "jwks"]
     },
     {
         id: "email",
@@ -87,8 +107,38 @@ export const TOOLS: Tool[] = [
         path: "/tools/email",
         icon: Mail,
         category: "security",
-        status: "planned",
+        status: "ready",
         keywords: ["email", "header", "smtp"]
+    },
+    {
+        id: "ioc",
+        name: "IOC Extractor",
+        description: "Extract URLs, domains, IPs, hashes, and CVEs from raw text.",
+        path: "/tools/ioc",
+        icon: Search,
+        category: "security",
+        status: "new",
+        keywords: ["ioc", "indicators", "threat", "triage"]
+    },
+    {
+        id: "ioc-correlator",
+        name: "IOC Correlator",
+        description: "Compare two IOC datasets and identify overlap and unique indicators.",
+        path: "/tools/ioc-correlator",
+        icon: FileDiff,
+        category: "security",
+        status: "new",
+        keywords: ["ioc", "correlate", "overlap", "threat-intel"]
+    },
+    {
+        id: "user-agent",
+        name: "User-Agent Analyzer",
+        description: "Parse User-Agent strings into browser, OS, device, and automation signals.",
+        path: "/tools/user-agent",
+        icon: MonitorSmartphone,
+        category: "security",
+        status: "new",
+        keywords: ["user-agent", "ua", "browser", "fingerprint"]
     },
     {
         id: "subnet",
@@ -97,7 +147,7 @@ export const TOOLS: Tool[] = [
         path: "/tools/subnet",
         icon: Network,
         category: "network",
-        status: "planned",
+        status: "ready",
         keywords: ["cidr", "subnet", "network", "ip"]
     },
     {
@@ -107,7 +157,7 @@ export const TOOLS: Tool[] = [
         path: "/tools/password",
         icon: Shield,
         category: "security",
-        status: "planned",
+        status: "ready",
         keywords: ["password", "secure", "generator"]
     },
 
@@ -115,41 +165,51 @@ export const TOOLS: Tool[] = [
     {
         id: "whois",
         name: "Whois Lookup",
-        description: "Lookup domain registration information.",
+        description: "Lookup domain registration details via RDAP (network request).",
         path: "/tools/whois",
         icon: Search,
         category: "network",
-        status: "planned",
+        status: "beta",
         keywords: ["whois", "domain", "lookup"]
+    },
+    {
+        id: "dns-toolkit",
+        name: "DNS Toolkit",
+        description: "Query DNS-over-HTTPS records and inspect SPF/DMARC posture.",
+        path: "/tools/dns",
+        icon: Network,
+        category: "network",
+        status: "new",
+        keywords: ["dns", "spf", "dmarc", "mx", "txt"]
     },
     {
         id: "certificate",
         name: "Certificate Decoder",
-        description: "Parse PEM/DER SSL certificates.",
+        description: "Inspect certificate text and derive PEM SHA-256 fingerprints.",
         path: "/tools/certificate",
         icon: FileDigit,
         category: "security",
-        status: "planned",
+        status: "beta",
         keywords: ["ssl", "cert", "pem", "decode"]
     },
     {
         id: "iplookup",
         name: "IP Lookup",
-        description: "Get details about an IP address.",
+        description: "Classify IP addresses and optionally enrich with RDAP (network request).",
         path: "/tools/ip",
         icon: Globe,
         category: "network",
-        status: "planned",
+        status: "beta",
         keywords: ["ip", "geolocation", "lookup"]
     },
     {
         id: "port",
         name: "Port Checker",
-        description: "Check if ports are open.",
+        description: "Assess common ports and probe HTTP(S)-compatible endpoints from browser.",
         path: "/tools/port",
         icon: Divide,
         category: "network",
-        status: "planned",
+        status: "beta",
         keywords: ["port", "check", "open"]
     },
     {
@@ -159,8 +219,118 @@ export const TOOLS: Tool[] = [
         path: "/tools/diff",
         icon: FileDiff,
         category: "application",
-        status: "planned",
+        status: "ready",
         keywords: ["diff", "compare", "text"]
+    },
+    {
+        id: "http-headers",
+        name: "HTTP Header Analyzer",
+        description: "Score HTTP security headers and identify hardening gaps.",
+        path: "/tools/http-headers",
+        icon: Shield,
+        category: "security",
+        status: "new",
+        keywords: ["http", "headers", "csp", "hsts"]
+    },
+    {
+        id: "reputation",
+        name: "Reputation Enricher",
+        description: "Bulk-enrich domains/IPs with local scoring, RDAP, and optional provider proxy intel.",
+        path: "/tools/reputation",
+        icon: Search,
+        category: "security",
+        status: "new",
+        keywords: ["reputation", "bulk", "abuseipdb", "virustotal"]
+    },
+    {
+        id: "cve-prioritizer",
+        name: "KEV/CVE Prioritizer",
+        description: "Prioritize CVEs client-side using KEV, NVD feeds, CVSS, EPSS, exploit signals, and asset criticality.",
+        path: "/tools/cve-prioritizer",
+        icon: Search,
+        category: "security",
+        status: "new",
+        keywords: ["cve", "kev", "epss", "prioritization"]
+    },
+    {
+        id: "secrets-scanner",
+        name: "Secrets Scanner",
+        description: "Detect leaked credentials and high-entropy tokens in pasted content.",
+        path: "/tools/secrets-scanner",
+        icon: Shield,
+        category: "security",
+        status: "new",
+        keywords: ["secrets", "token", "credential", "leak"]
+    },
+    {
+        id: "ioc-normalizer",
+        name: "IOC Canonicalizer",
+        description: "Normalize defanged indicators, unicode/punycode domains, and deduplicate by canonical value.",
+        path: "/tools/ioc-normalizer",
+        icon: Link,
+        category: "security",
+        status: "new",
+        keywords: ["ioc", "canonicalize", "defang", "punycode"]
+    },
+    {
+        id: "stix-taxii",
+        name: "STIX/TAXII Utility",
+        description: "Parse, validate, compare, and export STIX 2.1 bundles locally.",
+        path: "/tools/stix-taxii",
+        icon: FileJson,
+        category: "security",
+        status: "new",
+        keywords: ["stix", "taxii", "threat-intel", "bundle"]
+    },
+    {
+        id: "domain-spoof",
+        name: "Domain Spoof Detector",
+        description: "Score suspected spoofed domains using homoglyph, brand abuse, and domain-age signals.",
+        path: "/tools/domain-spoof",
+        icon: Globe,
+        category: "security",
+        status: "new",
+        keywords: ["domain", "spoof", "homoglyph", "typosquat"]
+    },
+    {
+        id: "sigma-helper",
+        name: "Sigma Linter Helper",
+        description: "Lint Sigma rules and generate backend query helpers with ATT&CK coverage checks.",
+        path: "/tools/sigma-helper",
+        icon: FileType,
+        category: "security",
+        status: "new",
+        keywords: ["sigma", "siem", "attack", "detection"]
+    },
+    {
+        id: "yara-local",
+        name: "YARA Local Matcher",
+        description: "Run local YARA-style matching against text or local files without upload.",
+        path: "/tools/yara-local",
+        icon: Search,
+        category: "security",
+        status: "new",
+        keywords: ["yara", "malware", "pattern", "scan"]
+    },
+    {
+        id: "sbom-diff",
+        name: "SBOM Diff & Triage",
+        description: "Compare CycloneDX/SPDX BOMs and prioritize risky component changes.",
+        path: "/tools/sbom-diff",
+        icon: FileDiff,
+        category: "security",
+        status: "new",
+        keywords: ["sbom", "cyclonedx", "spdx", "supply-chain"]
+    },
+    {
+        id: "security-header-builder",
+        name: "Security Header Builder",
+        description: "Generate CSP and security header presets with explicit compatibility tradeoffs.",
+        path: "/tools/security-header-builder",
+        icon: Shield,
+        category: "security",
+        status: "new",
+        keywords: ["csp", "headers", "hsts", "policy"]
     },
 
     // PRIORITY 4
@@ -171,7 +341,7 @@ export const TOOLS: Tool[] = [
         path: "/tools/qrcode",
         icon: QrCode,
         category: "others",
-        status: "planned",
+        status: "ready",
         keywords: ["qr", "code", "generate"]
     },
     {
@@ -181,7 +351,7 @@ export const TOOLS: Tool[] = [
         path: "/tools/color",
         icon: Palette,
         category: "application",
-        status: "planned",
+        status: "ready",
         keywords: ["color", "hex", "rgb", "hsl"]
     },
     {
@@ -191,7 +361,7 @@ export const TOOLS: Tool[] = [
         path: "/tools/uuid",
         icon: Fingerprint,
         category: "application",
-        status: "planned",
+        status: "ready",
         keywords: ["uuid", "guid", "generate"]
     },
     {
@@ -201,7 +371,7 @@ export const TOOLS: Tool[] = [
         path: "/tools/markdown",
         icon: FileType,
         category: "application",
-        status: "planned",
+        status: "ready",
         keywords: ["markdown", "preview", "md"]
     },
     {
@@ -211,7 +381,7 @@ export const TOOLS: Tool[] = [
         path: "/tools/html",
         icon: Code,
         category: "application",
-        status: "planned",
+        status: "ready",
         keywords: ["html", "encode", "entity"]
     }
 ]

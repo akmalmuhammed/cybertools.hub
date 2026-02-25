@@ -1,17 +1,18 @@
-import { SignalNormalizer } from "./SignalNormalizer";
-import { HeaderScorer } from "./HeaderScorer";
-import { BodyScorer } from "./BodyScorer";
-import { CrossContextScorer } from "./CrossContextScorer";
-import { AttachmentScorer } from "./AttachmentScorer";
-import { TrustCalculator } from "./TrustCalculator";
-import { ConfidenceCalculator } from "./ConfidenceCalculator";
-import { NormalizedSignals, ScoringResult } from "./types";
-import { AnalysisResult } from "../HeaderParser";
+import { SignalNormalizer } from "./SignalNormalizer.js";
+import { HeaderScorer } from "./HeaderScorer.js";
+import { BodyScorer } from "./BodyScorer.js";
+import { CrossContextScorer } from "./CrossContextScorer.js";
+import { AttachmentScorer } from "./AttachmentScorer.js";
+import { TrustCalculator } from "./TrustCalculator.js";
+import { ConfidenceCalculator } from "./ConfidenceCalculator.js";
+import { NormalizedSignals, ScoringResult } from "./types.js";
+import { AnalysisResult } from "../HeaderParser.js";
+import type { Email } from "postal-mime";
 
 export class AnalysisEngine {
     static analyze(
         headerResult: AnalysisResult,
-        emailBody: any | null,
+        emailBody: Email | null,
         options: { checkBody: boolean; checkAttachments: boolean }
     ): { signals: NormalizedSignals; result: ScoringResult } {
 

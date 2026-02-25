@@ -1,10 +1,11 @@
-import { AnalysisResult } from "../HeaderParser";
-import { NormalizedSignals, AttachmentSignal } from "./types";
+import { AnalysisResult } from "../HeaderParser.js";
+import { NormalizedSignals, AttachmentSignal } from "./types.js";
+import type { Attachment, Email } from "postal-mime";
 
 export class SignalNormalizer {
     static normalize(
         headerResult: AnalysisResult,
-        emailBody: any | null, // PostalMime object
+        emailBody: Email | null,
         options: {
             checkBody: boolean;
             checkAttachments: boolean;
@@ -12,10 +13,10 @@ export class SignalNormalizer {
     ): NormalizedSignals {
 
         // 1. Normalize Auth Signals
-        const spf = this.mapAuthStatus(headerResult.auth.spf.status);
-        const dkim = this.mapAuthStatus(headerResult.auth.dkim.status);
-        const dmarc = this.mapAuthStatus(headerResult.auth.dmarc.status);
-        const arc = headerResult.arc ? this.mapAuthStatus(headerResult.arc.status) : "none";
+        const spf = this.mapSpfStatus(headerResult.auth.spf.status);
+        const dkim = this.mapDkimStatus(headerResult.auth.dkim.status);
+        const dmarc = this.mapDmarcStatus(headerResult.auth.dmarc.status);
+        const arc = headerResult.arc ? this.mapArcStatus(headerResult.arc.status) : "none";
 
         // Extract DMARC Policy
         let dmarcPolicy: NormalizedSignals['dmarcPolicy'] = "unknown";
@@ -26,10 +27,11 @@ export class SignalNormalizer {
 
         // 2. Normalize Routing
         let timestampsValid = true;
-        for (let i = 0; i < headerResult.hops.length - 1; i++) {
-            const newer = headerResult.hops[i].timestamp;
-            const older = headerResult.hops[i + 1].timestamp;
-            if (newer < older - 2000) {
+        for (let i = 1; i < headerResult.hops.length; i++) {
+            const previous = headerResult.hops[i - 1].timestamp;
+            const current = headerResult.hops[i].timestamp;
+            // Small tolerance for parser/timezone quirks.
+            if (current + 2000 < previous) {
                 timestampsValid = false;
                 break;
             }
@@ -55,9 +57,12 @@ export class SignalNormalizer {
         // 4. Attachment Signals
         const attachments: AttachmentSignal[] = [];
         if (options.checkAttachments && emailBody && emailBody.attachments) {
-            emailBody.attachments.forEach((att: any) => {
-                const ext = att.filename.split('.').pop()?.toLowerCase() || "";
-                const filename = att.filename.toLowerCase();
+            emailBody.attachments.forEach((att: Attachment) => {
+                const attachmentFilename = att.filename || "unknown";
+                const ext = attachmentFilename.split('.').pop()?.toLowerCase() || "";
+                const filename = attachmentFilename.toLowerCase();
+                const size =
+                    typeof att.content === "string" ? att.content.length : att.content.byteLength;
 
                 // Check for double extension
                 const parts = filename.split('.');
@@ -66,9 +71,9 @@ export class SignalNormalizer {
                     ['pdf', 'doc', 'docx', 'xls', 'xlsx', 'txt', 'jpg', 'png'].includes(parts[parts.length - 2]);
 
                 attachments.push({
-                    filename: att.filename,
+                    filename: attachmentFilename,
                     extension: ext,
-                    size: att.size,
+                    size,
                     hasDoubleExtension,
                     isExecutable: ['exe', 'scr', 'bat', 'cmd', 'com', 'pif'].includes(ext),
                     isMacroEnabled: ['docm', 'xlsm', 'pptm'].includes(ext),
@@ -78,14 +83,14 @@ export class SignalNormalizer {
         }
 
         // 5. Cross-Context Prep
-        const fromArray = headerResult.headers['From'] ? (Array.isArray(headerResult.headers['From']) ? headerResult.headers['From'][0] : headerResult.headers['From']) : "";
+        const fromArray = this.getHeaderString(headerResult.headers, 'from');
         const fromMatch = fromArray.match(/^(?:"?([^"<]+)"?\s)?(?:<?(.+@[^>]+)>?)$/);
         const fromDisplayName = fromMatch ? (fromMatch[1] || "").trim() : "";
         const fromEmail = fromMatch ? (fromMatch[2] || fromArray).trim() : fromArray;
         const fromDomain = fromEmail.split('@')[1] || "";
 
         // Reply-To
-        const replyTo = headerResult.headers['Reply-To'];
+        const replyTo = headerResult.headers['reply-to'];
         let replyToDomain = null;
         if (replyTo) {
             const rt = Array.isArray(replyTo) ? replyTo[0] : replyTo;
@@ -101,9 +106,9 @@ export class SignalNormalizer {
             dmarcPolicy,
             arcResult: arc,
 
-            authenticationResultsPresent: !!headerResult.auth.spf.details || !!headerResult.auth.dkim.details,
-            multipleAuthHeaders: Array.isArray(headerResult.headers['Authentication-Results']) && headerResult.headers['Authentication-Results'].length > 1,
-            authservId: this.extractAuthServId(headerResult.headers['Authentication-Results']),
+            authenticationResultsPresent: !!this.getHeaderString(headerResult.headers, 'authentication-results'),
+            multipleAuthHeaders: Array.isArray(headerResult.headers['authentication-results']) && headerResult.headers['authentication-results'].length > 1,
+            authservId: this.extractAuthServId(headerResult.headers['authentication-results']),
 
             // Routing
             receivedHopCount: headerResult.hops.length,
@@ -115,7 +120,7 @@ export class SignalNormalizer {
             fromDomain: fromDomain.toLowerCase(),
             fromDisplayName,
             replyToDomain: replyToDomain ? replyToDomain.toLowerCase() : null,
-            returnPathDomain: (headerResult.headers['Return-Path'] || "").replace(/[<>]/g, '').split('@')[1] || "",
+            returnPathDomain: this.getHeaderString(headerResult.headers, 'Return-Path').replace(/[<>]/g, '').split('@')[1] || "",
 
             // Body
             bodyAnalysisEnabled: options.checkBody,
@@ -132,12 +137,37 @@ export class SignalNormalizer {
         };
     }
 
-    private static mapAuthStatus(status: string): any {
-        const valid = ["pass", "fail", "softfail", "none", "neutral", "temperror", "permerror"];
-        return valid.includes(status) ? status : "none";
+    private static mapSpfStatus(status: string): NormalizedSignals['spfResult'] {
+        const normalized = status.toLowerCase();
+        const valid: NormalizedSignals['spfResult'][] = ["pass", "fail", "softfail", "none", "neutral", "temperror", "permerror"];
+        return valid.includes(normalized as NormalizedSignals['spfResult']) ? (normalized as NormalizedSignals['spfResult']) : "none";
     }
 
-    private static extractAuthServId(header: string | string[]): string | null {
+    private static mapDkimStatus(status: string): NormalizedSignals['dkimResult'] {
+        const normalized = status.toLowerCase();
+        const valid: NormalizedSignals['dkimResult'][] = ["pass", "fail", "none", "neutral", "temperror", "permerror"];
+        return valid.includes(normalized as NormalizedSignals['dkimResult']) ? (normalized as NormalizedSignals['dkimResult']) : "none";
+    }
+
+    private static mapDmarcStatus(status: string): NormalizedSignals['dmarcResult'] {
+        const normalized = status.toLowerCase();
+        const valid: NormalizedSignals['dmarcResult'][] = ["pass", "fail", "none", "temperror", "permerror"];
+        return valid.includes(normalized as NormalizedSignals['dmarcResult']) ? (normalized as NormalizedSignals['dmarcResult']) : "none";
+    }
+
+    private static mapArcStatus(status: string): NormalizedSignals['arcResult'] {
+        const normalized = status.toLowerCase();
+        const valid: NormalizedSignals['arcResult'][] = ["pass", "fail", "none", "neutral", "temperror", "permerror"];
+        return valid.includes(normalized as NormalizedSignals['arcResult']) ? (normalized as NormalizedSignals['arcResult']) : "none";
+    }
+
+    private static getHeaderString(headers: AnalysisResult['headers'], key: string): string {
+        const value = headers[key];
+        if (!value) return "";
+        return Array.isArray(value) ? value[0] || "" : value;
+    }
+
+    private static extractAuthServId(header: string | string[] | undefined): string | null {
         if (!header) return null;
         const h = Array.isArray(header) ? header[0] : header;
         const match = h.match(/^([^;]+)/);

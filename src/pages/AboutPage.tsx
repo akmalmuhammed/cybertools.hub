@@ -8,7 +8,7 @@ export default function AboutPage() {
         <div className="max-w-4xl mx-auto space-y-16 py-10">
             <SEO
                 title="About"
-                description="Learn about the philosophy behind CyberTools Hub - privacy-first, client-side security tools."
+                description="Learn about the philosophy behind CyberTools Hub - local-first security tools with explicit network-intel modes."
             />
             {/* Hero Section */}
             <div className="text-center space-y-6">
@@ -25,7 +25,7 @@ export default function AboutPage() {
                 </h1>
                 <p className="text-xl text-muted-foreground max-w-2xl mx-auto">
                     Built for developers, penetration testers, and security enthusiasts.
-                    Zero server-side processing. 100% privacy.
+                    Local-first processing with clearly marked external lookup tools.
                 </p>
             </div>
 
@@ -35,7 +35,7 @@ export default function AboutPage() {
                     {
                         icon: Lock,
                         title: "Privacy First",
-                        desc: "All logic runs in your browser. No data is ever sent to our servers. Your secrets stay secret."
+                        desc: "Core transformations run locally. Network tools explicitly disclose outbound requests to third-party endpoints."
                     },
                     {
                         icon: Zap,
@@ -83,7 +83,8 @@ export default function AboutPage() {
                     </p>
                     <p>
                         <strong>CyberTools Hub is different.</strong> We believe that utility tools should not require trust.
-                        By leveraging modern browser capabilities, we've rebuilt essential security tools to run entirely on your device.
+                        By leveraging modern browser capabilities, we've rebuilt essential security tools to run on your device by default.
+                        For network workflows (WHOIS/IP/DNS/JWKS/port probes and reputation proxy calls), we explicitly label outbound requests.
                     </p>
                 </div>
             </div>

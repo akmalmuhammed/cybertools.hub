@@ -2,21 +2,48 @@ import { format, fromUnixTime, getUnixTime, parseISO } from 'date-fns'
 
 
 export function unixToDate(timestamp: number): string {
+    if (!Number.isFinite(timestamp)) {
+        return "Invalid Timestamp"
+    }
+
     try {
-        // Check if milliseconds (13 digits) or seconds (10 digits)
-        const date = timestamp.toString().length === 13 ? new Date(timestamp) : fromUnixTime(timestamp)
+        const asNumber = Number(timestamp)
+        const date =
+            Math.abs(asNumber) >= 1_000_000_000_000
+                ? new Date(asNumber)
+                : fromUnixTime(asNumber)
+
+        if (Number.isNaN(date.getTime())) {
+            return "Invalid Timestamp"
+        }
+
         return format(date, "yyyy-MM-dd HH:mm:ss")
-    } catch (e) {
+    } catch {
         return "Invalid Timestamp"
     }
 }
 
 export function dateToUnix(date: string | Date): number {
     try {
-        const d = typeof date === 'string' ? parseISO(date) : date
+        let d: Date
+        if (typeof date === 'string') {
+            const trimmed = date.trim()
+            if (!trimmed) return Number.NaN
+
+            // parseISO handles strict ISO values; fallback to native parsing for common forms.
+            const isoCandidate = parseISO(trimmed)
+            d = Number.isNaN(isoCandidate.getTime()) ? new Date(trimmed) : isoCandidate
+        } else {
+            d = date
+        }
+
+        if (Number.isNaN(d.getTime())) {
+            return Number.NaN
+        }
+
         return getUnixTime(d)
-    } catch (e) {
-        return 0
+    } catch {
+        return Number.NaN
     }
 }
 
@@ -26,9 +53,10 @@ export function getCurrentUnix(): number {
 
 export function formatDate(date: Date | string, fmt: string = "yyyy-MM-dd HH:mm:ss"): string {
     try {
-        const d = typeof date === 'string' ? parseISO(date) : date
+        const d = typeof date === 'string' ? new Date(date) : date
+        if (Number.isNaN(d.getTime())) return "Invalid Date"
         return format(d, fmt)
-    } catch (e) {
+    } catch {
         return "Invalid Date"
     }
 }
@@ -47,7 +75,7 @@ export function parseTimezone(date: Date, timezone: string): string {
             hour: '2-digit', minute: '2-digit', second: '2-digit',
             hour12: false
         }).format(date)
-    } catch (e) {
+    } catch {
         return "Invalid Timezone"
     }
 }

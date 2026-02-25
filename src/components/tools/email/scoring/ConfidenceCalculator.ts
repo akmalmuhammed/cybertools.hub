@@ -1,5 +1,5 @@
-import { NormalizedSignals, ScoringResult } from "./types";
-import { TRUSTED_MAIL_SERVERS } from "./Config";
+import { NormalizedSignals, ScoringResult } from "./types.js";
+import { TRUSTED_MAIL_SERVERS } from "./Config.js";
 
 export class ConfidenceCalculator {
     static calculate(signals: NormalizedSignals): ScoringResult['confidence'] {

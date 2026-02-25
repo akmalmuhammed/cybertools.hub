@@ -1,4 +1,4 @@
-import { useState, useEffect } from "react";
+import { useState, useEffect, useCallback, useRef } from "react";
 import PostalMime from 'postal-mime';
 import { HeaderParser, AnalysisResult } from "./HeaderParser";
 import { AnalysisEngine } from "./scoring/AnalysisEngine";
@@ -34,8 +34,18 @@ export function EmailAnalyzer() {
 
     // Raw Tab State
     const [rawTab, setRawTab] = useState<'headers' | 'body_text' | 'body_html'>('headers');
+    const previousTogglesRef = useRef({
+        analyzeBody: false,
+        analyzeAttachments: false,
+    });
 
-    const performAnalysis = async (content: string, runBody: boolean, runAttachments: boolean) => {
+    const handleModeChange = (value: string) => {
+        if (value === "analyst" || value === "raw" || value === "it") {
+            setMode(value);
+        }
+    };
+
+    const performAnalysis = useCallback(async (content: string, runBody: boolean, runAttachments: boolean) => {
         if (!content.trim()) return;
         setLoading(true);
         try {
@@ -74,18 +84,27 @@ export function EmailAnalyzer() {
         } finally {
             setLoading(false);
         }
-    };
+    }, []);
 
-    // Trigger analysis when settings change IF we already have analysis
+    // Trigger re-analysis only when privacy toggles change after an initial run.
     useEffect(() => {
-        if (analysis && input) {
-            // Debounce re-analysis
-            const timer = setTimeout(() => {
-                performAnalysis(input, analyzeBody, analyzeAttachments);
-            }, 200);
-            return () => clearTimeout(timer);
+        if (!analysis || !input) {
+            previousTogglesRef.current = { analyzeBody, analyzeAttachments };
+            return;
         }
-    }, [analyzeBody, analyzeAttachments]);
+        const previous = previousTogglesRef.current;
+        if (
+            previous.analyzeBody === analyzeBody &&
+            previous.analyzeAttachments === analyzeAttachments
+        ) {
+            return;
+        }
+        previousTogglesRef.current = { analyzeBody, analyzeAttachments };
+        const timer = setTimeout(() => {
+            performAnalysis(input, analyzeBody, analyzeAttachments);
+        }, 200);
+        return () => clearTimeout(timer);
+    }, [analysis, input, analyzeBody, analyzeAttachments, performAnalysis]);
 
     const handleAnalyzeClick = () => {
         performAnalysis(input, analyzeBody, analyzeAttachments);
@@ -110,7 +129,7 @@ export function EmailAnalyzer() {
         <div className="h-full flex flex-col">
             {analysis && (
                 <div className="flex items-center justify-between pb-4 border-b animate-in fade-in slide-in-from-top-2 duration-300">
-                    <Tabs value={mode} onValueChange={(v) => setMode(v as any)} className="w-[300px]">
+                    <Tabs value={mode} onValueChange={handleModeChange} className="w-[300px]">
                         <TabsList className="grid w-full grid-cols-3">
                             <TabsTrigger value="analyst" title="Default View">Analyst</TabsTrigger>
                             <TabsTrigger value="raw" title="For Engineers">Raw</TabsTrigger>
@@ -147,8 +166,8 @@ export function EmailAnalyzer() {
                                 ['Verdict', analysis.scoring.verdict.verdict],
                                 ['Trust Score', analysis.scoring.trust.score],
                                 ['Confidence', analysis.scoring.confidence.level],
-                                ['Subject', `"${analysis.header.headers['Subject'] || ''}"`],
-                                ['From', `"${analysis.header.headers['From'] || ''}"`],
+                                ['Subject', `"${analysis.header.headers['subject'] || ''}"`],
+                                ['From', `"${analysis.header.headers['from'] || ''}"`],
                                 ['SPF', analysis.header.auth.spf.status],
                                 ['DKIM', analysis.header.auth.dkim.status],
                                 ['DMARC', analysis.header.auth.dmarc.status],
@@ -400,19 +419,19 @@ export function EmailAnalyzer() {
                                     <h3 className="font-semibold text-sm text-foreground/80 mb-2">Key Metadata</h3>
                                     <div className="space-y-1">
                                         <label className="text-xs uppercase font-bold text-muted-foreground">Subject</label>
-                                        <div className="font-medium text-sm">{analysis.header.headers['Subject']}</div>
+                                        <div className="font-medium text-sm">{analysis.header.headers['subject']}</div>
                                     </div>
                                     <div className="space-y-1">
                                         <label className="text-xs uppercase font-bold text-muted-foreground">From</label>
-                                        <div className="font-medium text-sm break-all">{analysis.header.headers['From']}</div>
+                                        <div className="font-medium text-sm break-all">{analysis.header.headers['from']}</div>
                                     </div>
                                     <div className="space-y-1">
                                         <label className="text-xs uppercase font-bold text-muted-foreground">Return-Path</label>
-                                        <div className="font-mono text-xs break-all">{analysis.header.headers['Return-Path'] || 'N/A'}</div>
+                                        <div className="font-mono text-xs break-all">{analysis.header.headers['return-path'] || 'N/A'}</div>
                                     </div>
                                     <div className="space-y-1">
                                         <label className="text-xs uppercase font-bold text-muted-foreground">To</label>
-                                        <div className="font-medium text-sm break-all">{analysis.header.headers['To']}</div>
+                                        <div className="font-medium text-sm break-all">{analysis.header.headers['to']}</div>
                                     </div>
                                 </div>
 

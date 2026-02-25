@@ -1,5 +1,5 @@
-import { AnalysisResult } from "./HeaderParser";
-import { PhishingAnalysisResult } from "./PhishingAnalyzer";
+import { AnalysisResult } from "./HeaderParser.js";
+import { PhishingAnalysisResult } from "./PhishingAnalyzer.js";
 
 export interface Verdict {
     level: "Legitimate" | "Suspicious" | "Phishing";

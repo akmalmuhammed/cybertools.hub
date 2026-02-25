@@ -6,6 +6,12 @@ import { Tabs, TabsList, TabsTrigger } from "@/components/ui/tabs"
 export default function HtmlEncoderTool() {
     const [mode, setMode] = useState<"encode" | "decode">("encode")
 
+    const handleModeChange = (value: string) => {
+        if (value === "encode" || value === "decode") {
+            setMode(value)
+        }
+    }
+
     const process = (input: string) => {
         return mode === "encode" ? encodeHTML(input) : decodeHTML(input)
     }
@@ -16,7 +22,7 @@ export default function HtmlEncoderTool() {
             description="Encode and decode HTML entities to prevent XSS."
             actionLabel={mode === "encode" ? "Encode" : "Decode"}
             controls={
-                <Tabs value={mode} onValueChange={(v) => setMode(v as any)} className="w-[200px]">
+                <Tabs value={mode} onValueChange={handleModeChange} className="w-[200px]">
                     <TabsList className="grid w-full grid-cols-2">
                         <TabsTrigger value="encode">Encode</TabsTrigger>
                         <TabsTrigger value="decode">Decode</TabsTrigger>

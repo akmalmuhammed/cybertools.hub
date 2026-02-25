@@ -17,7 +17,7 @@ export default function RegexTool() {
 
         try {
             new RegExp(pattern, flags)
-        } catch (e) {
+        } catch {
             return <div className="text-destructive">Invalid Regex Pattern</div>
         }
 

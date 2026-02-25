@@ -1,20 +1,20 @@
 # CyberTools Hub
 
-**CyberTools Hub** is a comprehensive, production-ready suite of security utilities designed for developers, SOC analysts, and penetration testers. Built with a "Privacy First" philosophy, all tools run entirely client-side in your browser, ensuring no sensitive data ever leaves your device.
+**CyberTools Hub** is a comprehensive suite of security utilities designed for developers, SOC analysts, and penetration testers. Built with a privacy-first philosophy, most tools run fully client-side in your browser; network-intelligence tools (WHOIS/IP/Port web probing) make explicit outbound requests.
 
 ![CyberTools Hub Screenshot](/screenshot.png)
 
 ## 🚀 Features
 
 - **20+ Security Tools**: From Base64 encoding to JWT analysis and Subnet calculations.
-- **Privacy First**: All logic runs locally in the browser (WASM/JS).
+- **Privacy First**: Core transformations and forensic logic run locally in the browser.
 - **Modern UI/UX**: Minimalist "hacker" aesthetic with glassmorphism, smooth animations (Framer Motion), and responsive design.
 - **Advanced Features**: 
     - 🌗 Dark/Light Mode with persistence
     - 🔍 Command K Search (Spotlight style)
     - ⭐ Favorites & History
     - 📱 Mobile Responsive
-- **Tech Stack**: React 19, Vite, TypeScript, TailwindCSS, Shadcn/UI, Zustand.
+- **Tech Stack**: React 18, Vite, TypeScript, TailwindCSS, Shadcn/UI, Zustand.
 
 ## 🛠️ Tools Included
 
@@ -33,11 +33,20 @@
 - **Password Generator** (Secure random)
 
 ### Advanced Tools
-- **WHOIS Lookup** (Mock/API)
-- **Certificate Decoder** (X.509)
-- **IP Lookup** (Geolocation)
-- **Port Checker** (Common ports)
+- **WHOIS Lookup** (RDAP, network request)
+- **Certificate Decoder** (Text metadata + PEM fingerprint)
+- **IP Lookup** (Local classification + optional RDAP)
+- **Port Checker** (Browser-safe HTTP(S) probing + service intelligence)
 - **Text Diff** (Side-by-side comparison)
+- **KEV/CVE Prioritizer** (Client-side vulnerability triage)
+- **Secrets Scanner** (Credential/token leak detection)
+- **IOC Canonicalizer** (Defanged IOC normalization + unicode/punycode dedupe)
+- **STIX/TAXII Utility** (Parse, validate, compare, export local bundles)
+- **Domain Spoof Detector** (Homoglyph/brand-abuse/domain-age heuristics)
+- **Sigma Linter Helper** (Rule syntax + ATT&CK completeness + query helpers)
+- **YARA Local Matcher** (Local text/file pattern matching, no upload)
+- **SBOM Diff & Risk Triage** (CycloneDX/SPDX compare + vulnerable change triage)
+- **Security Header/CSP Builder** (Preset policy generation + tradeoff guidance)
 
 ### Utilities
 - **QR Code Generator**
@@ -68,6 +77,23 @@
     ```bash
     npm run build
     ```
+
+5.  Run tool accuracy tests:
+    ```bash
+    npm test
+    ```
+
+## 🔒 Privacy Notes
+
+- Core tools (encoding, hashing, formatting, parsing, generation) process data locally.
+- Some intel/verification tools make outbound requests when used:
+  - `WHOIS`: `https://rdap.org/domain/...`
+  - `IP Lookup`: `https://rdap.org/ip/...`
+  - `DNS Toolkit`: `https://dns.google/resolve?...`
+  - `JWT/JWS Verifier` (JWKS mode): user-supplied JWKS URL
+  - `Port Checker`: attempts HTTP(S) requests to target hosts/ports
+  - `Reputation Enricher`: user-supplied proxy endpoint (recommended), plus optional RDAP lookups
+- For provider reputation APIs, use your own backend proxy. Direct browser API-key calls are intentionally avoided.
 
 ## 🤝 Contributing
 

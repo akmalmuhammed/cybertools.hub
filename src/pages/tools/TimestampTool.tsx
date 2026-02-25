@@ -6,6 +6,12 @@ import { Tabs, TabsList, TabsTrigger } from "@/components/ui/tabs"
 export default function TimestampTool() {
     const [mode, setMode] = useState<"auto" | "unix2date" | "date2unix">("auto")
 
+    const handleModeChange = (value: string) => {
+        if (value === "auto" || value === "unix2date" || value === "date2unix") {
+            setMode(value)
+        }
+    }
+
     const process = (input: string) => {
         const trimmed = input.trim()
 
@@ -18,7 +24,7 @@ export default function TimestampTool() {
             } else {
                 // Assume date string
                 const ts = dateToUnix(trimmed)
-                if (ts === 0) throw new Error("Invalid date format")
+                if (Number.isNaN(ts)) throw new Error("Invalid date format")
                 return ts.toString()
             }
         }
@@ -31,7 +37,7 @@ export default function TimestampTool() {
 
         if (mode === "date2unix") {
             const ts = dateToUnix(trimmed)
-            if (ts === 0) throw new Error("Invalid date format")
+            if (Number.isNaN(ts)) throw new Error("Invalid date format")
             return ts.toString()
         }
 
@@ -45,7 +51,7 @@ export default function TimestampTool() {
             actionLabel="Convert"
             controls={
                 <div className="flex items-center gap-4">
-                    <Tabs value={mode} onValueChange={(v) => setMode(v as any)} className="w-[300px]">
+                    <Tabs value={mode} onValueChange={handleModeChange} className="w-[300px]">
                         <TabsList className="grid w-full grid-cols-3">
                             <TabsTrigger value="auto">Auto</TabsTrigger>
                             <TabsTrigger value="unix2date">Unix to Date</TabsTrigger>

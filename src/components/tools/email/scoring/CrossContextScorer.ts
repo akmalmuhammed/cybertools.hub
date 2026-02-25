@@ -1,5 +1,5 @@
-import { NormalizedSignals, ScoreComponent } from "./types";
-import { FREE_PROVIDERS, HIGH_VALUE_ROLES } from "./Config";
+import { NormalizedSignals, ScoreComponent } from "./types.js";
+import { FREE_PROVIDERS, HIGH_VALUE_ROLES } from "./Config.js";
 
 export class CrossContextScorer {
     static score(signals: NormalizedSignals): ScoreComponent {

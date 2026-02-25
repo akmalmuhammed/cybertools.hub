@@ -39,6 +39,32 @@ export default function Base64Tool() {
 
     const fileInputRef = useRef<HTMLInputElement>(null)
 
+    const isMode = (value: string): value is "encode" | "decode" =>
+        value === "encode" || value === "decode"
+
+    const isInputType = (value: string): value is "text" | "file" =>
+        value === "text" || value === "file"
+
+    const toArrayBuffer = (bytes: Uint8Array): ArrayBuffer => Uint8Array.from(bytes).buffer
+
+    const handleModeChange = (value: string) => {
+        if (!isMode(value)) return
+        setMode(value)
+        setOutputText("")
+        setOutputBytes(null)
+        setError(null)
+        setHexOutput("")
+        setJsonOutput(null)
+        setFixIssues([])
+        setDetection(null)
+    }
+
+    const handleInputTypeChange = (value: string) => {
+        if (isInputType(value)) {
+            setInputType(value)
+        }
+    }
+
     const process = useCallback(async (text: string) => {
         setError(null)
         setFixIssues([])
@@ -80,7 +106,7 @@ export default function Base64Tool() {
                     while (safeInput.length % 4) safeInput += '=';
 
                     bytes = base64ToBytes(safeInput);
-                } catch (e) {
+                } catch {
                     throw new Error("Invalid Base64 input. Try Auto-Fix.")
                 }
 
@@ -171,15 +197,7 @@ export default function Base64Tool() {
         }
     }, [input, inputBytes, liveMode, process, inputType])
 
-    // Trigger process when options change
-    useEffect(() => {
-        if ((outputText || liveMode) && (input || inputBytes)) {
-            process(input)
-        }
-    }, [urlSafe, doSplitLines, mode, autoFix])
-
-    const handleFileChange = (e: React.ChangeEvent<HTMLInputElement>) => {
-        const file = e.target.files?.[0]
+    const handleIncomingFile = (file: File) => {
         if (!file) return
 
         setFileName(file.name)
@@ -194,16 +212,6 @@ export default function Base64Tool() {
                 const bytes = new Uint8Array(buffer);
                 setInputBytes(bytes);
                 setInput(""); // Clear text input
-                // Process immediately
-                if (liveMode) {
-                    // We need a specific trigger since `input` variable is empty
-                    // Maybe adapt process() to handle inputBytes directly? Yes done above.
-                    // But process() hook depends on `input` string mostly.
-                    // Let's force a re-render/call.
-                    // setMode("encode"); // Trigger re-eval? 
-                    // Actually, we should just call internal logic, but process is useCallback.
-                    // Let's assume the effect [inputBytes] will trigger it? No, need to change.
-                }
             };
             reader.readAsArrayBuffer(file);
         } else {
@@ -219,20 +227,23 @@ export default function Base64Tool() {
         }
     }
 
+    const handleFileChange = (e: React.ChangeEvent<HTMLInputElement>) => {
+        const file = e.target.files?.[0]
+        if (file) handleIncomingFile(file)
+    }
+
     const handleDrop = (e: React.DragEvent) => {
         e.preventDefault()
         const file = e.dataTransfer.files?.[0]
-        if (file && fileInputRef.current) {
-            fileInputRef.current.files = e.dataTransfer.files
-            const event = { target: { files: e.dataTransfer.files } } as any
-            handleFileChange(event)
+        if (file) {
+            handleIncomingFile(file)
         }
     }
 
     const handleDownload = () => {
         if (mode === 'decode' && outputBytes) {
             // Download binary
-            const blob = new Blob([outputBytes as any], { type: detection?.mime || "application/octet-stream" });
+            const blob = new Blob([toArrayBuffer(outputBytes)], { type: detection?.mime || "application/octet-stream" });
             const url = URL.createObjectURL(blob);
             const a = document.createElement("a");
             a.href = url;
@@ -266,7 +277,7 @@ export default function Base64Tool() {
     // Function to render image preview
     const renderPreview = () => {
         if (detection && detection.type === 'image' && outputBytes) {
-            const blob = new Blob([outputBytes as any], { type: detection.mime });
+            const blob = new Blob([toArrayBuffer(outputBytes)], { type: detection.mime });
             const url = URL.createObjectURL(blob);
             return (
                 <div className="flex flex-col items-center justify-center p-4 bg-black/5 rounded-lg border border-border">
@@ -296,16 +307,7 @@ export default function Base64Tool() {
                 <Card className="flex flex-col border-muted-foreground/20 shadow-lg h-full">
                     <CardHeader className="pb-4">
                         <div className="flex items-center justify-between">
-                            <Tabs value={mode} onValueChange={(v) => {
-                                setMode(v as any);
-                                setOutputText("");
-                                setOutputBytes(null);
-                                setError(null);
-                                setHexOutput("");
-                                setJsonOutput(null);
-                                setFixIssues([]);
-                                setDetection(null);
-                            }} className="w-full">
+                            <Tabs value={mode} onValueChange={handleModeChange} className="w-full">
                                 <TabsList className="grid w-full grid-cols-2">
                                     <TabsTrigger value="encode">Encode</TabsTrigger>
                                     <TabsTrigger value="decode">Decode</TabsTrigger>
@@ -314,7 +316,7 @@ export default function Base64Tool() {
                         </div>
                     </CardHeader>
                     <CardContent className="flex-1 space-y-6 flex flex-col">
-                        <Tabs value={inputType} onValueChange={(v) => setInputType(v as any)} className="w-full flex-1 flex flex-col">
+                        <Tabs value={inputType} onValueChange={handleInputTypeChange} className="w-full flex-1 flex flex-col">
                             <div className="flex items-center justify-between mb-4">
                                 <TabsList className="">
                                     <TabsTrigger value="text" className="flex gap-2"><FileText className="w-4 h-4" /> Text</TabsTrigger>

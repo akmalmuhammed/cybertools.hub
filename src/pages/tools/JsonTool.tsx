@@ -1,4 +1,4 @@
-import { useState, useMemo, useEffect } from "react"
+import { useState, useEffect } from "react"
 import { Tabs, TabsList, TabsTrigger, TabsContent } from "@/components/ui/tabs"
 import { JsonEditor } from "@/components/tools/json/JsonEditor"
 import { JsonTree } from "@/components/tools/json/JsonTree"
@@ -9,6 +9,7 @@ import { AlertCircle, CheckCircle2, FileJson } from "lucide-react"
 import { Textarea } from "@/components/ui/textarea"
 import { Button } from "@/components/ui/button"
 import Ajv from "ajv"
+import type { ErrorObject } from "ajv"
 
 export default function JsonTool() {
     const [input, setInput] = useState('{"name": "CyberTools", "type": "Hub"}')
@@ -18,12 +19,12 @@ export default function JsonTool() {
 
     // Schema state
     const [schemaInput, setSchemaInput] = useState('')
-    const [schemaErrors, setSchemaErrors] = useState<any[] | null>(null)
+    const [schemaErrors, setSchemaErrors] = useState<ErrorObject[] | null>(null)
     const [isSchemaOpen, setIsSchemaOpen] = useState(false)
     const [schemaJsonError, setSchemaJsonError] = useState<string | null>(null)
 
     // Parse JSON effectively
-    useMemo(() => {
+    useEffect(() => {
         try {
             if (!input.trim()) {
                 setParsed(null)
@@ -35,9 +36,9 @@ export default function JsonTool() {
             setParsed(p)
             setError(null)
             setErrorLine(null)
-        } catch (e: any) {
+        } catch (e: unknown) {
             setParsed(null)
-            const msg = e.message || "Invalid JSON"
+            const msg = e instanceof Error ? e.message : "Invalid JSON"
             setError(msg)
 
             // Try to extract line number from message "at position X"
@@ -75,8 +76,9 @@ export default function JsonTool() {
             } else {
                 setSchemaErrors(null)
             }
-        } catch (e: any) {
-            setSchemaJsonError("Invalid Schema JSON: " + e.message)
+        } catch (e: unknown) {
+            const message = e instanceof Error ? e.message : "Unknown error"
+            setSchemaJsonError("Invalid Schema JSON: " + message)
             setSchemaErrors(null)
         }
     }, [parsed, schemaInput])
@@ -217,4 +219,3 @@ export default function JsonTool() {
         </div>
     )
 }
-

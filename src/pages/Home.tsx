@@ -10,7 +10,7 @@ export default function Home() {
         <div className="space-y-20">
             <SEO
                 title="Free Security Tools"
-                description="A comprehensive suite of free, client-side security tools for developers and analysts. Base64, Hash, JWT, and more."
+                description="A comprehensive suite of free, local-first security tools for developers and analysts, with optional network intel lookups."
             />
             {/* Hero Section */}
             <section className="relative py-20 md:py-32 overflow-hidden">
@@ -30,7 +30,7 @@ export default function Home() {
                         </h1>
                         <p className="text-lg md:text-xl text-muted-foreground max-w-2xl mx-auto mb-8">
                             Free, privacy-first security utilities for SOC analysts, penetration testers, and developers.
-                            All running locally in your browser.
+                            Core analysis runs locally in your browser, with clearly marked optional network lookups (RDAP, DNS, JWKS, and reputation proxy).
                         </p>
                         <div className="flex flex-col sm:flex-row gap-4 justify-center">
                             <Button size="lg" asChild className="h-12 px-8 text-lg">
@@ -57,7 +57,7 @@ export default function Home() {
                         {
                             icon: Lock,
                             title: "Privacy First",
-                            desc: "Everything runs in your browser. No data leaves your device."
+                            desc: "Local-first processing, with explicit opt-in network lookups for intel tools."
                         },
                         {
                             icon: Zap,
