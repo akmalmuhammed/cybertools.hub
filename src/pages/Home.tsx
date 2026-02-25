@@ -2,10 +2,23 @@ import { Link } from "react-router-dom"
 import { motion } from "framer-motion"
 import { ArrowRight, Shield, Zap, Lock, Code } from "lucide-react"
 import { Button } from "@/components/ui/button"
-import { ToolsList } from "@/components/tools/ToolsList"
+import { ToolCard } from "@/components/tools/ToolCard"
 import { SEO } from "@/components/features/SEO"
+import { TOOLS } from "@/lib/constants/tools"
 
 export default function Home() {
+    const previewToolIds = [
+        "cve-prioritizer",
+        "secrets-scanner",
+        "jwt-verify",
+        "domain-spoof",
+        "dns-toolkit",
+        "ioc",
+    ]
+    const previewTools = previewToolIds
+        .map((toolId) => TOOLS.find((tool) => tool.id === toolId))
+        .filter((tool): tool is (typeof TOOLS)[number] => tool !== undefined)
+
     return (
         <div className="space-y-20">
             <SEO
@@ -97,7 +110,19 @@ export default function Home() {
                     <h2 className="text-3xl font-bold tracking-tight">Popular Tools</h2>
                     <Link to="/tools" className="text-primary hover:underline">View all &rarr;</Link>
                 </div>
-                <ToolsList />
+                <div className="grid grid-cols-1 md:grid-cols-2 xl:grid-cols-3 gap-6">
+                    {previewTools.map((tool, index) => (
+                        <motion.div
+                            key={tool.id}
+                            initial={{ opacity: 0, y: 16 }}
+                            whileInView={{ opacity: 1, y: 0 }}
+                            transition={{ duration: 0.3, delay: index * 0.04 }}
+                            viewport={{ once: true }}
+                        >
+                            <ToolCard tool={tool} />
+                        </motion.div>
+                    ))}
+                </div>
             </section>
         </div>
     )

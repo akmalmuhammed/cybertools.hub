@@ -4,7 +4,7 @@ import { Command as CommandPrimitive } from "cmdk"
 import { Search } from "lucide-react"
 import { Dialog, DialogContent } from "@/components/ui/dialog"
 import { cn } from "@/lib/utils/cn"
-import { TOOLS } from "@/lib/constants/tools"
+import { TOOL_DOMAINS, getToolsForDomain } from "@/lib/constants/tool-domains"
 import { useSearchStore } from "@/store/useSearchStore"
 
 const Command = React.forwardRef<
@@ -123,23 +123,25 @@ export function SearchDialog() {
                     <CommandInput autoFocus placeholder="Type a command or search tools..." />
                     <CommandList>
                         <CommandEmpty>No results found.</CommandEmpty>
-                        <CommandGroup heading="Tools">
-                            {TOOLS.map((tool) => (
-                                <CommandItem
-                                    key={tool.id}
-                                    value={`${tool.name} ${tool.description} ${tool.keywords?.join(" ") || ""}`}
-                                    onSelect={() => {
-                                        runCommand(() => navigate(tool.path))
-                                    }}
-                                >
-                                    <span className="mr-2 text-primary">
-                                        <tool.icon className="h-4 w-4" />
-                                    </span>
-                                    <span>{tool.name}</span>
-                                    <span className="ml-2 text-xs text-muted-foreground truncate">{tool.description}</span>
-                                </CommandItem>
-                            ))}
-                        </CommandGroup>
+                        {TOOL_DOMAINS.map((domain) => (
+                            <CommandGroup key={domain.id} heading={domain.name}>
+                                {getToolsForDomain(domain.id).map((tool) => (
+                                    <CommandItem
+                                        key={tool.id}
+                                        value={`${domain.name} ${tool.name} ${tool.description} ${tool.keywords?.join(" ") || ""}`}
+                                        onSelect={() => {
+                                            runCommand(() => navigate(tool.path))
+                                        }}
+                                    >
+                                        <span className="mr-2 text-primary">
+                                            <tool.icon className="h-4 w-4" />
+                                        </span>
+                                        <span>{tool.name}</span>
+                                        <span className="ml-2 text-xs text-muted-foreground truncate">{tool.description}</span>
+                                    </CommandItem>
+                                ))}
+                            </CommandGroup>
+                        ))}
                         <CommandGroup heading="General">
                             <CommandItem value="Home Dashboard" onSelect={() => runCommand(() => navigate("/"))}>
                                 Home

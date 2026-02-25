@@ -16,13 +16,13 @@ export function ToolCard({ tool, isFavorite, onToggleFavorite }: ToolCardProps) 
 
     return (
         <Link to={tool.path} className="group block h-full">
-            <Card className="h-full flex flex-col transition-all duration-300 hover:border-primary/50 hover:shadow-lg hover:shadow-primary/5 relative overflow-hidden">
+            <Card className="h-full flex flex-col transition-all duration-300 hover:border-primary/50 hover:-translate-y-0.5 hover:shadow-[0_25px_65px_-45px_rgba(16,185,129,0.9)] relative overflow-hidden rounded-2xl border-border/60 bg-card/70 backdrop-blur-md">
                 {/* Hover Gradient Effect */}
-                <div className="absolute inset-0 bg-gradient-to-br from-primary/5 to-transparent opacity-0 group-hover:opacity-100 transition-opacity" />
+                <div className="absolute inset-0 bg-gradient-to-br from-primary/10 via-transparent to-cyan-500/10 opacity-0 group-hover:opacity-100 transition-opacity" />
 
                 <CardHeader>
                     <div className="flex items-start justify-between">
-                        <div className={`p-3 rounded-lg bg-primary/10 text-primary mb-4 transition-transform group-hover:scale-110 group-hover:rotate-3`}>
+                        <div className={`p-3 rounded-lg border border-primary/30 bg-primary/10 text-primary mb-4 transition-transform group-hover:scale-105`}>
                             <Icon className="h-6 w-6" />
                         </div>
                         <div className="flex gap-2">
@@ -44,7 +44,7 @@ export function ToolCard({ tool, isFavorite, onToggleFavorite }: ToolCardProps) 
                         )}
                     </div>
                     <CardTitle className="text-xl group-hover:text-primary transition-colors">{tool.name}</CardTitle>
-                    <CardDescription className="line-clamp-2 mt-2">
+                    <CardDescription className="line-clamp-2 mt-2 leading-relaxed">
                         {tool.description}
                     </CardDescription>
                 </CardHeader>
@@ -52,7 +52,7 @@ export function ToolCard({ tool, isFavorite, onToggleFavorite }: ToolCardProps) 
                 <CardContent className="flex-1">
                     <div className="flex flex-wrap gap-2">
                         {tool.keywords.slice(0, 3).map(keyword => (
-                            <span key={keyword} className="text-xs text-muted-foreground bg-muted px-2 py-1 rounded-md">
+                            <span key={keyword} className="text-xs text-muted-foreground bg-muted/75 px-2 py-1 rounded-md border border-border/50">
                                 #{keyword}
                             </span>
                         ))}
