@@ -1,9 +1,10 @@
-import { useState, useRef, useCallback } from 'react'
+import { useState, useRef } from 'react'
 import CryptoJS from 'crypto-js'
 import { Upload, File, X, AlertCircle, Copy, Check } from 'lucide-react'
 import { Progress } from '@/components/ui/progress'
 import { Button } from '@/components/ui/button'
 import { Alert, AlertDescription } from '@/components/ui/alert'
+import type { HashRunReport } from './types'
 
 
 const CHUNK_SIZE = 1024 * 1024 * 2 // 2MB chunks
@@ -15,7 +16,11 @@ interface FileHashResult {
     sha512: string
 }
 
-export function HashFile() {
+interface HashFileProps {
+    onRun?: (report: HashRunReport) => void
+}
+
+export function HashFile({ onRun }: HashFileProps) {
     const [file, setFile] = useState<File | null>(null)
     const [progress, setProgress] = useState(0)
     const [isHashing, setIsHashing] = useState(false)
@@ -40,7 +45,7 @@ export function HashFile() {
         }
     }
 
-    const onDrop = useCallback((e: React.DragEvent) => {
+    const onDrop = (e: React.DragEvent) => {
         e.preventDefault()
         e.stopPropagation()
         if (e.dataTransfer.files?.[0]) {
@@ -49,11 +54,12 @@ export function HashFile() {
             setFile(droppedFile)
             processFile(droppedFile)
         }
-    }, [])
+    }
 
     const processFile = async (file: File) => {
         setIsHashing(true)
         setError(null)
+        const startedAt = performance.now()
 
         const md5 = CryptoJS.algo.MD5.create()
         const sha1 = CryptoJS.algo.SHA1.create()
@@ -85,13 +91,27 @@ export function HashFile() {
                         // Use setTimeout to allow UI updates
                         setTimeout(readChunk, 0)
                     } else {
-                        setResult({
+                        const finalized = {
                             md5: md5.finalize().toString(),
                             sha1: sha1.finalize().toString(),
                             sha256: sha256.finalize().toString(),
                             sha512: sha512.finalize().toString(),
-                        })
+                        }
+                        setResult(finalized)
                         setIsHashing(false)
+                        const durationMs = Math.max(1, Math.round(performance.now() - startedAt))
+                        onRun?.({
+                            status: "ok",
+                            score: 96,
+                            findings: 0,
+                            summary: `Hashed file ${file.name} (${file.size} bytes).`,
+                            durationMs,
+                            mode: "file",
+                            metrics: {
+                                fileBytes: file.size,
+                                chunkCount: Math.max(1, Math.ceil(file.size / CHUNK_SIZE)),
+                            },
+                        })
                     }
                 }
             }
@@ -99,6 +119,18 @@ export function HashFile() {
             reader.onerror = () => {
                 setError("Error reading file")
                 setIsHashing(false)
+                const durationMs = Math.max(1, Math.round(performance.now() - startedAt))
+                onRun?.({
+                    status: "error",
+                    score: 40,
+                    findings: 1,
+                    summary: `Failed hashing file ${file.name}.`,
+                    durationMs,
+                    mode: "file",
+                    metrics: {
+                        fileBytes: file.size,
+                    },
+                })
             }
 
             reader.readAsArrayBuffer(slice)

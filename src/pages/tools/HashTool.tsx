@@ -1,11 +1,51 @@
 
+import { useState } from "react"
 import { HashText } from "@/components/tools/hash/HashText"
 import { HashFile } from "@/components/tools/hash/HashFile"
 import { HashCompare } from "@/components/tools/hash/HashCompare"
+import type { HashRunReport } from "@/components/tools/hash/types"
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs"
 import { SEO } from "@/components/features/SEO"
+import { Button } from "@/components/ui/button"
+import { Download } from "lucide-react"
+import { useAnalystSession } from "@/lib/hooks/useAnalystSession"
+import { AnalystSessionPanel } from "@/components/tools/AnalystSessionPanel"
 
 export default function HashTool() {
+    const session = useAnalystSession("hash")
+    const [latestRun, setLatestRun] = useState<HashRunReport | null>(null)
+
+    const handleRun = (run: HashRunReport) => {
+        setLatestRun(run)
+        session.recordRun({
+            durationMs: run.durationMs,
+            status: run.status,
+            score: run.score,
+            findings: run.findings,
+            summary: run.summary,
+            mode: run.mode,
+            metrics: run.metrics,
+        })
+    }
+
+    const exportEvidencePack = () => {
+        const payload = session.attachContext({
+            toolName: "Hash Generator",
+            exportedAt: new Date().toISOString(),
+            latestRun,
+            notes: "Hash operations were executed locally in browser.",
+        })
+        const blob = new Blob([JSON.stringify(payload, null, 2)], { type: "application/json" })
+        const url = URL.createObjectURL(blob)
+        const anchor = document.createElement("a")
+        anchor.href = url
+        anchor.download = "hash-session-evidence.json"
+        document.body.appendChild(anchor)
+        anchor.click()
+        document.body.removeChild(anchor)
+        URL.revokeObjectURL(url)
+    }
+
     return (
         <div className="space-y-6">
             <SEO
@@ -42,7 +82,24 @@ export default function HashTool() {
                 <p className="text-muted-foreground">
                     Generate cryptographic hashes for text and files, or compare them.
                 </p>
+                <div className="pt-2">
+                    <Button variant="outline" size="sm" onClick={exportEvidencePack}>
+                        <Download className="h-4 w-4 mr-2" /> Export Session Evidence
+                    </Button>
+                </div>
             </div>
+
+            <AnalystSessionPanel
+                caseId={session.caseId}
+                setCaseId={session.setCaseId}
+                caseOwner={session.caseOwner}
+                setCaseOwner={session.setCaseOwner}
+                caseTags={session.caseTags}
+                setCaseTags={session.setCaseTags}
+                normalizedTags={session.normalizedTags}
+                runs={session.runs}
+                onClearRuns={session.clearRuns}
+            />
 
             <Tabs defaultValue="text" className="w-full">
                 <TabsList className="grid w-full grid-cols-3">
@@ -53,15 +110,15 @@ export default function HashTool() {
 
                 <div className="mt-6 border rounded-xl p-6 bg-card/50 backdrop-blur-sm">
                     <TabsContent value="text" className="mt-0">
-                        <HashText />
+                        <HashText onRun={handleRun} />
                     </TabsContent>
 
                     <TabsContent value="file" className="mt-0">
-                        <HashFile />
+                        <HashFile onRun={handleRun} />
                     </TabsContent>
 
                     <TabsContent value="compare" className="mt-0">
-                        <HashCompare />
+                        <HashCompare onRun={handleRun} />
                     </TabsContent>
                 </div>
             </Tabs>

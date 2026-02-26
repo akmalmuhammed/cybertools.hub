@@ -13,6 +13,8 @@ import { AuthAlignment } from "./AuthAlignment";
 import { HopsVisualizer } from "./HopsVisualizer";
 import { ArtifactsPanel } from "./ArtifactsPanel";
 import { ShieldAlert, FileText, ShieldCheck, Download, AlertTriangle } from "lucide-react";
+import { useAnalystSession } from "@/lib/hooks/useAnalystSession";
+import { AnalystSessionPanel } from "@/components/tools/AnalystSessionPanel";
 
 interface EnhancedAnalysis {
     header: AnalysisResult;
@@ -23,6 +25,8 @@ interface EnhancedAnalysis {
 }
 
 export function EmailAnalyzer() {
+    const session = useAnalystSession("email")
+    const recordRun = session.recordRun
     const [input, setInput] = useState("");
     const [analysis, setAnalysis] = useState<EnhancedAnalysis | null>(null);
     const [loading, setLoading] = useState(false);
@@ -48,6 +52,7 @@ export function EmailAnalyzer() {
     const performAnalysis = useCallback(async (content: string, runBody: boolean, runAttachments: boolean) => {
         if (!content.trim()) return;
         setLoading(true);
+        const startedAt = performance.now()
         try {
             // 1. Parallel Pipeline Logic
 
@@ -79,12 +84,43 @@ export function EmailAnalyzer() {
                 timestamp: Date.now()
             });
 
+            const durationMs = Math.max(1, Math.round(performance.now() - startedAt))
+            const findings = result.trust.penalties.length
+            recordRun({
+                durationMs,
+                status: result.verdict.verdict === "High Risk"
+                    ? "error"
+                    : result.verdict.verdict === "Suspicious"
+                        ? "warning"
+                        : "ok",
+                score: result.trust.score,
+                findings,
+                summary: `${result.verdict.verdict}: ${result.verdict.reason}`,
+                mode: runBody
+                    ? (runAttachments ? "headers+body+attachments" : "headers+body")
+                    : "headers-only",
+                metrics: {
+                    hopCount: headerRes.hops.length,
+                    urlCount: signals.extractedUrls.length,
+                    penalties: result.trust.penalties.length,
+                },
+            })
+
         } catch (e) {
             console.error("Analysis failed", e);
+            const durationMs = Math.max(1, Math.round(performance.now() - startedAt))
+            recordRun({
+                durationMs,
+                status: "error",
+                score: 35,
+                findings: 1,
+                summary: "Email analysis failed due to parsing or scoring error.",
+                mode: "error",
+            })
         } finally {
             setLoading(false);
         }
-    }, []);
+    }, [recordRun]);
 
     // Trigger re-analysis only when privacy toggles change after an initial run.
     useEffect(() => {
@@ -142,13 +178,13 @@ export function EmailAnalyzer() {
                         </Button>
                         <Button variant="outline" size="sm" onClick={() => {
                             if (!analysis) return;
-                            const exportData = {
+                            const exportData = session.attachContext({
                                 header: analysis.header,
                                 signals: analysis.signals,
                                 scoring: analysis.scoring,
                                 timestamp: analysis.timestamp,
                                 privacySettings: { analyzeBody, analyzeAttachments }
-                            };
+                            });
                             const blob = new Blob([JSON.stringify(exportData, null, 2)], { type: 'application/json' });
                             const url = URL.createObjectURL(blob);
                             const a = document.createElement('a');
@@ -163,6 +199,9 @@ export function EmailAnalyzer() {
                             if (!analysis) return;
                             const rows = [
                                 ['Metric', 'Value'],
+                                ['Case ID', `"${session.caseId || ''}"`],
+                                ['Case Owner', `"${session.caseOwner || ''}"`],
+                                ['Case Tags', `"${session.normalizedTags.join('; ')}"`],
                                 ['Verdict', analysis.scoring.verdict.verdict],
                                 ['Trust Score', analysis.scoring.trust.score],
                                 ['Confidence', analysis.scoring.confidence.level],
@@ -195,6 +234,20 @@ export function EmailAnalyzer() {
                     </div>
                 </div>
             )}
+
+            <div className="py-4">
+                <AnalystSessionPanel
+                    caseId={session.caseId}
+                    setCaseId={session.setCaseId}
+                    caseOwner={session.caseOwner}
+                    setCaseOwner={session.setCaseOwner}
+                    caseTags={session.caseTags}
+                    setCaseTags={session.setCaseTags}
+                    normalizedTags={session.normalizedTags}
+                    runs={session.runs}
+                    onClearRuns={session.clearRuns}
+                />
+            </div>
 
             {/* Input Section */}
             {!analysis && (

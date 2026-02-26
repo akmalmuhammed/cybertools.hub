@@ -8,11 +8,16 @@ import { Label } from '@/components/ui/label'
 import { CopyButton } from '@/components/features/CopyButton'
 import { Download, ChevronDown, ChevronUp, Check } from 'lucide-react'
 import { cn } from '@/lib/utils/cn'
+import type { HashRunReport } from './types'
 
 type HashResult = Awaited<ReturnType<typeof generateAllHashes>>
 type BulkHashResult = HashResult & { input: string }
 
-export function HashText() {
+interface HashTextProps {
+    onRun?: (report: HashRunReport) => void
+}
+
+export function HashText({ onRun }: HashTextProps) {
     const [input, setInput] = useState('')
     const [isBulk, setIsBulk] = useState(false)
     const [hashes, setHashes] = useState<HashResult | BulkHashResult[] | null>(null)
@@ -29,6 +34,7 @@ export function HashText() {
     const handleProcess = async () => {
         if (!input.trim()) return
         setLoading(true)
+        const startedAt = performance.now()
 
         const options: HashOptions = {
             hmacKey: hmacKey.trim() || undefined,
@@ -37,8 +43,9 @@ export function HashText() {
         }
 
         try {
+            const nonEmptyLines = input.split('\n').filter(l => l.trim())
             if (isBulk) {
-                const lines = input.split('\n').filter(l => l.trim())
+                const lines = nonEmptyLines
                 if (lines.length > 500) {
                     // Limit handled by UI thread naturally
                 }
@@ -51,6 +58,33 @@ export function HashText() {
                 const h = await generateAllHashes(input, options)
                 setHashes(h)
             }
+
+            const processedCount = isBulk ? nonEmptyLines.length : 1
+            const findings = processedCount > 500 ? 1 : 0
+            const durationMs = Math.max(1, Math.round(performance.now() - startedAt))
+            onRun?.({
+                status: findings > 0 ? "warning" : "ok",
+                score: findings > 0 ? 82 : 95,
+                findings,
+                summary: `Generated hashes for ${processedCount} input item${processedCount === 1 ? '' : 's'}.`,
+                durationMs,
+                mode: isBulk ? "bulk-text" : "single-text",
+                metrics: {
+                    processedCount,
+                    hasHmac: hmacKey.trim() ? 1 : 0,
+                    hasSalt: salt ? 1 : 0,
+                },
+            })
+        } catch {
+            const durationMs = Math.max(1, Math.round(performance.now() - startedAt))
+            onRun?.({
+                status: "error",
+                score: 45,
+                findings: 1,
+                summary: "Hash generation failed for provided text input.",
+                durationMs,
+                mode: isBulk ? "bulk-text" : "single-text",
+            })
         } finally {
             setLoading(false)
         }

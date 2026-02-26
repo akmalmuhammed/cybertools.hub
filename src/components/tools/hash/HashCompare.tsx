@@ -4,8 +4,13 @@ import { Textarea } from '@/components/ui/textarea'
 import { Label } from '@/components/ui/label'
 import { CheckCircle2, XCircle, RefreshCw } from 'lucide-react'
 import { cn } from '@/lib/utils/cn'
+import type { HashRunReport } from './types'
 
-export function HashCompare() {
+interface HashCompareProps {
+    onRun?: (report: HashRunReport) => void
+}
+
+export function HashCompare({ onRun }: HashCompareProps) {
     const [hashA, setHashA] = useState('')
     const [hashB, setHashB] = useState('')
     const [result, setResult] = useState<'match' | 'mismatch' | null>(null)
@@ -21,6 +26,25 @@ export function HashCompare() {
 
         setResult(cleanA === cleanB ? 'match' : 'mismatch')
     }, [hashA, hashB])
+
+    useEffect(() => {
+        if (!result) return
+        const cleanA = hashA.trim().toLowerCase()
+        const cleanB = hashB.trim().toLowerCase()
+        const normalizedLength = Math.max(cleanA.length, cleanB.length)
+        const findings = result === "match" ? 0 : 1
+        onRun?.({
+            status: result === "match" ? "ok" : "warning",
+            score: result === "match" ? 96 : 76,
+            findings,
+            summary: result === "match" ? "Hash comparison matched." : "Hash comparison mismatch detected.",
+            durationMs: 1,
+            mode: "compare",
+            metrics: {
+                hashLength: normalizedLength,
+            },
+        })
+    }, [result, hashA, hashB, onRun])
 
     return (
         <div className="space-y-8">

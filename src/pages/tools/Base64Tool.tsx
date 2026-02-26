@@ -12,8 +12,21 @@ import { cleanBase64, detectBinaryType, toHex, formatJSON, extractBase64, base64
 import { CopyButton } from "@/components/features/CopyButton"
 import { SEO } from "@/components/features/SEO"
 import { Badge } from "@/components/ui/badge"
+import { useAnalystSession } from "@/lib/hooks/useAnalystSession"
+import { AnalystSessionPanel } from "@/components/tools/AnalystSessionPanel"
+
+interface Base64RunSnapshot {
+    durationMs: number
+    status: "ok" | "warning" | "error"
+    score: number
+    findings: number
+    summary: string
+    mode: string
+    metrics: Record<string, number>
+}
 
 export default function Base64Tool() {
+    const session = useAnalystSession("base64")
     const [mode, setMode] = useState<"encode" | "decode">("encode")
     const [inputType, setInputType] = useState<"text" | "file">("text")
     const [input, setInput] = useState("")
@@ -28,6 +41,7 @@ export default function Base64Tool() {
     const [fixIssues, setFixIssues] = useState<string[]>([])
     const [detection, setDetection] = useState<BinaryDetectionResult | null>(null)
     const [activeTab, setActiveTab] = useState("text")
+    const [lastRunSnapshot, setLastRunSnapshot] = useState<Base64RunSnapshot | null>(null)
 
     const [error, setError] = useState<string | null>(null)
 
@@ -57,6 +71,7 @@ export default function Base64Tool() {
         setJsonOutput(null)
         setFixIssues([])
         setDetection(null)
+        setLastRunSnapshot(null)
     }
 
     const handleInputTypeChange = (value: string) => {
@@ -68,6 +83,7 @@ export default function Base64Tool() {
     const process = useCallback(async (text: string) => {
         setError(null)
         setFixIssues([])
+        const startedAt = performance.now()
 
         if (!text && inputType === 'text' && !inputBytes) {
             setOutputText("")
@@ -75,11 +91,18 @@ export default function Base64Tool() {
             setHexOutput("")
             setJsonOutput(null)
             setDetection(null)
+            setLastRunSnapshot(null)
             return
         }
 
         try {
-            let processed = text;
+            let processed = text
+            let findings = 0
+            let status: Base64RunSnapshot["status"] = "ok"
+            let summary = "Base64 process completed."
+            let outputChars = 0
+            let outputByteCount = 0
+            let jsonDetected = 0
 
             if (mode === "decode") {
                 // Auto-Fix Logic
@@ -88,6 +111,8 @@ export default function Base64Tool() {
                     if (issues.length > 0) {
                         setFixIssues(issues);
                         processed = cleaned;
+                        findings += 1
+                        status = "warning"
                     }
                 }
 
@@ -111,13 +136,16 @@ export default function Base64Tool() {
                 }
 
                 setOutputBytes(bytes);
+                outputByteCount = bytes.byteLength
 
                 // 1. Detect Binary Type
                 const detected = detectBinaryType(bytes);
                 setDetection(detected);
 
                 // 2. Generate Hex
-                setHexOutput(toHex(bytes));
+                const hexValue = toHex(bytes)
+                setHexOutput(hexValue);
+                outputChars = hexValue.length
 
                 // 3. Determine if Text or Binary
                 const looksLikeText = isText(bytes);
@@ -127,10 +155,16 @@ export default function Base64Tool() {
                     setActiveTab("hex");
                     setOutputText(""); // Don't show garbage text
                     setJsonOutput(null);
+                    summary = `Decoded payload as binary${detected ? ` (${detected.description})` : ""}.`
+                    if (detected?.type === "exe" || detected?.type === "zip") {
+                        findings += 1
+                        status = "warning"
+                    }
                 } else {
                     // Valid Text
                     const decodedStr = new TextDecoder().decode(bytes);
                     setOutputText(decodedStr);
+                    outputChars = decodedStr.length
                     setActiveTab("text");
 
                     // Check JSON
@@ -138,9 +172,11 @@ export default function Base64Tool() {
                     if (fmts) {
                         setJsonOutput(fmts);
                         setActiveTab("json");
+                        jsonDetected = 1
                     } else {
                         setJsonOutput(null);
                     }
+                    summary = `Decoded payload into readable text (${decodedStr.length} chars).`
                 }
 
             } else {
@@ -156,6 +192,9 @@ export default function Base64Tool() {
                     // We need to import bytesToBase64 or simple implementation
                     // For now, use a inline helper if missing in import
                     result = btoa(Array.from(inputBytes, (byte) => String.fromCharCode(byte)).join(""));
+                    outputByteCount = inputBytes.byteLength
+                } else if (inputType === 'file' && !inputBytes) {
+                    throw new Error("Upload a file to encode.")
                 } else {
                     // Encode Text
                     result = urlSafe ? encodeBase64Url(processed) : encodeBase64(processed);
@@ -166,11 +205,31 @@ export default function Base64Tool() {
                 }
 
                 setOutputText(result);
+                setOutputBytes(null);
                 setActiveTab("text");
                 setJsonOutput(null);
                 setHexOutput("");
                 setDetection(null);
+                outputChars = result.length
+                summary = `Encoded input into Base64 (${result.length} chars).`
             }
+
+            const durationMs = Math.max(1, Math.round(performance.now() - startedAt))
+            const score = status === "warning" ? 82 : 96
+            setLastRunSnapshot({
+                durationMs,
+                status,
+                score,
+                findings,
+                summary,
+                mode: `${mode}-${inputType}`,
+                metrics: {
+                    inputChars: text.length,
+                    outputChars,
+                    outputBytes: outputByteCount,
+                    jsonDetected,
+                },
+            })
 
         } catch (err) {
             console.error(err)
@@ -180,6 +239,21 @@ export default function Base64Tool() {
             setOutputBytes(null)
             setJsonOutput(null)
             setDetection(null)
+            const durationMs = Math.max(1, Math.round(performance.now() - startedAt))
+            setLastRunSnapshot({
+                durationMs,
+                status: "error",
+                score: 38,
+                findings: 1,
+                summary: err instanceof Error ? err.message : "Base64 processing failed.",
+                mode: `${mode}-${inputType}`,
+                metrics: {
+                    inputChars: text.length,
+                    outputChars: 0,
+                    outputBytes: 0,
+                    jsonDetected: 0,
+                },
+            })
         }
     }, [mode, urlSafe, doSplitLines, inputType, autoFix, inputBytes])
 
@@ -274,6 +348,56 @@ export default function Base64Tool() {
         }
     }
 
+    const captureRun = () => {
+        if (!lastRunSnapshot) return
+        session.recordRun({
+            durationMs: lastRunSnapshot.durationMs,
+            status: lastRunSnapshot.status,
+            score: lastRunSnapshot.score,
+            findings: lastRunSnapshot.findings,
+            summary: lastRunSnapshot.summary,
+            mode: lastRunSnapshot.mode,
+            metrics: lastRunSnapshot.metrics,
+        })
+    }
+
+    const exportEvidencePack = () => {
+        const payload = session.attachContext({
+            toolName: "Base64 Ultimate",
+            exportedAt: new Date().toISOString(),
+            mode,
+            inputType,
+            fileName,
+            options: {
+                liveMode,
+                urlSafe,
+                doSplitLines,
+                autoFix,
+            },
+            snapshot: lastRunSnapshot,
+            fixIssues,
+            detection,
+            evidence: {
+                inputChars: input.length,
+                outputChars: outputText.length,
+                outputBytes: outputBytes?.byteLength ?? 0,
+                outputPreview: outputText.slice(0, 5000),
+                hexPreview: hexOutput.slice(0, 5000),
+                jsonPreview: jsonOutput?.slice(0, 5000) ?? "",
+            },
+        })
+
+        const blob = new Blob([JSON.stringify(payload, null, 2)], { type: "application/json" })
+        const url = URL.createObjectURL(blob)
+        const anchor = document.createElement("a")
+        anchor.href = url
+        anchor.download = "base64-session-evidence.json"
+        document.body.appendChild(anchor)
+        anchor.click()
+        document.body.removeChild(anchor)
+        URL.revokeObjectURL(url)
+    }
+
     // Function to render image preview
     const renderPreview = () => {
         if (detection && detection.type === 'image' && outputBytes) {
@@ -329,6 +453,14 @@ export default function Base64Tool() {
                 <p className="text-muted-foreground text-lg max-w-2xl mx-auto">
                     Binary-safe Base64 tools. Detects EXEs, ZIPs, Images, and PDFs. Auto-fixes padding and provides Hex analysis.
                 </p>
+                <div className="flex flex-wrap items-center justify-center gap-2">
+                    <Button variant="outline" size="sm" onClick={captureRun} disabled={!lastRunSnapshot}>
+                        Capture Run
+                    </Button>
+                    <Button variant="outline" size="sm" onClick={exportEvidencePack} disabled={!outputText && !outputBytes}>
+                        <Download className="h-4 w-4 mr-2" /> Export Session Evidence
+                    </Button>
+                </div>
             </div>
 
             <div className="grid grid-cols-1 xl:grid-cols-2 gap-8">
@@ -559,6 +691,18 @@ export default function Base64Tool() {
                     </CardContent>
                 </Card>
             </div>
+
+            <AnalystSessionPanel
+                caseId={session.caseId}
+                setCaseId={session.setCaseId}
+                caseOwner={session.caseOwner}
+                setCaseOwner={session.setCaseOwner}
+                caseTags={session.caseTags}
+                setCaseTags={session.setCaseTags}
+                normalizedTags={session.normalizedTags}
+                runs={session.runs}
+                onClearRuns={session.clearRuns}
+            />
 
             {/* Info Section about features */}
             <div className="grid grid-cols-1 md:grid-cols-3 gap-6 pt-12">

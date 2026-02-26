@@ -5,14 +5,17 @@ import { JsonTree } from "@/components/tools/json/JsonTree"
 import { JsonDiff } from "@/components/tools/json/JsonDiff"
 import { Label } from "@/components/ui/label"
 import { Alert, AlertDescription } from "@/components/ui/alert"
-import { AlertCircle, CheckCircle2, FileJson } from "lucide-react"
+import { AlertCircle, CheckCircle2, Download, FileJson } from "lucide-react"
 import { Textarea } from "@/components/ui/textarea"
 import { Button } from "@/components/ui/button"
 import Ajv from "ajv"
 import type { ErrorObject } from "ajv"
 import { SEO } from "@/components/features/SEO"
+import { useAnalystSession } from "@/lib/hooks/useAnalystSession"
+import { AnalystSessionPanel } from "@/components/tools/AnalystSessionPanel"
 
 export default function JsonTool() {
+    const session = useAnalystSession("json")
     const [input, setInput] = useState('{"name": "Secutil", "type": "Workspace"}')
     const [error, setError] = useState<string | null>(null)
     const [errorLine, setErrorLine] = useState<number | null>(null)
@@ -94,6 +97,61 @@ export default function JsonTool() {
         setInput(JSON.stringify(parsed))
     }
 
+    const captureRun = () => {
+        const schemaIssueCount = schemaErrors?.length ?? 0
+        const findingCount = (error ? 1 : 0) + schemaIssueCount
+        const status = error ? "error" : schemaIssueCount > 0 ? "warning" : "ok"
+        const score = error ? 35 : Math.max(55, 98 - Math.min(35, schemaIssueCount * 3))
+        const topLevelKeys = parsed && typeof parsed === "object" && !Array.isArray(parsed)
+            ? Object.keys(parsed as Record<string, unknown>).length
+            : 0
+
+        session.recordRun({
+            durationMs: 1,
+            status,
+            score,
+            findings: findingCount,
+            summary: error
+                ? "JSON parse error detected."
+                : schemaIssueCount > 0
+                    ? `Schema validation reported ${schemaIssueCount} issue(s).`
+                    : "JSON validated successfully.",
+            mode: "editor",
+            metrics: {
+                inputChars: input.length,
+                topLevelKeys,
+                schemaErrors: schemaIssueCount,
+            },
+        })
+    }
+
+    const exportEvidencePack = () => {
+        const payload = session.attachContext({
+            toolName: "JSON Formatter",
+            exportedAt: new Date().toISOString(),
+            snapshot: {
+                validJson: !error && !!parsed,
+                parseError: error,
+                schemaErrorCount: schemaErrors?.length ?? 0,
+                schemaJsonError,
+                input,
+                schemaInput,
+                parsed: parsed ?? null,
+                runs: session.runs,
+            },
+        })
+
+        const blob = new Blob([JSON.stringify(payload, null, 2)], { type: "application/json" })
+        const url = URL.createObjectURL(blob)
+        const anchor = document.createElement("a")
+        anchor.href = url
+        anchor.download = "json-session-evidence.json"
+        document.body.appendChild(anchor)
+        anchor.click()
+        document.body.removeChild(anchor)
+        URL.revokeObjectURL(url)
+    }
+
     return (
         <div className="space-y-6">
             <SEO
@@ -131,7 +189,25 @@ export default function JsonTool() {
                 <p className="text-muted-foreground">
                     Validate, format, and inspect JSON with error highlighting and tree view.
                 </p>
+                <div className="flex flex-wrap items-center gap-2 pt-1">
+                    <Button variant="outline" size="sm" onClick={captureRun}>Capture Run</Button>
+                    <Button variant="outline" size="sm" onClick={exportEvidencePack}>
+                        <Download className="h-4 w-4 mr-2" /> Export Session Evidence
+                    </Button>
+                </div>
             </div>
+
+            <AnalystSessionPanel
+                caseId={session.caseId}
+                setCaseId={session.setCaseId}
+                caseOwner={session.caseOwner}
+                setCaseOwner={session.setCaseOwner}
+                caseTags={session.caseTags}
+                setCaseTags={session.setCaseTags}
+                normalizedTags={session.normalizedTags}
+                runs={session.runs}
+                onClearRuns={session.clearRuns}
+            />
 
             <Tabs defaultValue="editor" className="w-full">
                 <TabsList className="grid w-full grid-cols-2 lg:w-[400px]">
