@@ -14,8 +14,38 @@ function scoreColor(score: number): string {
   return "text-red-600 dark:text-red-400";
 }
 
+function parseAllowedOrigins(input: string): string[] {
+  const entries = input
+    .split(/[\n,\s]+/)
+    .map((item) => item.trim())
+    .filter(Boolean);
+
+  const allowlistKeywords = new Set(["'self'", "'none'", "'unsafe-inline'", "'unsafe-eval'", "data:", "blob:"]);
+  const urls: string[] = [];
+
+  entries.forEach((entry) => {
+    if (allowlistKeywords.has(entry)) {
+      urls.push(entry);
+      return;
+    }
+
+    try {
+      const parsed = new URL(entry);
+      if (parsed.protocol !== "https:" && parsed.protocol !== "wss:") {
+        throw new Error("Only https:// and wss:// origins are allowed.");
+      }
+      urls.push(parsed.origin);
+    } catch {
+      throw new Error(`Invalid origin: ${entry}`);
+    }
+  });
+
+  return Array.from(new Set(urls)).slice(0, 30);
+}
+
 export default function SecurityHeaderBuilderTool() {
   const [preset, setPreset] = useState<CspPreset>("strict");
+  const [routeProfile, setRouteProfile] = useState<"global" | "admin" | "api">("global");
   const [reportOnly, setReportOnly] = useState(false);
   const [allowInlineScript, setAllowInlineScript] = useState(false);
   const [allowInlineStyle, setAllowInlineStyle] = useState(false);
@@ -26,33 +56,38 @@ export default function SecurityHeaderBuilderTool() {
   const [reportUri, setReportUri] = useState("");
 
   const process = (input: string): string => {
-    const extraOrigins = input
-      .split(/[\n,\s]+/)
-      .map((item) => item.trim())
-      .filter(Boolean);
+    const extraOrigins = parseAllowedOrigins(input);
+    const scriptSources = parseAllowedOrigins(scriptSourcesInput);
+    const connectSources = parseAllowedOrigins(connectSourcesInput);
 
-    const scriptSources = [
-      ...scriptSourcesInput.split(/[\n,]+/).map((item) => item.trim()).filter(Boolean),
-      ...extraOrigins,
-    ];
+    const mergedScriptSources = Array.from(new Set([...scriptSources, ...extraOrigins]));
+    const mergedConnectSources = Array.from(new Set([...connectSources, ...extraOrigins]));
 
-    const connectSources = [
-      ...connectSourcesInput.split(/[\n,]+/).map((item) => item.trim()).filter(Boolean),
-      ...extraOrigins,
-    ];
+    const normalizedReportUri = reportUri.trim();
+    if (normalizedReportUri) {
+      const reportUrl = new URL(normalizedReportUri);
+      if (reportUrl.protocol !== "https:") {
+        throw new Error("Report URI must use https://");
+      }
+    }
 
     const result = buildSecurityHeaders({
       preset,
       reportOnly,
-      reportUri: reportUri.trim() || undefined,
+      reportUri: normalizedReportUri || undefined,
       allowInlineScript,
       allowInlineStyle,
       allowDataImages,
       includeUpgradeInsecureRequests: includeUpgrade,
-      scriptSources,
-      connectSources,
-      frameAncestors: preset === "strict" ? "none" : "self",
+      scriptSources: mergedScriptSources,
+      connectSources: mergedConnectSources,
+      frameAncestors: routeProfile === "admin" ? "none" : preset === "strict" ? "none" : "self",
     });
+
+    result.tradeoffs.push(`Route profile: ${routeProfile}`);
+    if (mergedScriptSources.length > 0 || mergedConnectSources.length > 0) {
+      result.tradeoffs.push("Custom origins were normalized and deduplicated.");
+    }
 
     return JSON.stringify(result);
   };
@@ -128,6 +163,25 @@ export default function SecurityHeaderBuilderTool() {
               <option value="strict">Strict</option>
               <option value="balanced">Balanced</option>
               <option value="compat">Compatibility</option>
+            </select>
+          </div>
+
+          <div className="space-y-1">
+            <Label htmlFor="header-builder-route-profile">Route Profile</Label>
+            <select
+              id="header-builder-route-profile"
+              className="w-full rounded border bg-background px-2 py-2 text-sm"
+              value={routeProfile}
+              onChange={(event) => {
+                const value = event.target.value;
+                if (value === "global" || value === "admin" || value === "api") {
+                  setRouteProfile(value);
+                }
+              }}
+            >
+              <option value="global">Global site policy</option>
+              <option value="admin">Admin console route</option>
+              <option value="api">API route profile</option>
             </select>
           </div>
 

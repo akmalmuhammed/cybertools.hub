@@ -1,5 +1,5 @@
 import { useState } from "react";
-import { ToolTemplate } from "@/components/tools/ToolTemplate";
+import { ToolTemplate, type ToolProcessContext } from "@/components/tools/ToolTemplate";
 import {
   enrichBulkReputation,
   type BulkReputationResult,
@@ -28,13 +28,18 @@ export default function ReputationEnricherTool() {
     }
   };
 
-  const process = async (input: string) => {
+  const process = async (input: string, context: ToolProcessContext) => {
+    const effectiveProvider = context.localOnly ? "none" : provider;
+
     const result = await enrichBulkReputation(input, {
-      provider,
+      provider: effectiveProvider,
       providerProxyUrl: providerProxyUrl.trim() || undefined,
       includeRdap,
       timeoutMs: Number(timeoutMs) || 8000,
     });
+    if (context.localOnly && provider !== "none") {
+      result.notes.push("Local-only run mode forced provider=none to prevent outbound enrichment calls.");
+    }
     return JSON.stringify(result);
   };
 

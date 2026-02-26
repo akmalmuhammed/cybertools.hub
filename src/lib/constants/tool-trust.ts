@@ -1,5 +1,6 @@
 import { TOOLS } from "@/lib/constants/tools";
-import type { ToolProcessingMode, ToolSensitivity } from "@/types/tool.types";
+import type { ToolOutboundPolicy, ToolProcessingMode, ToolSensitivity } from "@/types/tool.types";
+import { getToolOutboundPolicy, toolRequiresExplicitAction } from "@/lib/constants/tool-capabilities";
 
 const TOOL_BY_ID = new Map(TOOLS.map((tool) => [tool.id, tool]));
 
@@ -43,6 +44,42 @@ export function getSensitivityDescription(sensitivity: ToolSensitivity): string 
     return "May include moderate operational context; validate sharing boundaries.";
   }
   return "Typically lower sensitivity reference or transformation workflows.";
+}
+
+export function getOutboundPolicyLabel(policy: ToolOutboundPolicy): string {
+  if (policy === "none") return "No Outbound Traffic";
+  if (policy === "optional") return "Optional Outbound Traffic";
+  return "Network Required";
+}
+
+export function getOutboundPolicyDescription(policy: ToolOutboundPolicy, explicitAction: boolean): string {
+  if (policy === "none") {
+    return "This tool can run fully local in your browser.";
+  }
+  if (policy === "optional") {
+    return explicitAction
+      ? "Outbound lookups are optional and only occur after explicit user action."
+      : "Outbound lookups are optional.";
+  }
+  return explicitAction
+    ? "Outbound requests are required for this workflow and run after explicit user action."
+    : "Outbound requests are required for this workflow.";
+}
+
+export function getToolOutboundSummary(toolId: string): {
+  policy: ToolOutboundPolicy
+  requiresExplicitAction: boolean
+  label: string
+  description: string
+} {
+  const policy = getToolOutboundPolicy(toolId);
+  const requiresExplicitAction = toolRequiresExplicitAction(toolId);
+  return {
+    policy,
+    requiresExplicitAction,
+    label: getOutboundPolicyLabel(policy),
+    description: getOutboundPolicyDescription(policy, requiresExplicitAction),
+  };
 }
 
 export function getProcessingCounts(): Record<ToolProcessingMode, number> {

@@ -1,5 +1,5 @@
 import { useState } from "react";
-import { ToolTemplate } from "@/components/tools/ToolTemplate";
+import { ToolTemplate, type ToolProcessContext } from "@/components/tools/ToolTemplate";
 import {
   verifyJwsSignature,
   type JwtKeySource,
@@ -13,6 +13,7 @@ import { Tabs, TabsList, TabsTrigger } from "@/components/ui/tabs";
 import { Switch } from "@/components/ui/switch";
 
 type KeyMode = JwtKeySource["kind"];
+type OidcPreset = "custom" | "oidc-api" | "oidc-spa" | "machine";
 
 const SUPPORTED_ALGS: SupportedJwtAlgorithm[] = [
   "HS256",
@@ -28,6 +29,7 @@ const SUPPORTED_ALGS: SupportedJwtAlgorithm[] = [
 
 export default function JwtVerifierTool() {
   const [keyMode, setKeyMode] = useState<KeyMode>("secret");
+  const [preset, setPreset] = useState<OidcPreset>("custom");
   const [keyInput, setKeyInput] = useState("");
   const [expectedAlg, setExpectedAlg] = useState<string>("");
   const [expectedIssuer, setExpectedIssuer] = useState("");
@@ -37,14 +39,40 @@ export default function JwtVerifierTool() {
   const [clockSkewSec, setClockSkewSec] = useState("60");
   const [timeoutMs, setTimeoutMs] = useState("8000");
 
+  const applyPreset = (value: OidcPreset) => {
+    setPreset(value);
+    if (value === "custom") return;
+
+    if (value === "oidc-api") {
+      setExpectedAlg("RS256");
+      setValidateTimeClaims(true);
+      setClockSkewSec("60");
+      return;
+    }
+
+    if (value === "oidc-spa") {
+      setExpectedAlg("RS256");
+      setValidateTimeClaims(true);
+      setClockSkewSec("120");
+      return;
+    }
+
+    setExpectedAlg("PS256");
+    setValidateTimeClaims(true);
+    setClockSkewSec("45");
+  };
+
   const handleKeyModeChange = (value: string) => {
     if (value === "secret" || value === "pem" || value === "jwk" || value === "jwks-url") {
       setKeyMode(value);
     }
   };
 
-  const process = async (input: string) => {
+  const process = async (input: string, context: ToolProcessContext) => {
     if (!keyInput.trim()) throw new Error("Verification key input is required.");
+    if (context.localOnly && keyMode === "jwks-url") {
+      throw new Error("Local-only mode is enabled. Disable local-only mode to resolve keys from a JWKS URL.");
+    }
 
     const keySource: JwtKeySource =
       keyMode === "secret"
@@ -73,6 +101,19 @@ export default function JwtVerifierTool() {
     return JSON.stringify(result);
   };
 
+  const reasonCode = (result: VerifyJwsResult): string => {
+    if (result.valid) return "VERIFIED";
+    const reason = result.reason?.toLowerCase() ?? "";
+    if (reason.includes("algorithm mismatch")) return "ALG_MISMATCH";
+    if (reason.includes("expired")) return "TOKEN_EXPIRED";
+    if (reason.includes("not yet valid")) return "TOKEN_NOT_YET_VALID";
+    if (reason.includes("signature mismatch")) return "SIGNATURE_MISMATCH";
+    if (reason.includes("issuer mismatch")) return "ISSUER_MISMATCH";
+    if (reason.includes("audience mismatch")) return "AUDIENCE_MISMATCH";
+    if (reason.includes("subject mismatch")) return "SUBJECT_MISMATCH";
+    return "VERIFICATION_FAILED";
+  };
+
   const renderOutput = (output: string) => {
     if (!output) return null;
     let parsed: VerifyJwsResult;
@@ -97,6 +138,10 @@ export default function JwtVerifierTool() {
           </div>
           <div className="text-sm text-muted-foreground mt-1">
             Algorithm: {parsed.algorithm ?? "Unknown"} | Key Source: {parsed.keySource}
+          </div>
+          <div className="text-xs text-muted-foreground mt-1">
+            Reason code: {reasonCode(parsed)}
+            {parsed.keyId ? ` | kid: ${parsed.keyId}` : ""}
           </div>
           <div className="text-sm text-muted-foreground mt-1">
             Signature: {parsed.signatureVerified ? "valid" : "invalid"} | Claims: {parsed.claimsValid ? "valid" : "invalid"}
@@ -138,6 +183,26 @@ export default function JwtVerifierTool() {
       renderOutput={renderOutput}
       controls={
         <div className="space-y-3">
+          <div className="space-y-1">
+            <Label>OIDC/JWT Policy Preset</Label>
+            <Tabs
+              value={preset}
+              onValueChange={(value) => {
+                if (value === "custom" || value === "oidc-api" || value === "oidc-spa" || value === "machine") {
+                  applyPreset(value);
+                }
+              }}
+              className="w-full"
+            >
+              <TabsList className="grid grid-cols-4 w-full">
+                <TabsTrigger value="custom">Custom</TabsTrigger>
+                <TabsTrigger value="oidc-api">OIDC API</TabsTrigger>
+                <TabsTrigger value="oidc-spa">OIDC SPA</TabsTrigger>
+                <TabsTrigger value="machine">Machine</TabsTrigger>
+              </TabsList>
+            </Tabs>
+          </div>
+
           <div className="space-y-1">
             <Label>Key Source</Label>
             <Tabs value={keyMode} onValueChange={handleKeyModeChange} className="w-full">
@@ -239,6 +304,11 @@ export default function JwtVerifierTool() {
               onChange={(event) => setValidateTimeClaims(event.target.checked)}
             />
           </div>
+          {keyMode === "jwks-url" && (
+            <p className="text-xs text-muted-foreground">
+              JWKS diagnostics: ensure URL is issuer-controlled, HTTPS-only, and contains the matching <code>kid</code>.
+            </p>
+          )}
         </div>
       }
       examples={[

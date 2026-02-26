@@ -2,6 +2,8 @@ import { useState } from "react";
 import { ToolTemplate } from "@/components/tools/ToolTemplate";
 import { Label } from "@/components/ui/label";
 import { Switch } from "@/components/ui/switch";
+import { Tabs, TabsList, TabsTrigger } from "@/components/ui/tabs";
+import { Textarea } from "@/components/ui/textarea";
 import {
   scanSecrets,
   type SecretScanResult,
@@ -16,11 +18,38 @@ function severityColor(severity: string): string {
 
 export default function SecretsScannerTool() {
   const [enableEntropyScan, setEnableEntropyScan] = useState(true);
+  const [profile, setProfile] = useState<"strict" | "balanced" | "pattern-only">("balanced");
+  const [suppressionInput, setSuppressionInput] = useState("");
 
   const process = (input: string) => {
+    const entropyThreshold = profile === "strict" ? 3.8 : 4.2;
+    const entropyEnabled = profile === "pattern-only" ? false : enableEntropyScan;
     const result = scanSecrets(input, {
-      enableEntropyScan,
+      enableEntropyScan: entropyEnabled,
+      entropyThreshold,
     });
+
+    const suppressions = suppressionInput
+      .split(/\r?\n/)
+      .map((item) => item.trim().toLowerCase())
+      .filter(Boolean);
+
+    if (suppressions.length > 0) {
+      result.findings = result.findings.filter((finding) => {
+        const type = finding.type.toLowerCase();
+        return !suppressions.some((entry) => type.includes(entry));
+      });
+      result.summary = {
+        total: result.findings.length,
+        critical: result.findings.filter((finding) => finding.severity === "critical").length,
+        high: result.findings.filter((finding) => finding.severity === "high").length,
+        medium: result.findings.filter((finding) => finding.severity === "medium").length,
+        low: result.findings.filter((finding) => finding.severity === "low").length,
+      };
+      result.notes.push(`Suppression rules applied: ${suppressions.length}.`);
+    }
+
+    result.notes.push(`Detector profile: ${profile}.`);
     return JSON.stringify(result);
   };
 
@@ -99,13 +128,46 @@ export default function SecretsScannerTool() {
       onProcess={process}
       renderOutput={renderOutput}
       controls={
-        <div className="flex items-center justify-between gap-2">
-          <Label htmlFor="secrets-entropy">Enable entropy-based token detection</Label>
-          <Switch
-            id="secrets-entropy"
-            checked={enableEntropyScan}
-            onChange={(event) => setEnableEntropyScan(event.target.checked)}
-          />
+        <div className="space-y-3">
+          <div className="space-y-1">
+            <Label>Detector Profile</Label>
+            <Tabs
+              value={profile}
+              onValueChange={(value) => {
+                if (value === "strict" || value === "balanced" || value === "pattern-only") {
+                  setProfile(value);
+                }
+              }}
+              className="w-full"
+            >
+              <TabsList className="grid grid-cols-3 w-full">
+                <TabsTrigger value="strict">Strict</TabsTrigger>
+                <TabsTrigger value="balanced">Balanced</TabsTrigger>
+                <TabsTrigger value="pattern-only">Pattern Only</TabsTrigger>
+              </TabsList>
+            </Tabs>
+          </div>
+
+          <div className="flex items-center justify-between gap-2">
+            <Label htmlFor="secrets-entropy">Enable entropy-based token detection</Label>
+            <Switch
+              id="secrets-entropy"
+              checked={enableEntropyScan}
+              onChange={(event) => setEnableEntropyScan(event.target.checked)}
+              disabled={profile === "pattern-only"}
+            />
+          </div>
+
+          <div className="space-y-1">
+            <Label htmlFor="secrets-suppressions">Suppression Rules (finding types, one per line)</Label>
+            <Textarea
+              id="secrets-suppressions"
+              value={suppressionInput}
+              onChange={(event) => setSuppressionInput(event.target.value)}
+              className="min-h-[90px] text-xs font-mono"
+              placeholder={"high-entropy token\njwt"}
+            />
+          </div>
         </div>
       }
       examples={[

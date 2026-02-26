@@ -2,14 +2,16 @@ import { Badge } from "@/components/ui/badge";
 import { cn } from "@/lib/utils/cn";
 import { getDomainById, getToolDomainId } from "@/lib/constants/tool-domains";
 import {
+  getOutboundPolicyLabel,
   getProcessingDescription,
   getProcessingLabel,
   getSensitivityDescription,
   getSensitivityLabel,
+  getToolOutboundSummary,
   getToolSensitivity,
   getToolProcessingMode,
 } from "@/lib/constants/tool-trust";
-import { Globe, Monitor, ShieldCheck, ShieldAlert, Shield } from "lucide-react";
+import { Globe, Monitor, ShieldCheck, ShieldAlert, Shield, Wifi } from "lucide-react";
 
 interface ToolTrustBadgesProps {
   toolId: string;
@@ -68,6 +70,13 @@ export function ToolTrustBadges({ toolId, compact = false }: ToolTrustBadgesProp
   const sensitivity = getToolSensitivity(toolId);
   const sensitivityTheme = sensitivityVisual(sensitivity);
   const SensitivityIcon = sensitivityTheme.icon;
+  const outbound = getToolOutboundSummary(toolId);
+  const outboundClass =
+    outbound.policy === "none"
+      ? "border-emerald-500/35 bg-emerald-500/12 text-emerald-700 dark:text-emerald-300"
+      : outbound.policy === "optional"
+        ? "border-sky-500/35 bg-sky-500/12 text-sky-600 dark:text-sky-300"
+        : "border-amber-500/35 bg-amber-500/12 text-amber-600 dark:text-amber-300";
 
   return (
     <div className={cn("flex flex-wrap items-center gap-2", compact && "gap-1.5")}>
@@ -86,9 +95,13 @@ export function ToolTrustBadges({ toolId, compact = false }: ToolTrustBadgesProp
         <SensitivityIcon className="h-3.5 w-3.5 mr-1" />
         {getSensitivityLabel(sensitivity)}
       </Badge>
+      <Badge variant="outline" className={outboundClass} title={outbound.description}>
+        <Wifi className="h-3.5 w-3.5 mr-1" />
+        {getOutboundPolicyLabel(outbound.policy)}
+      </Badge>
       {!compact && (
         <span className="text-xs text-muted-foreground">
-          {getProcessingDescription(processingMode)} {getSensitivityDescription(sensitivity)}
+          {getProcessingDescription(processingMode)} {getSensitivityDescription(sensitivity)} {outbound.description}
         </span>
       )}
     </div>

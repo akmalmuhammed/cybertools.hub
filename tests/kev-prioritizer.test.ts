@@ -36,6 +36,22 @@ test("runKevCvePrioritizer promotes KEV entries to highest priority", () => {
   assert.ok(result.items[0].reasons.some((reason) => reason.includes("KEV")));
 });
 
+test("runKevCvePrioritizer applies custom scoring weights", () => {
+  const baseline = runKevCvePrioritizer(
+    "CVE-2024-3094 cvss=9.8 epss=0.7 critical exploit",
+    "CVE-2024-3094",
+  );
+  const exploitHeavy = runKevCvePrioritizer(
+    "CVE-2024-3094 cvss=9.8 epss=0.7 critical exploit",
+    "CVE-2024-3094",
+    { exploit: 1.8, kev: 0.8, cvss: 1, epss: 1, asset: 1 },
+  );
+
+  assert.equal(baseline.items.length, 1);
+  assert.equal(exploitHeavy.items.length, 1);
+  assert.equal(exploitHeavy.items[0].score >= baseline.items[0].score, true);
+});
+
 test("parseNvdFeedRecords ingests NVD feed JSON", () => {
   const nvdFeed = JSON.stringify({
     vulnerabilities: [

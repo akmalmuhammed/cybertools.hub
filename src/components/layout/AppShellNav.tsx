@@ -42,7 +42,13 @@ const DESKTOP_ITEMS: NavItem[] = [
                 ? "Cloud"
                 : domain.id === "supply-chain"
                   ? "Supply"
-                  : "Data",
+                  : domain.id === "osint"
+                    ? "OSINT"
+                    : domain.id === "pentest"
+                      ? "PT"
+                      : domain.id === "ai-llm"
+                        ? "AI"
+                        : "Data",
     href: getDomainQueryPath(domain.id),
     icon: domain.icon,
     domainId: domain.id,

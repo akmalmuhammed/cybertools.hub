@@ -65,6 +65,10 @@ const CorsPolicyAnalyzerTool = lazy(() => import('@/pages/tools/CorsPolicyAnalyz
 const OAuthOidcLinterTool = lazy(() => import('@/pages/tools/OAuthOidcLinterTool'))
 const IamPolicyAnalyzerTool = lazy(() => import('@/pages/tools/IamPolicyAnalyzerTool'))
 const LockfileRiskDiffTool = lazy(() => import('@/pages/tools/LockfileRiskDiffTool'))
+const OsintQueryBuilderTool = lazy(() => import('@/pages/tools/OsintQueryBuilderTool'))
+const PentestScanPlannerTool = lazy(() => import('@/pages/tools/PentestScanPlannerTool'))
+const AiPromptInjectionTriageTool = lazy(() => import('@/pages/tools/AiPromptInjectionTriageTool'))
+const AiConnectorEgressAuditTool = lazy(() => import('@/pages/tools/AiConnectorEgressAuditTool'))
 const PlannedToolPage = lazy(() => import('@/pages/tools/PlannedToolPage'))
 
 // Utility Tools
@@ -146,6 +150,10 @@ function RoutesContent() {
         <Route path="/tools/oauth-oidc-linter" element={<OAuthOidcLinterTool />} />
         <Route path="/tools/iam-policy-analyzer" element={<IamPolicyAnalyzerTool />} />
         <Route path="/tools/lockfile-risk-diff" element={<LockfileRiskDiffTool />} />
+        <Route path="/tools/osint-query-builder" element={<OsintQueryBuilderTool />} />
+        <Route path="/tools/pentest-scan-planner" element={<PentestScanPlannerTool />} />
+        <Route path="/tools/ai-prompt-injection-triage" element={<AiPromptInjectionTriageTool />} />
+        <Route path="/tools/ai-connector-egress-audit" element={<AiConnectorEgressAuditTool />} />
 
         {/* Utility Tools */}
         <Route path="/tools/qrcode" element={<QrCodeTool />} />

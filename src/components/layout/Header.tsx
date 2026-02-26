@@ -28,7 +28,7 @@ function headerTitle(pathname: string): string {
 
 function headerDescription(pathname: string): string {
   if (pathname === "/") return "Domain-driven cybersecurity toolkit shell.";
-  if (pathname === "/tools") return "Browse SOC, threat intel, network, application, cloud IAM, supply chain, and data privacy stacks.";
+  if (pathname === "/tools") return "Browse SOC, threat intel, network, appsec, cloud IAM, supply chain, OSINT, pentest, AI/LLM, and privacy stacks.";
   if (pathname.startsWith("/domains/")) return "Operational domain landing page with privacy mode guidance.";
   if (pathname === "/about") return "Privacy-first platform context and methodology.";
   return "Run local-first security analysis workflows.";
@@ -129,4 +129,3 @@ export function Header() {
     </>
   );
 }
-

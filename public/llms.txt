@@ -20,6 +20,9 @@ Local-first cybersecurity tools for SOC, threat intel, network, application, clo
 - [Application & API Security](https://cybertools.hub/domains/application-api-security): API contract abuse checks, authz drift detection, and browser policy hardening.
 - [Cloud & IAM Security](https://cybertools.hub/domains/cloud-iam-security): Identity policy review and least-privilege hygiene across cloud providers.
 - [Software Supply Chain Security](https://cybertools.hub/domains/software-supply-chain-security): Dependency risk diffing, tamper evidence, and provenance-oriented checks.
+- [OSINT & Reconnaissance](https://cybertools.hub/domains/osint-reconnaissance): Passive intelligence collection, query orchestration, and investigation pivot acceleration.
+- [Pentest Utilities](https://cybertools.hub/domains/pentest-utilities): Authorized testing planning utilities, command profiles, and reproducible assessment workflows.
+- [AI / LLM Security](https://cybertools.hub/domains/ai-llm-security): Prompt injection triage, connector egress controls, and model-adjacent risk validation workflows.
 - [Data Security & Privacy Engineering](https://cybertools.hub/domains/data-security-privacy-engineering): Sensitive-data handling, leakage detection, and privacy-preserving processing.
 
 ## Tool Index
@@ -76,13 +79,26 @@ Local-first cybersecurity tools for SOC, threat intel, network, application, clo
 - [OAuth/OIDC Scope Minimizer](https://cybertools.hub/tools/oauth-oidc-linter) | domain=cloud-iam | mode=local | sensitivity=high | status=new
 - [IAM Policy Analyzer](https://cybertools.hub/tools/iam-policy-analyzer) | domain=cloud-iam | mode=local | sensitivity=high | status=new
 - [Lockfile Risk Diff](https://cybertools.hub/tools/lockfile-risk-diff) | domain=supply-chain | mode=local | sensitivity=high | status=new
-- [AI Prompt Injection Triage](https://cybertools.hub/tools/ai-prompt-injection-triage) | domain=application | mode=local | sensitivity=high | status=planned
+- [AI Prompt Injection Triage](https://cybertools.hub/tools/ai-prompt-injection-triage) | domain=ai-llm | mode=local | sensitivity=high | status=new
+- [OSINT Query Builder](https://cybertools.hub/tools/osint-query-builder) | domain=osint | mode=local | sensitivity=medium | status=new
+- [Pentest Scan Planner](https://cybertools.hub/tools/pentest-scan-planner) | domain=pentest | mode=local | sensitivity=medium | status=new
+- [Username OSINT Enumerator](https://cybertools.hub/tools/osint-username-enumerator) | domain=osint | mode=local | sensitivity=medium | status=planned
+- [Passive DNS Pivot Helper](https://cybertools.hub/tools/passive-dns-pivot-helper) | domain=osint | mode=local | sensitivity=medium | status=planned
+- [Breach Exposure Query Assistant](https://cybertools.hub/tools/breach-exposure-query-assistant) | domain=osint | mode=local | sensitivity=high | status=planned
+- [GEOINT Clue Board](https://cybertools.hub/tools/geoint-clue-board) | domain=osint | mode=local | sensitivity=medium | status=planned
+- [Pentest Scope Validator](https://cybertools.hub/tools/pentest-scope-validator) | domain=pentest | mode=local | sensitivity=medium | status=planned
+- [Web Fuzz Case Generator](https://cybertools.hub/tools/web-fuzz-case-generator) | domain=pentest | mode=local | sensitivity=medium | status=planned
+- [Finding Reproduction Packager](https://cybertools.hub/tools/finding-repro-packager) | domain=pentest | mode=local | sensitivity=high | status=planned
+- [Pentest Wordlist Mutator](https://cybertools.hub/tools/pentest-wordlist-mutator) | domain=pentest | mode=local | sensitivity=low | status=planned
+- [LLM Output Policy Linter](https://cybertools.hub/tools/llm-output-policy-linter) | domain=ai-llm | mode=local | sensitivity=high | status=planned
+- [RAG Data Exposure Checker](https://cybertools.hub/tools/rag-data-exposure-checker) | domain=ai-llm | mode=local | sensitivity=high | status=planned
+- [Model Prompt Eval Lab](https://cybertools.hub/tools/model-prompt-eval-lab) | domain=ai-llm | mode=local | sensitivity=high | status=planned
 - [Browser Session Triage](https://cybertools.hub/tools/browser-session-triage) | domain=soc | mode=local | sensitivity=high | status=planned
 - [Identity Blast Radius Simulator](https://cybertools.hub/tools/identity-blast-radius-simulator) | domain=cloud-iam | mode=local | sensitivity=high | status=planned
 - [SaaS OAuth App Risk Assessor](https://cybertools.hub/tools/saas-oauth-app-risk) | domain=cloud-iam | mode=local | sensitivity=high | status=planned
 - [KEV Patch SLA Tracker](https://cybertools.hub/tools/kev-patch-sla-tracker) | domain=network | mode=hybrid | sensitivity=high | status=planned
 - [Data Minimization Policy Checker](https://cybertools.hub/tools/data-minimization-checker) | domain=data-privacy | mode=local | sensitivity=high | status=planned
-- [AI Connector Egress Audit](https://cybertools.hub/tools/ai-connector-egress-audit) | domain=data-privacy | mode=hybrid | sensitivity=high | status=planned
+- [AI Connector Egress Audit](https://cybertools.hub/tools/ai-connector-egress-audit) | domain=ai-llm | mode=hybrid | sensitivity=high | status=new
 - [Model Supply Chain Audit](https://cybertools.hub/tools/model-supply-chain-audit) | domain=supply-chain | mode=local | sensitivity=high | status=planned
 - [SOAR Playbook Dry Runner](https://cybertools.hub/tools/soar-playbook-dry-runner) | domain=soc | mode=local | sensitivity=high | status=planned
 - [XDR Detection Tuning Benchmark](https://cybertools.hub/tools/xdr-detection-tuning-benchmark) | domain=soc | mode=local | sensitivity=high | status=planned

@@ -35,6 +35,22 @@ export interface VulnerabilityPrioritizationResult {
   notes: string[];
 }
 
+export interface PrioritizationWeights {
+  kev: number;
+  exploit: number;
+  cvss: number;
+  epss: number;
+  asset: number;
+}
+
+const DEFAULT_PRIORITIZATION_WEIGHTS: PrioritizationWeights = {
+  kev: 1,
+  exploit: 1,
+  cvss: 1,
+  epss: 1,
+  asset: 1,
+};
+
 const CVE_REGEX = /\bCVE-\d{4}-\d{4,7}\b/gi;
 
 function clamp(value: number, min: number, max: number): number {
@@ -351,36 +367,42 @@ function criticalityWeight(value: AssetCriticality): number {
 export function prioritizeVulnerabilities(
   records: VulnerabilityRecord[],
   kevCatalog: Set<string> = new Set<string>(),
+  weights: Partial<PrioritizationWeights> = {},
 ): VulnerabilityPrioritizationResult {
+  const resolvedWeights: PrioritizationWeights = {
+    ...DEFAULT_PRIORITIZATION_WEIGHTS,
+    ...weights,
+  };
+
   const items = records.map((record) => {
     const reasons: string[] = [];
     let score = 0;
 
     const isKev = record.kev || kevCatalog.has(record.cve);
     if (isKev) {
-      score += 55;
+      score += 55 * resolvedWeights.kev;
       reasons.push("CISA KEV listed");
     }
 
     if (record.hasPublicExploit) {
-      score += 18;
+      score += 18 * resolvedWeights.exploit;
       reasons.push("Public exploit/PoC signal");
     }
 
     if (record.cvss !== null) {
-      score += clamp(record.cvss * 2.5, 0, 25);
+      score += clamp(record.cvss * 2.5, 0, 25) * resolvedWeights.cvss;
       reasons.push(`CVSS ${record.cvss.toFixed(1)}`);
     }
 
     if (record.epss !== null) {
       const epssPercent = Math.round(record.epss * 1000) / 10;
-      score += clamp(record.epss * 20, 0, 20);
+      score += clamp(record.epss * 20, 0, 20) * resolvedWeights.epss;
       reasons.push(`EPSS ${epssPercent}%`);
     }
 
     const criticality = criticalityWeight(record.assetCriticality);
     if (criticality > 0) {
-      score += criticality;
+      score += criticality * resolvedWeights.asset;
       reasons.push(`Asset criticality: ${record.assetCriticality}`);
     }
 
@@ -419,8 +441,9 @@ export function prioritizeVulnerabilities(
 export function runKevCvePrioritizer(
   vulnerabilitiesInput: string,
   kevCatalogInput = "",
+  weights: Partial<PrioritizationWeights> = {},
 ): VulnerabilityPrioritizationResult {
   const records = parseVulnerabilityRecords(vulnerabilitiesInput);
   const kevCatalog = parseKevCatalog(kevCatalogInput);
-  return prioritizeVulnerabilities(records, kevCatalog);
+  return prioritizeVulnerabilities(records, kevCatalog, weights);
 }

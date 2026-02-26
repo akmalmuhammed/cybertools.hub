@@ -1,11 +1,15 @@
-﻿import { useState, useCallback, ReactNode, useEffect, useMemo } from "react"
+import { useState, useCallback, ReactNode, useEffect, useMemo } from "react"
 import { motion } from "framer-motion"
 import { CopyButton } from "@/components/features/CopyButton"
 import { Button } from "@/components/ui/button"
 import { Card, CardContent, CardHeader, CardTitle, CardDescription } from "@/components/ui/card"
 import { Textarea } from "@/components/ui/textarea"
 import { useToast } from "@/components/ui/use-toast"
-import { Loader2, Trash2, ArrowRight } from "lucide-react"
+import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs"
+import { Switch } from "@/components/ui/switch"
+import { Label } from "@/components/ui/label"
+import { Badge } from "@/components/ui/badge"
+import { Loader2, Trash2, ArrowRight, Download, FileDown, FileJson2, FileSpreadsheet, FileText, Keyboard } from "lucide-react"
 
 import { useHistoryStore } from "@/store/useHistoryStore"
 import { Link, useLocation } from "react-router-dom"
@@ -17,9 +21,27 @@ import {
   getProcessingDescription,
   getProcessingLabel,
   getSensitivityLabel,
+  getToolOutboundSummary,
   getToolSensitivity,
   getToolProcessingMode,
 } from "@/lib/constants/tool-trust"
+import {
+  getToolCapability,
+  getToolCapabilitySummary,
+  getToolDefaultPanels,
+} from "@/lib/constants/tool-capabilities"
+import {
+  envelopeToMarkdown,
+  parseToolResultEnvelope,
+  recordsToCsv,
+} from "@/lib/utils/tool-results"
+import type { ToolDefaultPanel, ToolOutboundPolicy } from "@/types/tool.types"
+
+export interface ToolProcessContext {
+  localOnly: boolean
+  toolId?: string
+  outboundPolicy: ToolOutboundPolicy
+}
 
 interface ToolTemplateProps {
   toolName: string
@@ -27,11 +49,47 @@ interface ToolTemplateProps {
   placeholder?: string
   initialInput?: string
   requiresInput?: boolean
-  onProcess: (input: string) => Promise<string> | string
+  onProcess: (input: string, context: ToolProcessContext) => Promise<string> | string
   examples?: string[]
   controls?: ReactNode
   renderOutput?: (output: string) => ReactNode
   actionLabel?: string
+}
+
+function formatMetricLabel(value: string): string {
+  return value
+    .replace(/([a-z0-9])([A-Z])/g, "$1 $2")
+    .replace(/[-_]/g, " ")
+    .replace(/^./, (char) => char.toUpperCase())
+}
+
+function scoreClass(score: number | null): string {
+  if (typeof score !== "number") return "text-muted-foreground"
+  if (score >= 85) return "text-emerald-600 dark:text-emerald-400"
+  if (score >= 70) return "text-amber-600 dark:text-amber-400"
+  return "text-red-600 dark:text-red-400"
+}
+
+function toRecordArray(items: unknown[]): Array<Record<string, unknown>> {
+  return items
+    .map((item) => {
+      if (typeof item === "object" && item !== null && !Array.isArray(item)) {
+        return item as Record<string, unknown>
+      }
+      return { value: item }
+    })
+}
+
+function downloadTextFile(fileName: string, content: string, mimeType: string): void {
+  const blob = new Blob([content], { type: mimeType })
+  const url = URL.createObjectURL(blob)
+  const anchor = document.createElement("a")
+  anchor.href = url
+  anchor.download = fileName
+  document.body.appendChild(anchor)
+  anchor.click()
+  document.body.removeChild(anchor)
+  URL.revokeObjectURL(url)
 }
 
 export function ToolTemplate({
@@ -50,6 +108,7 @@ export function ToolTemplate({
   const [output, setOutput] = useState("")
   const [isLoading, setIsLoading] = useState(false)
   const [error, setError] = useState<string | null>(null)
+  const [localOnlyMode, setLocalOnlyMode] = useState(true)
   const { toast } = useToast()
 
   const location = useLocation()
@@ -87,20 +146,40 @@ export function ToolTemplate({
   const processingDescription = processingMode ? getProcessingDescription(processingMode) : null
   const sensitivity = currentTool ? getToolSensitivity(currentTool.id) : null
   const sensitivityLabel = sensitivity ? getSensitivityLabel(sensitivity) : null
+  const outboundSummary = currentTool ? getToolOutboundSummary(currentTool.id) : null
+  const capability = currentTool ? getToolCapability(currentTool.id) : null
+  const capabilitySummary = currentTool ? getToolCapabilitySummary(currentTool.id) : null
+  const defaultPanels: ToolDefaultPanel[] = currentTool ? getToolDefaultPanels(currentTool.id) : ["findings", "evidence", "export"]
+
+  useEffect(() => {
+    if (!outboundSummary) {
+      setLocalOnlyMode(true)
+      return
+    }
+    if (outboundSummary.policy === "none") {
+      setLocalOnlyMode(true)
+      return
+    }
+    if (outboundSummary.policy === "optional") {
+      setLocalOnlyMode(true)
+      return
+    }
+    setLocalOnlyMode(false)
+  }, [outboundSummary])
 
   const usageSteps = useMemo(() => {
     if (!currentTool) return []
     const steps = [
-      "Review tool mode and sensitivity badges before processing.",
-      "Paste or upload data in the input panel.",
-      `Run ${actionLabel.toLowerCase()} and inspect the generated output.`,
-      "Copy results or move to a related tool for follow-on analysis.",
+      "Review tool mode, outbound policy, and sensitivity badges before processing.",
+      "Paste data (or use file/batch options where supported).",
+      `Run ${actionLabel.toLowerCase()} and triage findings/evidence panels.`,
+      "Export JSON/CSV/Markdown evidence pack for downstream workflows.",
     ]
 
     if (processingMode === "network") {
-      steps.splice(1, 0, "Confirm outbound lookups are expected for this workflow.")
+      steps.splice(1, 0, "Confirm outbound requests are expected for this network-required workflow.")
     } else if (processingMode === "hybrid") {
-      steps.splice(1, 0, "Choose local-only or outbound-enrichment mode based on data sensitivity.")
+      steps.splice(1, 0, "Use Local-only mode for sensitive payloads and enable network only when required.")
     }
 
     return steps
@@ -255,13 +334,31 @@ export function ToolTemplate({
     ? `${currentTool.name} supports ${currentDomain?.name ?? "security"} workflows with ${currentTool.processingMode} execution and ${currentTool.sensitivity} sensitivity handling.`
     : null
 
+  const parsedEnvelope = useMemo(() => parseToolResultEnvelope(output, toolName), [output, toolName])
+  const exportJson = useMemo(() => {
+    const payload = parsedEnvelope.raw ?? parsedEnvelope
+    return JSON.stringify(payload, null, 2)
+  }, [parsedEnvelope])
+  const findingsCsv = useMemo(() => recordsToCsv(toRecordArray(parsedEnvelope.findings)), [parsedEnvelope.findings])
+  const evidenceCsv = useMemo(() => recordsToCsv(toRecordArray(parsedEnvelope.evidence)), [parsedEnvelope.evidence])
+  const exportMarkdown = useMemo(() => envelopeToMarkdown(toolName, parsedEnvelope), [parsedEnvelope, toolName])
+
   const handleProcess = useCallback(async () => {
     if (requiresInput && !input.trim()) return
+
+    if (outboundSummary?.policy === "required" && localOnlyMode) {
+      setError("This tool requires outbound requests. Disable Local-only run mode to continue.")
+      return
+    }
 
     setIsLoading(true)
     setError(null)
     try {
-      const result = await onProcess(input)
+      const result = await onProcess(input, {
+        localOnly: localOnlyMode,
+        toolId: currentTool?.id,
+        outboundPolicy: outboundSummary?.policy ?? "none",
+      })
       setOutput(result)
       toast({
         title: "Processed successfully",
@@ -278,13 +375,67 @@ export function ToolTemplate({
     } finally {
       setIsLoading(false)
     }
-  }, [input, onProcess, toast, requiresInput])
+  }, [
+    requiresInput,
+    input,
+    outboundSummary,
+    localOnlyMode,
+    onProcess,
+    currentTool?.id,
+    toast,
+  ])
 
-  const handleClear = () => {
+  const handleClear = useCallback(() => {
     setInput("")
     setOutput("")
     setError(null)
-  }
+  }, [])
+
+  useEffect(() => {
+    const onKeyDown = (event: KeyboardEvent) => {
+      const accelerator = event.metaKey || event.ctrlKey
+      if (accelerator && event.key === "Enter") {
+        event.preventDefault()
+        void handleProcess()
+        return
+      }
+
+      if (accelerator && event.shiftKey && (event.key === "C" || event.key === "c")) {
+        if (!output) return
+        event.preventDefault()
+        void navigator.clipboard.writeText(exportJson).then(() => {
+          toast({ title: "Copied JSON output", description: "Structured output copied to clipboard." })
+        }).catch(() => {
+          toast({
+            title: "Copy failed",
+            description: "Unable to copy output to clipboard.",
+            variant: "destructive",
+          })
+        })
+        return
+      }
+
+      if (event.key === "Escape") {
+        setError(null)
+      }
+    }
+
+    window.addEventListener("keydown", onKeyDown)
+    return () => window.removeEventListener("keydown", onKeyDown)
+  }, [handleProcess, output, exportJson, toast])
+
+  const defaultOutputTab = defaultPanels.includes("findings")
+    ? "findings"
+    : defaultPanels.includes("evidence")
+      ? "evidence"
+      : "export"
+
+  const findingCounts = useMemo(() => {
+    return parsedEnvelope.findings.reduce<Record<string, number>>((acc, finding) => {
+      acc[finding.severity] = (acc[finding.severity] ?? 0) + 1
+      return acc
+    }, {})
+  }, [parsedEnvelope.findings])
 
   return (
     <div className="space-y-6">
@@ -333,11 +484,286 @@ export function ToolTemplate({
 
       {currentTool && (
         <section className="rounded-xl border border-border/60 bg-card/55 p-4 sm:p-5 space-y-4">
+          <div className="flex flex-wrap items-center gap-2">
+            <Badge variant="outline">Analyst Console</Badge>
+            {capability && (
+              <Badge variant="secondary">
+                {capability.inputModes.join("/")} input
+              </Badge>
+            )}
+            {capability?.supportsBatch && <Badge variant="secondary">Batch-ready</Badge>}
+            {capability?.supportsLocalOnly && <Badge variant="secondary">Local-only supported</Badge>}
+          </div>
+
+          <div className="grid gap-3 sm:grid-cols-2 xl:grid-cols-4">
+            <div className="rounded-lg border border-border/60 bg-background/60 p-3">
+              <div className="text-xs uppercase tracking-[0.12em] text-muted-foreground">Status</div>
+              <div className="text-lg font-semibold capitalize">{parsedEnvelope.summary.status}</div>
+            </div>
+            <div className="rounded-lg border border-border/60 bg-background/60 p-3">
+              <div className="text-xs uppercase tracking-[0.12em] text-muted-foreground">Score</div>
+              <div className={`text-lg font-semibold ${scoreClass(parsedEnvelope.summary.score)}`}>
+                {typeof parsedEnvelope.summary.score === "number" ? parsedEnvelope.summary.score : "N/A"}
+              </div>
+            </div>
+            <div className="rounded-lg border border-border/60 bg-background/60 p-3">
+              <div className="text-xs uppercase tracking-[0.12em] text-muted-foreground">Findings</div>
+              <div className="text-lg font-semibold">{parsedEnvelope.findings.length}</div>
+            </div>
+            <div className="rounded-lg border border-border/60 bg-background/60 p-3">
+              <div className="text-xs uppercase tracking-[0.12em] text-muted-foreground">Evidence Rows</div>
+              <div className="text-lg font-semibold">{parsedEnvelope.evidence.length}</div>
+            </div>
+          </div>
+
+          <div className="text-sm text-muted-foreground">{toolSummarySentence}</div>
+          {capabilitySummary && <div className="text-xs text-muted-foreground">Capability: {capabilitySummary}</div>}
+
+          {outboundSummary && (
+            <div className="rounded-lg border border-border/60 bg-background/65 p-3 space-y-3">
+              <div className="flex flex-wrap items-center justify-between gap-2">
+                <div>
+                  <div className="text-sm font-semibold">Outbound Activity Expectations</div>
+                  <div className="text-xs text-muted-foreground">{outboundSummary.description}</div>
+                </div>
+                {(outboundSummary.policy === "optional" || outboundSummary.policy === "required") && (
+                  <div className="flex items-center gap-2">
+                    <Label htmlFor="tool-local-only" className="text-xs">Local-only run</Label>
+                    <Switch
+                      id="tool-local-only"
+                      checked={localOnlyMode}
+                      onChange={(event) => setLocalOnlyMode(event.target.checked)}
+                    />
+                  </div>
+                )}
+              </div>
+              <div className="text-xs text-muted-foreground flex flex-wrap items-center gap-2">
+                <Keyboard className="h-3.5 w-3.5" />
+                <span>Shortcuts: Cmd/Ctrl+Enter run | Cmd/Ctrl+Shift+C copy JSON | Esc clear error</span>
+              </div>
+            </div>
+          )}
+
+          {parsedEnvelope.summary.metrics && Object.keys(parsedEnvelope.summary.metrics).length > 0 && (
+            <div className="grid gap-2 sm:grid-cols-2 xl:grid-cols-3">
+              {Object.entries(parsedEnvelope.summary.metrics).slice(0, 6).map(([key, value]) => (
+                <div key={key} className="rounded-md border border-border/60 bg-background/55 px-2.5 py-2 text-xs">
+                  <span className="text-muted-foreground">{formatMetricLabel(key)}</span>
+                  <span className="ml-2 font-semibold text-foreground">{value}</span>
+                </div>
+              ))}
+            </div>
+          )}
+        </section>
+      )}
+
+      <div className="grid grid-cols-1 xl:grid-cols-[minmax(0,1fr)_minmax(0,1.1fr)] gap-6">
+        <Card className="h-full flex flex-col">
+          <CardHeader>
+            <CardTitle>Input</CardTitle>
+            <CardDescription>Enter the data you want to process</CardDescription>
+          </CardHeader>
+          <CardContent className="flex-1 space-y-4">
+            <Textarea
+              placeholder={placeholder}
+              className="min-h-[320px] font-mono text-sm resize-y"
+              value={input}
+              onChange={(event) => setInput(event.target.value)}
+            />
+            {controls && (
+              <div className="p-4 bg-muted/50 rounded-lg space-y-2">
+                {controls}
+              </div>
+            )}
+            <div className="flex items-center gap-2">
+              <Button onClick={() => void handleProcess()} disabled={isLoading || (requiresInput && !input.trim())} className="flex-1">
+                {isLoading && <Loader2 className="mr-2 h-4 w-4 animate-spin" />}
+                {actionLabel}
+              </Button>
+              <Button variant="outline" size="icon" onClick={handleClear} disabled={!input && !output && !error}>
+                <Trash2 className="h-4 w-4" />
+              </Button>
+            </div>
+          </CardContent>
+        </Card>
+
+        <Card className="h-full flex flex-col bg-muted/30">
+          <CardHeader>
+            <div className="flex flex-wrap items-center justify-between gap-2">
+              <div>
+                <CardTitle>Output</CardTitle>
+                <CardDescription>Findings, evidence, and export packs</CardDescription>
+              </div>
+              <div className="flex items-center gap-2">
+                {output && <CopyButton text={exportJson} size="sm" variant="outline" fullWidth={false} />}
+                {output && (
+                  <Button
+                    size="sm"
+                    variant="outline"
+                    onClick={() => downloadTextFile("secutil-output.json", exportJson, "application/json")}
+                  >
+                    <Download className="mr-1.5 h-3.5 w-3.5" /> JSON
+                  </Button>
+                )}
+              </div>
+            </div>
+          </CardHeader>
+          <CardContent className="flex-1 space-y-3">
+            {error ? (
+              <div className="h-full min-h-[320px] flex items-center justify-center text-destructive p-4 text-center bg-destructive/10 rounded-lg border border-destructive/20">
+                <p>{error}</p>
+              </div>
+            ) : output ? (
+              <motion.div
+                initial={{ opacity: 0 }}
+                animate={{ opacity: 1 }}
+                className="relative h-full"
+              >
+                <Tabs defaultValue={defaultOutputTab} className="w-full">
+                  <TabsList className="grid grid-cols-4 w-full">
+                    <TabsTrigger value="findings">Findings</TabsTrigger>
+                    <TabsTrigger value="evidence">Evidence</TabsTrigger>
+                    <TabsTrigger value="export">Export</TabsTrigger>
+                    <TabsTrigger value="raw">Raw</TabsTrigger>
+                  </TabsList>
+
+                  <TabsContent value="findings" className="space-y-3">
+                    <div className="grid grid-cols-2 sm:grid-cols-4 gap-2 text-xs">
+                      {(["critical", "high", "medium", "low"] as const).map((level) => (
+                        <div key={level} className="rounded-md border border-border/60 bg-background/70 px-2 py-1.5">
+                          <div className="uppercase text-muted-foreground">{level}</div>
+                          <div className="font-semibold">{findingCounts[level] ?? 0}</div>
+                        </div>
+                      ))}
+                    </div>
+
+                    {parsedEnvelope.findings.length > 0 ? (
+                      <div className="space-y-2 max-h-[420px] overflow-auto pr-1">
+                        {parsedEnvelope.findings.map((finding) => (
+                          <div key={finding.id} className="rounded-lg border border-border/60 bg-background/70 p-3 space-y-1.5">
+                            <div className="flex flex-wrap items-center justify-between gap-2">
+                              <div className="font-semibold text-sm">{finding.title}</div>
+                              <div className="text-xs uppercase tracking-[0.08em] text-muted-foreground">
+                                {finding.severity} | confidence {finding.confidence}
+                              </div>
+                            </div>
+                            <p className="text-sm text-muted-foreground">{finding.description}</p>
+                            <div className="text-xs text-muted-foreground">Category: {finding.category}</div>
+                            {finding.remediation && (
+                              <div className="text-xs text-emerald-600 dark:text-emerald-400">Remediation: {finding.remediation}</div>
+                            )}
+                          </div>
+                        ))}
+                      </div>
+                    ) : (
+                      <div className="rounded-lg border border-dashed border-border/60 p-5 text-sm text-muted-foreground">
+                        No structured findings detected. Check the Raw tab for full output.
+                      </div>
+                    )}
+                  </TabsContent>
+
+                  <TabsContent value="evidence" className="space-y-3">
+                    {parsedEnvelope.recommendations.length > 0 && (
+                      <div className="rounded-lg border border-border/60 bg-background/65 p-3">
+                        <div className="text-sm font-semibold mb-1">Recommendations</div>
+                        <ul className="space-y-1 text-sm text-muted-foreground">
+                          {parsedEnvelope.recommendations.map((recommendation) => (
+                            <li key={recommendation}>- {recommendation}</li>
+                          ))}
+                        </ul>
+                      </div>
+                    )}
+
+                    {parsedEnvelope.evidence.length > 0 ? (
+                      <pre className="h-[360px] p-4 rounded-lg bg-background border overflow-auto text-xs font-mono whitespace-pre-wrap break-all">
+                        {JSON.stringify(parsedEnvelope.evidence, null, 2)}
+                      </pre>
+                    ) : (
+                      <div className="rounded-lg border border-dashed border-border/60 p-5 text-sm text-muted-foreground">
+                        No structured evidence rows were produced.
+                      </div>
+                    )}
+                  </TabsContent>
+
+                  <TabsContent value="export" className="space-y-3">
+                    <div className="grid sm:grid-cols-2 gap-2">
+                      <Button
+                        variant="outline"
+                        className="justify-start"
+                        onClick={() => downloadTextFile("secutil-output.json", exportJson, "application/json")}
+                      >
+                        <FileJson2 className="mr-2 h-4 w-4" /> Export JSON
+                      </Button>
+                      <Button
+                        variant="outline"
+                        className="justify-start"
+                        onClick={() => downloadTextFile("secutil-report.md", exportMarkdown, "text/markdown")}
+                      >
+                        <FileText className="mr-2 h-4 w-4" /> Export Markdown Report
+                      </Button>
+                      <Button
+                        variant="outline"
+                        className="justify-start"
+                        disabled={!findingsCsv}
+                        onClick={() => downloadTextFile("secutil-findings.csv", findingsCsv, "text/csv")}
+                      >
+                        <FileSpreadsheet className="mr-2 h-4 w-4" /> Export Findings CSV
+                      </Button>
+                      <Button
+                        variant="outline"
+                        className="justify-start"
+                        disabled={!evidenceCsv}
+                        onClick={() => downloadTextFile("secutil-evidence.csv", evidenceCsv, "text/csv")}
+                      >
+                        <FileSpreadsheet className="mr-2 h-4 w-4" /> Export Evidence CSV
+                      </Button>
+                    </div>
+
+                    {parsedEnvelope.exports.length > 0 && (
+                      <div className="rounded-lg border border-border/60 bg-background/65 p-3 space-y-2">
+                        <div className="text-sm font-semibold">Tool-native exports</div>
+                        {parsedEnvelope.exports.map((exportItem) => (
+                          <Button
+                            key={`${exportItem.kind}-${exportItem.label}`}
+                            variant="outline"
+                            size="sm"
+                            className="mr-2 mb-2"
+                            onClick={() => downloadTextFile(
+                              `${exportItem.label.replace(/\s+/g, "-").toLowerCase()}.${exportItem.kind === "markdown" ? "md" : exportItem.kind === "json" ? "json" : exportItem.kind === "csv" ? "csv" : "txt"}`,
+                              exportItem.payload,
+                              exportItem.kind === "json" ? "application/json" : "text/plain",
+                            )}
+                          >
+                            <FileDown className="mr-1.5 h-3.5 w-3.5" /> {exportItem.label}
+                          </Button>
+                        ))}
+                      </div>
+                    )}
+                  </TabsContent>
+
+                  <TabsContent value="raw">
+                    {renderOutput ? renderOutput(output) : (
+                      <pre className="h-[420px] p-4 rounded-lg bg-background border overflow-auto text-sm font-mono whitespace-pre-wrap break-all">
+                        {output}
+                      </pre>
+                    )}
+                  </TabsContent>
+                </Tabs>
+              </motion.div>
+            ) : (
+              <div className="h-full min-h-[320px] flex flex-col items-center justify-center text-muted-foreground border-2 border-dashed rounded-lg">
+                <ArrowRight className="h-8 w-8 mb-2 opacity-50" />
+                <p>Process input to see findings and evidence</p>
+              </div>
+            )}
+          </CardContent>
+        </Card>
+      </div>
+
+      {currentTool && (
+        <section className="rounded-xl border border-border/60 bg-card/55 p-4 sm:p-5 space-y-4">
           <div className="space-y-2">
             <h2 className="text-lg font-semibold">How to use {currentTool.name}</h2>
-            {toolSummarySentence && (
-              <p className="text-sm text-muted-foreground">{toolSummarySentence}</p>
-            )}
             <ol className="space-y-2 text-sm text-muted-foreground">
               {usageSteps.map((step, index) => (
                 <li key={step} className="flex items-start gap-2">
@@ -368,7 +794,7 @@ export function ToolTemplate({
 
           {relatedTools.length > 0 && (
             <div className="space-y-2">
-              <h3 className="text-sm font-semibold uppercase tracking-[0.12em] text-muted-foreground">Related Tools</h3>
+              <h3 className="text-sm font-semibold uppercase tracking-[0.12em] text-muted-foreground">Next-Step Tool Chain</h3>
               <div className="flex flex-wrap gap-2">
                 {relatedTools.map((relatedTool) => (
                   <Link
@@ -385,79 +811,12 @@ export function ToolTemplate({
         </section>
       )}
 
-      <div className="grid grid-cols-1 lg:grid-cols-2 gap-6">
-        <Card className="h-full flex flex-col">
-          <CardHeader>
-            <CardTitle>Input</CardTitle>
-            <CardDescription>Enter the data you want to process</CardDescription>
-          </CardHeader>
-          <CardContent className="flex-1 space-y-4">
-            <Textarea
-              placeholder={placeholder}
-              className="min-h-[300px] font-mono text-sm resize-none"
-              value={input}
-              onChange={(e) => setInput(e.target.value)}
-            />
-            {controls && (
-              <div className="p-4 bg-muted/50 rounded-lg space-y-2">
-                {controls}
-              </div>
-            )}
-            <div className="flex items-center gap-2">
-              <Button onClick={handleProcess} disabled={isLoading || (requiresInput && !input.trim())} className="flex-1">
-                {isLoading && <Loader2 className="mr-2 h-4 w-4 animate-spin" />}
-                {actionLabel}
-              </Button>
-              <Button variant="outline" size="icon" onClick={handleClear} disabled={!input && !output}>
-                <Trash2 className="h-4 w-4" />
-              </Button>
-            </div>
-          </CardContent>
-        </Card>
-
-        <Card className="h-full flex flex-col bg-muted/30">
-          <CardHeader>
-            <div className="flex items-center justify-between">
-              <div>
-                <CardTitle>Output</CardTitle>
-                <CardDescription>Results will appear here</CardDescription>
-              </div>
-              {output && <CopyButton text={output} />}
-            </div>
-          </CardHeader>
-          <CardContent className="flex-1">
-            {error ? (
-              <div className="h-full flex items-center justify-center text-destructive p-4 text-center bg-destructive/10 rounded-lg border border-destructive/20">
-                <p>{error}</p>
-              </div>
-            ) : output ? (
-              <motion.div
-                initial={{ opacity: 0 }}
-                animate={{ opacity: 1 }}
-                className="relative h-full"
-              >
-                {renderOutput ? renderOutput(output) : (
-                  <pre className="h-full min-h-[300px] p-4 rounded-lg bg-background border overflow-auto text-sm font-mono whitespace-pre-wrap break-all">
-                    {output}
-                  </pre>
-                )}
-              </motion.div>
-            ) : (
-              <div className="h-full min-h-[300px] flex flex-col items-center justify-center text-muted-foreground border-2 border-dashed rounded-lg">
-                <ArrowRight className="h-8 w-8 mb-2 opacity-50" />
-                <p>Process input to see results</p>
-              </div>
-            )}
-          </CardContent>
-        </Card>
-      </div>
-
       {examples.length > 0 && (
         <div className="mt-8">
           <h3 className="text-lg font-semibold mb-4">Examples</h3>
           <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4">
-            {examples.map((example, i) => (
-              <Card key={i} className="cursor-pointer hover:border-primary/50 transition-colors" onClick={() => setInput(example)}>
+            {examples.map((example, index) => (
+              <Card key={index} className="cursor-pointer hover:border-primary/50 transition-colors" onClick={() => setInput(example)}>
                 <CardContent className="p-4">
                   <pre className="text-xs text-muted-foreground truncate font-mono">{example}</pre>
                 </CardContent>
