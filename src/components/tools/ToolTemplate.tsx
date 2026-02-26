@@ -4,6 +4,7 @@ import { CopyButton } from "@/components/features/CopyButton"
 import { Button } from "@/components/ui/button"
 import { Card, CardContent, CardHeader, CardTitle, CardDescription } from "@/components/ui/card"
 import { Textarea } from "@/components/ui/textarea"
+import { Input } from "@/components/ui/input"
 import { useToast } from "@/components/ui/use-toast"
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs"
 import { Switch } from "@/components/ui/switch"
@@ -35,12 +36,23 @@ import {
   parseToolResultEnvelope,
   recordsToCsv,
 } from "@/lib/utils/tool-results"
-import type { ToolDefaultPanel, ToolOutboundPolicy } from "@/types/tool.types"
+import type { ToolDefaultPanel, ToolOutboundPolicy, ToolResultSummary } from "@/types/tool.types"
 
 export interface ToolProcessContext {
   localOnly: boolean
   toolId?: string
   outboundPolicy: ToolOutboundPolicy
+}
+
+interface ToolRunRecord {
+  id: string
+  executedAt: string
+  durationMs: number
+  inputChars: number
+  findings: number
+  score: number | null
+  status: ToolResultSummary["status"]
+  localOnly: boolean
 }
 
 interface ToolTemplateProps {
@@ -92,6 +104,12 @@ function downloadTextFile(fileName: string, content: string, mimeType: string): 
   URL.revokeObjectURL(url)
 }
 
+function formatRunTimestamp(value: string): string {
+  const date = new Date(value)
+  if (Number.isNaN(date.getTime())) return value
+  return date.toLocaleString()
+}
+
 export function ToolTemplate({
   toolName,
   description,
@@ -109,6 +127,10 @@ export function ToolTemplate({
   const [isLoading, setIsLoading] = useState(false)
   const [error, setError] = useState<string | null>(null)
   const [localOnlyMode, setLocalOnlyMode] = useState(true)
+  const [caseId, setCaseId] = useState("")
+  const [caseOwner, setCaseOwner] = useState("")
+  const [caseTags, setCaseTags] = useState("")
+  const [runHistory, setRunHistory] = useState<ToolRunRecord[]>([])
   const { toast } = useToast()
 
   const location = useLocation()
@@ -117,6 +139,7 @@ export function ToolTemplate({
     () => TOOLS.find((tool) => tool.path === location.pathname) ?? null,
     [location.pathname],
   )
+  const currentToolId = currentTool?.id ?? null
   const currentDomain = currentTool
     ? getDomainById(getToolDomainId(currentTool.id))
     : null
@@ -149,7 +172,10 @@ export function ToolTemplate({
   const outboundSummary = currentTool ? getToolOutboundSummary(currentTool.id) : null
   const capability = currentTool ? getToolCapability(currentTool.id) : null
   const capabilitySummary = currentTool ? getToolCapabilitySummary(currentTool.id) : null
-  const defaultPanels: ToolDefaultPanel[] = currentTool ? getToolDefaultPanels(currentTool.id) : ["findings", "evidence", "export"]
+  const defaultPanels = useMemo<ToolDefaultPanel[]>(
+    () => (currentToolId ? getToolDefaultPanels(currentToolId) : ["findings", "evidence", "export"]),
+    [currentToolId],
+  )
 
   useEffect(() => {
     if (!outboundSummary) {
@@ -334,11 +360,44 @@ export function ToolTemplate({
     ? `${currentTool.name} supports ${currentDomain?.name ?? "security"} workflows with ${currentTool.processingMode} execution and ${currentTool.sensitivity} sensitivity handling.`
     : null
 
+  const normalizedCaseTags = useMemo(
+    () => caseTags.split(",").map((tag) => tag.trim()).filter((tag) => tag.length > 0).slice(0, 12),
+    [caseTags],
+  )
+
   const parsedEnvelope = useMemo(() => parseToolResultEnvelope(output, toolName), [output, toolName])
+  const exportPayload = useMemo(() => {
+    return {
+      ...parsedEnvelope,
+      context: {
+        toolId: currentTool?.id ?? null,
+        toolPath: currentTool?.path ?? null,
+        exportedAt: runHistory[0]?.executedAt ?? new Date().toISOString(),
+        localOnlyMode,
+        outboundPolicy: outboundSummary?.policy ?? "none",
+        case: {
+          id: caseId || null,
+          owner: caseOwner || null,
+          tags: normalizedCaseTags,
+        },
+        recentRuns: runHistory.slice(0, 8),
+      },
+    }
+  }, [
+    caseId,
+    caseOwner,
+    currentTool?.id,
+    currentTool?.path,
+    localOnlyMode,
+    normalizedCaseTags,
+    outboundSummary?.policy,
+    parsedEnvelope,
+    runHistory,
+  ])
+
   const exportJson = useMemo(() => {
-    const payload = parsedEnvelope.raw ?? parsedEnvelope
-    return JSON.stringify(payload, null, 2)
-  }, [parsedEnvelope])
+    return JSON.stringify(exportPayload, null, 2)
+  }, [exportPayload])
   const findingsCsv = useMemo(() => recordsToCsv(toRecordArray(parsedEnvelope.findings)), [parsedEnvelope.findings])
   const evidenceCsv = useMemo(() => recordsToCsv(toRecordArray(parsedEnvelope.evidence)), [parsedEnvelope.evidence])
   const exportMarkdown = useMemo(() => envelopeToMarkdown(toolName, parsedEnvelope), [parsedEnvelope, toolName])
@@ -351,6 +410,8 @@ export function ToolTemplate({
       return
     }
 
+    const startedAt = performance.now()
+    const executedAt = new Date().toISOString()
     setIsLoading(true)
     setError(null)
     try {
@@ -360,6 +421,24 @@ export function ToolTemplate({
         outboundPolicy: outboundSummary?.policy ?? "none",
       })
       setOutput(result)
+      const parsedResult = parseToolResultEnvelope(result, toolName)
+      const runId = typeof crypto !== "undefined" && "randomUUID" in crypto
+        ? crypto.randomUUID()
+        : `${Date.now()}-${Math.random().toString(16).slice(2)}`
+      const durationMs = Math.max(1, Math.round(performance.now() - startedAt))
+      setRunHistory((prev) => [
+        {
+          id: runId,
+          executedAt,
+          durationMs,
+          inputChars: input.length,
+          findings: parsedResult.findings.length,
+          score: parsedResult.summary.score,
+          status: parsedResult.summary.status,
+          localOnly: localOnlyMode,
+        },
+        ...prev,
+      ].slice(0, 20))
       toast({
         title: "Processed successfully",
         description: "Your input has been processed.",
@@ -382,6 +461,7 @@ export function ToolTemplate({
     localOnlyMode,
     onProcess,
     currentTool?.id,
+    toolName,
     toast,
   ])
 
@@ -424,11 +504,10 @@ export function ToolTemplate({
     return () => window.removeEventListener("keydown", onKeyDown)
   }, [handleProcess, output, exportJson, toast])
 
-  const defaultOutputTab = defaultPanels.includes("findings")
-    ? "findings"
-    : defaultPanels.includes("evidence")
-      ? "evidence"
-      : "export"
+  const defaultOutputTab = useMemo(() => {
+    const prioritizedPanels: ToolDefaultPanel[] = ["findings", "evidence", "export", "history"]
+    return prioritizedPanels.find((panel) => defaultPanels.includes(panel)) ?? "findings"
+  }, [defaultPanels])
 
   const findingCounts = useMemo(() => {
     return parsedEnvelope.findings.reduce<Record<string, number>>((acc, finding) => {
@@ -495,7 +574,7 @@ export function ToolTemplate({
             {capability?.supportsLocalOnly && <Badge variant="secondary">Local-only supported</Badge>}
           </div>
 
-          <div className="grid gap-3 sm:grid-cols-2 xl:grid-cols-4">
+          <div className="grid gap-3 sm:grid-cols-2 xl:grid-cols-5">
             <div className="rounded-lg border border-border/60 bg-background/60 p-3">
               <div className="text-xs uppercase tracking-[0.12em] text-muted-foreground">Status</div>
               <div className="text-lg font-semibold capitalize">{parsedEnvelope.summary.status}</div>
@@ -513,6 +592,10 @@ export function ToolTemplate({
             <div className="rounded-lg border border-border/60 bg-background/60 p-3">
               <div className="text-xs uppercase tracking-[0.12em] text-muted-foreground">Evidence Rows</div>
               <div className="text-lg font-semibold">{parsedEnvelope.evidence.length}</div>
+            </div>
+            <div className="rounded-lg border border-border/60 bg-background/60 p-3">
+              <div className="text-xs uppercase tracking-[0.12em] text-muted-foreground">Runs</div>
+              <div className="text-lg font-semibold">{runHistory.length}</div>
             </div>
           </div>
 
@@ -543,6 +626,57 @@ export function ToolTemplate({
               </div>
             </div>
           )}
+
+          <div className="rounded-lg border border-border/60 bg-background/65 p-3 space-y-3">
+            <div className="text-sm font-semibold">Investigation Context</div>
+            <div className="grid gap-2 sm:grid-cols-3">
+              <div className="space-y-1">
+                <Label htmlFor="tool-case-id" className="text-xs text-muted-foreground">Case ID</Label>
+                <Input
+                  id="tool-case-id"
+                  value={caseId}
+                  onChange={(event) => setCaseId(event.target.value)}
+                  placeholder="INC-2026-001"
+                  className="h-8 text-xs"
+                />
+              </div>
+              <div className="space-y-1">
+                <Label htmlFor="tool-case-owner" className="text-xs text-muted-foreground">Owner</Label>
+                <Input
+                  id="tool-case-owner"
+                  value={caseOwner}
+                  onChange={(event) => setCaseOwner(event.target.value)}
+                  placeholder="analyst@team"
+                  className="h-8 text-xs"
+                />
+              </div>
+              <div className="space-y-1">
+                <Label htmlFor="tool-case-tags" className="text-xs text-muted-foreground">Tags (comma-separated)</Label>
+                <Input
+                  id="tool-case-tags"
+                  value={caseTags}
+                  onChange={(event) => setCaseTags(event.target.value)}
+                  placeholder="phishing,priority-high"
+                  className="h-8 text-xs"
+                />
+              </div>
+            </div>
+            {normalizedCaseTags.length > 0 && (
+              <div className="flex flex-wrap gap-1.5">
+                {normalizedCaseTags.map((tag) => (
+                  <span
+                    key={tag}
+                    className="inline-flex items-center rounded-md border border-border/60 bg-background px-2 py-1 text-[11px] text-muted-foreground"
+                  >
+                    {tag}
+                  </span>
+                ))}
+              </div>
+            )}
+            <div className="text-xs text-muted-foreground">
+              Context stays local and is appended to JSON exports for incident traceability.
+            </div>
+          </div>
 
           {parsedEnvelope.summary.metrics && Object.keys(parsedEnvelope.summary.metrics).length > 0 && (
             <div className="grid gap-2 sm:grid-cols-2 xl:grid-cols-3">
@@ -620,10 +754,11 @@ export function ToolTemplate({
                 className="relative h-full"
               >
                 <Tabs defaultValue={defaultOutputTab} className="w-full">
-                  <TabsList className="grid grid-cols-4 w-full">
+                  <TabsList className="grid grid-cols-5 w-full">
                     <TabsTrigger value="findings">Findings</TabsTrigger>
                     <TabsTrigger value="evidence">Evidence</TabsTrigger>
                     <TabsTrigger value="export">Export</TabsTrigger>
+                    <TabsTrigger value="history">History</TabsTrigger>
                     <TabsTrigger value="raw">Raw</TabsTrigger>
                   </TabsList>
 
@@ -737,6 +872,30 @@ export function ToolTemplate({
                             <FileDown className="mr-1.5 h-3.5 w-3.5" /> {exportItem.label}
                           </Button>
                         ))}
+                      </div>
+                    )}
+                  </TabsContent>
+
+                  <TabsContent value="history" className="space-y-3">
+                    {runHistory.length > 0 ? (
+                      <div className="space-y-2 max-h-[360px] overflow-auto pr-1">
+                        {runHistory.map((run) => (
+                          <div key={run.id} className="rounded-lg border border-border/60 bg-background/70 px-3 py-2 text-xs">
+                            <div className="flex flex-wrap items-center justify-between gap-2">
+                              <div className="font-semibold">{formatRunTimestamp(run.executedAt)}</div>
+                              <div className={`uppercase tracking-[0.08em] ${scoreClass(run.score)}`}>
+                                {run.status} {typeof run.score === "number" ? `| score ${run.score}` : ""}
+                              </div>
+                            </div>
+                            <div className="mt-1 text-muted-foreground">
+                              {run.findings} findings | {run.inputChars} input chars | {run.durationMs} ms | mode {run.localOnly ? "local-only" : "network-enabled"}
+                            </div>
+                          </div>
+                        ))}
+                      </div>
+                    ) : (
+                      <div className="rounded-lg border border-dashed border-border/60 p-5 text-sm text-muted-foreground">
+                        No execution history yet. Run the tool to build an analyst trace.
                       </div>
                     )}
                   </TabsContent>
