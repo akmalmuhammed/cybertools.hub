@@ -7,6 +7,7 @@ import { Textarea } from "@/components/ui/textarea"
 import { Tabs, TabsList, TabsTrigger, TabsContent } from "@/components/ui/tabs"
 import { Switch } from "@/components/ui/switch"
 import { Label } from "@/components/ui/label"
+import { Input } from "@/components/ui/input"
 import { encodeBase64, encodeBase64Url, splitLines } from "@/lib/utils/encoders"
 import { cleanBase64, detectBinaryType, toHex, formatJSON, extractBase64, base64ToBytes, BinaryDetectionResult, isText } from "@/lib/utils/base64-utils"
 import { CopyButton } from "@/components/features/CopyButton"
@@ -14,6 +15,9 @@ import { SEO } from "@/components/features/SEO"
 import { Badge } from "@/components/ui/badge"
 import { useAnalystSession } from "@/lib/hooks/useAnalystSession"
 import { AnalystSessionPanel } from "@/components/tools/AnalystSessionPanel"
+import { buildToolResultEnvelope } from "@/lib/utils/tool-results"
+import { createSummaryFromFindings } from "@/lib/utils/tool-result-scoring"
+import type { ToolFinding } from "@/types/tool.types"
 
 interface Base64RunSnapshot {
     durationMs: number
@@ -24,6 +28,8 @@ interface Base64RunSnapshot {
     mode: string
     metrics: Record<string, number>
 }
+
+type Base64GovernanceEnvelope = ReturnType<typeof buildToolResultEnvelope<Record<string, unknown>>>
 
 export default function Base64Tool() {
     const session = useAnalystSession("base64")
@@ -42,6 +48,7 @@ export default function Base64Tool() {
     const [detection, setDetection] = useState<BinaryDetectionResult | null>(null)
     const [activeTab, setActiveTab] = useState("text")
     const [lastRunSnapshot, setLastRunSnapshot] = useState<Base64RunSnapshot | null>(null)
+    const [governanceEnvelope, setGovernanceEnvelope] = useState<Base64GovernanceEnvelope | null>(null)
 
     const [error, setError] = useState<string | null>(null)
 
@@ -50,6 +57,13 @@ export default function Base64Tool() {
     const [urlSafe, setUrlSafe] = useState(false)
     const [doSplitLines, setDoSplitLines] = useState(false)
     const [autoFix, setAutoFix] = useState(true)
+    const [maxDecodedBytesInput, setMaxDecodedBytesInput] = useState("2000000")
+    const [maxOutputCharsInput, setMaxOutputCharsInput] = useState("200000")
+    const [maxAutoFixIssuesInput, setMaxAutoFixIssuesInput] = useState("4")
+    const [requireJsonPayload, setRequireJsonPayload] = useState(false)
+    const [forbidExecutablePayload, setForbidExecutablePayload] = useState(true)
+    const [forbidArchivePayload, setForbidArchivePayload] = useState(false)
+    const [strictAutoFixPolicy, setStrictAutoFixPolicy] = useState(false)
 
     const fileInputRef = useRef<HTMLInputElement>(null)
 
@@ -72,6 +86,7 @@ export default function Base64Tool() {
         setFixIssues([])
         setDetection(null)
         setLastRunSnapshot(null)
+        setGovernanceEnvelope(null)
     }
 
     const handleInputTypeChange = (value: string) => {
@@ -92,160 +107,330 @@ export default function Base64Tool() {
             setJsonOutput(null)
             setDetection(null)
             setLastRunSnapshot(null)
+            setGovernanceEnvelope(null)
             return
         }
 
         try {
             let processed = text
-            let findings = 0
-            let status: Base64RunSnapshot["status"] = "ok"
-            let summary = "Base64 process completed."
             let outputChars = 0
             let outputByteCount = 0
             let jsonDetected = 0
+            let detectedType = "none"
+            let autoFixIssueCount = 0
+            let binaryDetected = 0
+
+            const maxDecodedBytes = Math.max(256, Number(maxDecodedBytesInput) || 2000000)
+            const maxOutputChars = Math.max(256, Number(maxOutputCharsInput) || 200000)
+            const maxAutoFixIssues = Math.max(0, Number(maxAutoFixIssuesInput) || 4)
+            const policyFindings: ToolFinding[] = []
 
             if (mode === "decode") {
-                // Auto-Fix Logic
-                if (autoFix && inputType === 'text') {
-                    const { cleaned, issues } = cleanBase64(text);
+                if (autoFix && inputType === "text") {
+                    const { cleaned, issues } = cleanBase64(text)
                     if (issues.length > 0) {
-                        setFixIssues(issues);
-                        processed = cleaned;
-                        findings += 1
-                        status = "warning"
+                        setFixIssues(issues)
+                        processed = cleaned
+                        autoFixIssueCount = issues.length
                     }
                 }
 
-                // Decode to BYTES first
-                let bytes: Uint8Array;
+                let bytes: Uint8Array
                 try {
-                    // Check URL safe replacement manually if tool option set?
-                    // cleanBase64 already does some, but encoders.ts had specific logic.
-                    // Let's use cleanBase64 logic + base64ToBytes
-                    let safeInput = processed;
+                    let safeInput = processed
                     if (urlSafe) {
-                        // If user enforced URL safe, ensure we swap chars back standard for decoding
-                        safeInput = safeInput.replace(/-/g, '+').replace(/_/g, '/');
+                        safeInput = safeInput.replace(/-/g, "+").replace(/_/g, "/")
                     }
-                    // Pad if needed, base64ToBytes relies on atob which is strict
-                    while (safeInput.length % 4) safeInput += '=';
+                    while (safeInput.length % 4) safeInput += "="
 
-                    bytes = base64ToBytes(safeInput);
+                    bytes = base64ToBytes(safeInput)
                 } catch {
                     throw new Error("Invalid Base64 input. Try Auto-Fix.")
                 }
 
-                setOutputBytes(bytes);
+                setOutputBytes(bytes)
                 outputByteCount = bytes.byteLength
 
-                // 1. Detect Binary Type
-                const detected = detectBinaryType(bytes);
-                setDetection(detected);
+                const detected = detectBinaryType(bytes)
+                setDetection(detected)
+                detectedType = detected?.type ?? "none"
 
-                // 2. Generate Hex
                 const hexValue = toHex(bytes)
-                setHexOutput(hexValue);
+                setHexOutput(hexValue)
                 outputChars = hexValue.length
 
-                // 3. Determine if Text or Binary
-                const looksLikeText = isText(bytes);
+                const looksLikeText = isText(bytes)
+                binaryDetected = detected || !looksLikeText ? 1 : 0
 
                 if (detected || !looksLikeText) {
-                    // It's binary or a known file type
-                    setActiveTab("hex");
-                    setOutputText(""); // Don't show garbage text
-                    setJsonOutput(null);
-                    summary = `Decoded payload as binary${detected ? ` (${detected.description})` : ""}.`
-                    if (detected?.type === "exe" || detected?.type === "zip") {
-                        findings += 1
-                        status = "warning"
-                    }
+                    setActiveTab("hex")
+                    setOutputText("")
+                    setJsonOutput(null)
                 } else {
-                    // Valid Text
-                    const decodedStr = new TextDecoder().decode(bytes);
-                    setOutputText(decodedStr);
+                    const decodedStr = new TextDecoder().decode(bytes)
+                    setOutputText(decodedStr)
                     outputChars = decodedStr.length
-                    setActiveTab("text");
+                    setActiveTab("text")
 
-                    // Check JSON
-                    const fmts = formatJSON(decodedStr);
+                    const fmts = formatJSON(decodedStr)
                     if (fmts) {
-                        setJsonOutput(fmts);
-                        setActiveTab("json");
+                        setJsonOutput(fmts)
+                        setActiveTab("json")
                         jsonDetected = 1
                     } else {
-                        setJsonOutput(null);
+                        setJsonOutput(null)
                     }
-                    summary = `Decoded payload into readable text (${decodedStr.length} chars).`
                 }
-
             } else {
-                // Encode
-                // If input is text, encode text. If inputBytes set (from file), encode bytes.
-                let result = "";
+                let result = ""
 
-                if (inputType === 'file' && inputBytes) {
-                    // Encode Binary File
-                    // We need a bytesToBase64 function or use standard btoa on string
-                    // But bytesToBase64 in utils uses binary string approach
-                    // Let's rely on that
-                    // We need to import bytesToBase64 or simple implementation
-                    // For now, use a inline helper if missing in import
-                    result = btoa(Array.from(inputBytes, (byte) => String.fromCharCode(byte)).join(""));
+                if (inputType === "file" && inputBytes) {
+                    result = btoa(Array.from(inputBytes, (byte) => String.fromCharCode(byte)).join(""))
                     outputByteCount = inputBytes.byteLength
-                } else if (inputType === 'file' && !inputBytes) {
+                } else if (inputType === "file" && !inputBytes) {
                     throw new Error("Upload a file to encode.")
                 } else {
-                    // Encode Text
-                    result = urlSafe ? encodeBase64Url(processed) : encodeBase64(processed);
+                    result = urlSafe ? encodeBase64Url(processed) : encodeBase64(processed)
                 }
 
                 if (doSplitLines) {
-                    result = splitLines(result);
+                    result = splitLines(result)
                 }
 
-                setOutputText(result);
-                setOutputBytes(null);
-                setActiveTab("text");
-                setJsonOutput(null);
-                setHexOutput("");
-                setDetection(null);
+                setOutputText(result)
+                setOutputBytes(null)
+                setActiveTab("text")
+                setJsonOutput(null)
+                setHexOutput("")
+                setDetection(null)
                 outputChars = result.length
-                summary = `Encoded input into Base64 (${result.length} chars).`
             }
 
+            if (autoFixIssueCount > maxAutoFixIssues) {
+                policyFindings.push({
+                    id: "base64-autofix-issues-threshold",
+                    severity: autoFixIssueCount > maxAutoFixIssues + 3 ? "high" : "medium",
+                    confidence: 84,
+                    category: "input-quality",
+                    title: "Auto-fix repaired many Base64 issues",
+                    description: `Detected ${autoFixIssueCount} fix operation(s), exceeding configured threshold ${maxAutoFixIssues}.`,
+                    remediation: "Review source payload integrity before decoding suspiciously malformed content.",
+                })
+            }
+
+            if (strictAutoFixPolicy && autoFixIssueCount > 0) {
+                policyFindings.push({
+                    id: "base64-autofix-strict-mode",
+                    severity: "high",
+                    confidence: 89,
+                    category: "policy-gate",
+                    title: "Strict mode rejects auto-fixed payloads",
+                    description: "Payload required auto-fix, which violates strict Base64 hygiene policy.",
+                    remediation: "Require valid canonical Base64 input before processing in strict mode.",
+                })
+            }
+
+            if (mode === "decode" && outputByteCount > maxDecodedBytes) {
+                policyFindings.push({
+                    id: "base64-decoded-size-limit",
+                    severity: outputByteCount > maxDecodedBytes * 2 ? "high" : "medium",
+                    confidence: 82,
+                    category: "payload-governance",
+                    title: "Decoded payload exceeds byte-size limit",
+                    description: `Decoded output ${outputByteCount} bytes exceeds configured limit ${maxDecodedBytes}.`,
+                    remediation: "Cap decoded payload sizes to reduce memory and triage overhead.",
+                })
+            }
+
+            if (outputChars > maxOutputChars) {
+                policyFindings.push({
+                    id: "base64-output-char-limit",
+                    severity: outputChars > maxOutputChars * 2 ? "high" : "medium",
+                    confidence: 80,
+                    category: "payload-governance",
+                    title: "Output character volume exceeds policy",
+                    description: `Output has ${outputChars} chars; configured limit is ${maxOutputChars}.`,
+                    remediation: "Split oversized payloads and preserve partial evidence for controlled review.",
+                })
+            }
+
+            if (mode === "decode" && requireJsonPayload && jsonDetected === 0) {
+                policyFindings.push({
+                    id: "base64-json-required",
+                    severity: "high",
+                    confidence: 86,
+                    category: "content-policy",
+                    title: "Decoded payload is not JSON",
+                    description: "JSON-only policy is enabled but decoded payload did not parse as JSON.",
+                    remediation: "Disable JSON-only policy or provide expected serialized JSON payloads.",
+                })
+            }
+
+            if (forbidExecutablePayload && (detectedType === "exe" || detectedType === "elf")) {
+                policyFindings.push({
+                    id: "base64-executable-detected",
+                    severity: "high",
+                    confidence: 92,
+                    category: "malware-safety",
+                    title: "Executable payload detected",
+                    description: `Detected executable payload type (${detectedType}) in decoded content.`,
+                    remediation: "Route executable payloads to isolated sandbox workflows before analysis.",
+                })
+            }
+
+            if (forbidArchivePayload && (detectedType === "zip")) {
+                policyFindings.push({
+                    id: "base64-archive-detected",
+                    severity: "medium",
+                    confidence: 78,
+                    category: "payload-safety",
+                    title: "Archive payload detected",
+                    description: "Detected archive content while archive-blocking policy is enabled.",
+                    remediation: "Only process archive payloads in approved decompression and scanning pipelines.",
+                })
+            }
+
+            if (policyFindings.length === 0) {
+                policyFindings.push({
+                    id: "base64-policy-pass",
+                    severity: "info",
+                    confidence: 70,
+                    category: "payload-governance",
+                    title: "Base64 processing passed policy checks",
+                    description: "No governance violations detected for this Base64 run.",
+                    remediation: "Keep payload size and content-type controls enabled for enterprise workflows.",
+                })
+            }
+
+            const summary = createSummaryFromFindings({
+                title: "Base64 governance assessment",
+                text: mode === "decode"
+                    ? `Decoded payload with ${binaryDetected ? "binary" : "text"} output analysis.`
+                    : "Encoded payload with output governance checks.",
+                findings: policyFindings,
+                metrics: {
+                    inputChars: text.length,
+                    outputChars,
+                    outputBytes: outputByteCount,
+                    jsonDetected,
+                    autoFixIssueCount,
+                    binaryDetected,
+                },
+                baseScore: 96,
+            })
+
+            const envelope = buildToolResultEnvelope({
+                toolName: "Base64 Ultimate",
+                summary,
+                findings: policyFindings,
+                evidence: [
+                    {
+                        mode: `${mode}-${inputType}`,
+                        inputChars: text.length,
+                        outputChars,
+                        outputBytes: outputByteCount,
+                        jsonDetected: jsonDetected === 1,
+                        autoFixIssueCount,
+                        detectedType,
+                        binaryDetected: binaryDetected === 1,
+                    },
+                ],
+                recommendations: [
+                    "Apply strict Base64 hygiene checks before decoding untrusted sources.",
+                    "Route executable and archive payloads to isolated analysis environments.",
+                    "Use explicit JSON-only mode for structured telemetry pipelines.",
+                ],
+                raw: {
+                    mode,
+                    inputType,
+                    detectedType,
+                    outputChars,
+                    outputByteCount,
+                    jsonDetected,
+                    autoFixIssueCount,
+                    policy: {
+                        maxDecodedBytes,
+                        maxOutputChars,
+                        maxAutoFixIssues,
+                        requireJsonPayload,
+                        forbidExecutablePayload,
+                        forbidArchivePayload,
+                        strictAutoFixPolicy,
+                    },
+                },
+            })
+            setGovernanceEnvelope(envelope)
+
             const durationMs = Math.max(1, Math.round(performance.now() - startedAt))
-            const score = status === "warning" ? 82 : 96
+            const meaningfulFindings = policyFindings.filter((finding) => finding.severity !== "info").length
             setLastRunSnapshot({
                 durationMs,
-                status,
-                score,
-                findings,
-                summary,
+                status: summary.status,
+                score: summary.score ?? 96,
+                findings: meaningfulFindings,
+                summary: summary.text,
                 mode: `${mode}-${inputType}`,
                 metrics: {
                     inputChars: text.length,
                     outputChars,
                     outputBytes: outputByteCount,
                     jsonDetected,
+                    autoFixIssues: autoFixIssueCount,
+                    binaryDetected,
                 },
             })
 
         } catch (err) {
             console.error(err)
-            setError(err instanceof Error ? err.message : "Processing error")
+            const message = err instanceof Error ? err.message : "Processing error"
+            setError(message)
             setOutputText("")
             setHexOutput("")
             setOutputBytes(null)
             setJsonOutput(null)
             setDetection(null)
+            const errorFinding: ToolFinding = {
+                id: "base64-processing-error",
+                severity: "high",
+                confidence: 90,
+                category: "pipeline-health",
+                title: "Base64 processing failed",
+                description: message,
+                remediation: "Validate input structure and retry with policy-compliant payload content.",
+            }
+            const summary = createSummaryFromFindings({
+                title: "Base64 processing failed",
+                text: message,
+                findings: [errorFinding],
+                metrics: {
+                    inputChars: text.length,
+                },
+                baseScore: 38,
+            })
+            const envelope = buildToolResultEnvelope({
+                toolName: "Base64 Ultimate",
+                summary,
+                findings: [errorFinding],
+                evidence: [
+                    {
+                        mode: `${mode}-${inputType}`,
+                        inputChars: text.length,
+                    },
+                ],
+                recommendations: [
+                    "Validate Base64 formatting before decode operations.",
+                    "Use Auto-Fix only for controlled triage workflows.",
+                ],
+                raw: { mode, inputType, error: message },
+            })
+            setGovernanceEnvelope(envelope)
             const durationMs = Math.max(1, Math.round(performance.now() - startedAt))
             setLastRunSnapshot({
                 durationMs,
-                status: "error",
-                score: 38,
+                status: summary.status,
+                score: summary.score ?? 38,
                 findings: 1,
-                summary: err instanceof Error ? err.message : "Base64 processing failed.",
+                summary: summary.text,
                 mode: `${mode}-${inputType}`,
                 metrics: {
                     inputChars: text.length,
@@ -255,7 +440,21 @@ export default function Base64Tool() {
                 },
             })
         }
-    }, [mode, urlSafe, doSplitLines, inputType, autoFix, inputBytes])
+    }, [
+        mode,
+        urlSafe,
+        doSplitLines,
+        inputType,
+        autoFix,
+        inputBytes,
+        maxDecodedBytesInput,
+        maxOutputCharsInput,
+        maxAutoFixIssuesInput,
+        requireJsonPayload,
+        forbidExecutablePayload,
+        forbidArchivePayload,
+        strictAutoFixPolicy,
+    ])
 
     // Effect for Live Mode
     useEffect(() => {
@@ -375,6 +574,7 @@ export default function Base64Tool() {
                 autoFix,
             },
             snapshot: lastRunSnapshot,
+            governance: governanceEnvelope,
             fixIssues,
             detection,
             evidence: {
@@ -569,6 +769,70 @@ export default function Base64Tool() {
                                 </Label>
                                 <Switch id="url-safe" checked={urlSafe} onChange={(e) => setUrlSafe(e.target.checked)} />
                             </div>
+
+                            <div className="sm:col-span-2 border-t pt-4 space-y-3">
+                                <div className="text-xs font-semibold uppercase tracking-wide text-muted-foreground">Policy Controls</div>
+                                <div className="grid sm:grid-cols-2 gap-2">
+                                    <div className="space-y-1">
+                                        <Label htmlFor="max-decoded-bytes">Max decoded bytes</Label>
+                                        <Input
+                                            id="max-decoded-bytes"
+                                            value={maxDecodedBytesInput}
+                                            onChange={(event) => setMaxDecodedBytesInput(event.target.value)}
+                                        />
+                                    </div>
+                                    <div className="space-y-1">
+                                        <Label htmlFor="max-output-chars">Max output chars</Label>
+                                        <Input
+                                            id="max-output-chars"
+                                            value={maxOutputCharsInput}
+                                            onChange={(event) => setMaxOutputCharsInput(event.target.value)}
+                                        />
+                                    </div>
+                                    <div className="space-y-1 sm:col-span-2">
+                                        <Label htmlFor="max-autofix-issues">Max auto-fix issues</Label>
+                                        <Input
+                                            id="max-autofix-issues"
+                                            value={maxAutoFixIssuesInput}
+                                            onChange={(event) => setMaxAutoFixIssuesInput(event.target.value)}
+                                        />
+                                    </div>
+                                </div>
+                                <div className="space-y-2">
+                                    <div className="flex items-center justify-between gap-2">
+                                        <Label htmlFor="base64-require-json">Require JSON payload when decoding</Label>
+                                        <Switch
+                                            id="base64-require-json"
+                                            checked={requireJsonPayload}
+                                            onChange={(event) => setRequireJsonPayload(event.target.checked)}
+                                        />
+                                    </div>
+                                    <div className="flex items-center justify-between gap-2">
+                                        <Label htmlFor="base64-forbid-executable">Block executable payload types</Label>
+                                        <Switch
+                                            id="base64-forbid-executable"
+                                            checked={forbidExecutablePayload}
+                                            onChange={(event) => setForbidExecutablePayload(event.target.checked)}
+                                        />
+                                    </div>
+                                    <div className="flex items-center justify-between gap-2">
+                                        <Label htmlFor="base64-forbid-archive">Block archive payload types</Label>
+                                        <Switch
+                                            id="base64-forbid-archive"
+                                            checked={forbidArchivePayload}
+                                            onChange={(event) => setForbidArchivePayload(event.target.checked)}
+                                        />
+                                    </div>
+                                    <div className="flex items-center justify-between gap-2">
+                                        <Label htmlFor="base64-strict-autofix">Reject payloads that require auto-fix</Label>
+                                        <Switch
+                                            id="base64-strict-autofix"
+                                            checked={strictAutoFixPolicy}
+                                            onChange={(event) => setStrictAutoFixPolicy(event.target.checked)}
+                                        />
+                                    </div>
+                                </div>
+                            </div>
                         </div>
 
                         {!liveMode && (
@@ -691,6 +955,31 @@ export default function Base64Tool() {
                     </CardContent>
                 </Card>
             </div>
+
+            {governanceEnvelope && (
+                <Card className="border-muted-foreground/20">
+                    <CardHeader className="pb-3">
+                        <CardTitle className="text-base">Governance Findings</CardTitle>
+                    </CardHeader>
+                    <CardContent className="space-y-3">
+                        <div className="flex flex-wrap items-center gap-2 text-sm">
+                            <Badge variant="outline">Status: {governanceEnvelope.summary.status}</Badge>
+                            <Badge variant="secondary">
+                                Score: {typeof governanceEnvelope.summary.score === "number" ? governanceEnvelope.summary.score : "n/a"}
+                            </Badge>
+                            <Badge variant="secondary">Findings: {governanceEnvelope.findings.length}</Badge>
+                        </div>
+                        <p className="text-sm text-muted-foreground">{governanceEnvelope.summary.text}</p>
+                        {governanceEnvelope.findings.length > 0 && (
+                            <ul className="text-sm text-muted-foreground space-y-1">
+                                {governanceEnvelope.findings.slice(0, 5).map((finding) => (
+                                    <li key={finding.id}>[{finding.severity.toUpperCase()}] {finding.title}</li>
+                                ))}
+                            </ul>
+                        )}
+                    </CardContent>
+                </Card>
+            )}
 
             <AnalystSessionPanel
                 caseId={session.caseId}
