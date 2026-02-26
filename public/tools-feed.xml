@@ -4,621 +4,621 @@
   <title>Secutil Tool Updates</title>
   <link>https://cybertools.hub/tools</link>
   <description>Machine-readable feed of searchable Secutil tool pages and statuses.</description>
-  <lastBuildDate>Thu, 26 Feb 2026 08:59:37 GMT</lastBuildDate>
+  <lastBuildDate>Thu, 26 Feb 2026 09:11:03 GMT</lastBuildDate>
   <item>
     <title>Base64 Converter (ready)</title>
     <link>https://cybertools.hub/tools/base64</link>
     <guid>https://cybertools.hub/tools/base64</guid>
-    <pubDate>Thu, 26 Feb 2026 08:59:37 GMT</pubDate>
+    <pubDate>Thu, 26 Feb 2026 09:11:03 GMT</pubDate>
     <description>Encode and decode Base64 data with URL safety options. Domain: Data Security &amp; Privacy Engineering. Mode: local. Sensitivity: medium.</description>
   </item>
   <item>
     <title>Color Converter (ready)</title>
     <link>https://cybertools.hub/tools/color</link>
     <guid>https://cybertools.hub/tools/color</guid>
-    <pubDate>Thu, 26 Feb 2026 08:59:07 GMT</pubDate>
+    <pubDate>Thu, 26 Feb 2026 09:10:33 GMT</pubDate>
     <description>Convert HEX, RGB, and HSL colors. Domain: Data Security &amp; Privacy Engineering. Mode: local. Sensitivity: low.</description>
   </item>
   <item>
     <title>Email Header Analyzer (ready)</title>
     <link>https://cybertools.hub/tools/email</link>
     <guid>https://cybertools.hub/tools/email</guid>
-    <pubDate>Thu, 26 Feb 2026 08:58:37 GMT</pubDate>
+    <pubDate>Thu, 26 Feb 2026 09:10:03 GMT</pubDate>
     <description>Parse and analyze email headers. Domain: SOC &amp; Detection Engineering. Mode: local. Sensitivity: high.</description>
   </item>
   <item>
     <title>Hash Generator (ready)</title>
     <link>https://cybertools.hub/tools/hash</link>
     <guid>https://cybertools.hub/tools/hash</guid>
-    <pubDate>Thu, 26 Feb 2026 08:58:07 GMT</pubDate>
+    <pubDate>Thu, 26 Feb 2026 09:09:33 GMT</pubDate>
     <description>Generate MD5, SHA1, SHA256, and SHA512 hashes. Domain: Data Security &amp; Privacy Engineering. Mode: local. Sensitivity: medium.</description>
   </item>
   <item>
     <title>HTML Encoder (ready)</title>
     <link>https://cybertools.hub/tools/html</link>
     <guid>https://cybertools.hub/tools/html</guid>
-    <pubDate>Thu, 26 Feb 2026 08:57:37 GMT</pubDate>
+    <pubDate>Thu, 26 Feb 2026 09:09:03 GMT</pubDate>
     <description>Encode and decode HTML entities. Domain: Data Security &amp; Privacy Engineering. Mode: local. Sensitivity: low.</description>
   </item>
   <item>
     <title>JSON Formatter (ready)</title>
     <link>https://cybertools.hub/tools/json</link>
     <guid>https://cybertools.hub/tools/json</guid>
-    <pubDate>Thu, 26 Feb 2026 08:57:07 GMT</pubDate>
+    <pubDate>Thu, 26 Feb 2026 09:08:33 GMT</pubDate>
     <description>Validate, format, and minify JSON data. Domain: Data Security &amp; Privacy Engineering. Mode: local. Sensitivity: low.</description>
   </item>
   <item>
     <title>JWT Decoder (ready)</title>
     <link>https://cybertools.hub/tools/jwt</link>
     <guid>https://cybertools.hub/tools/jwt</guid>
-    <pubDate>Thu, 26 Feb 2026 08:56:37 GMT</pubDate>
+    <pubDate>Thu, 26 Feb 2026 09:08:03 GMT</pubDate>
     <description>Decode and inspect JSON Web Tokens. Domain: Application &amp; API Security. Mode: local. Sensitivity: high.</description>
   </item>
   <item>
     <title>Markdown Preview (ready)</title>
     <link>https://cybertools.hub/tools/markdown</link>
     <guid>https://cybertools.hub/tools/markdown</guid>
-    <pubDate>Thu, 26 Feb 2026 08:56:07 GMT</pubDate>
+    <pubDate>Thu, 26 Feb 2026 09:07:33 GMT</pubDate>
     <description>Preview Markdown text. Domain: Data Security &amp; Privacy Engineering. Mode: local. Sensitivity: low.</description>
   </item>
   <item>
     <title>Password Generator (ready)</title>
     <link>https://cybertools.hub/tools/password</link>
     <guid>https://cybertools.hub/tools/password</guid>
-    <pubDate>Thu, 26 Feb 2026 08:55:37 GMT</pubDate>
+    <pubDate>Thu, 26 Feb 2026 09:07:03 GMT</pubDate>
     <description>Generate secure random passwords. Domain: Data Security &amp; Privacy Engineering. Mode: local. Sensitivity: medium.</description>
   </item>
   <item>
     <title>QR Code Generator (ready)</title>
     <link>https://cybertools.hub/tools/qrcode</link>
     <guid>https://cybertools.hub/tools/qrcode</guid>
-    <pubDate>Thu, 26 Feb 2026 08:55:07 GMT</pubDate>
+    <pubDate>Thu, 26 Feb 2026 09:06:33 GMT</pubDate>
     <description>Generate QR codes from text. Domain: Data Security &amp; Privacy Engineering. Mode: local. Sensitivity: low.</description>
   </item>
   <item>
     <title>Regex Tester (ready)</title>
     <link>https://cybertools.hub/tools/regex</link>
     <guid>https://cybertools.hub/tools/regex</guid>
-    <pubDate>Thu, 26 Feb 2026 08:54:37 GMT</pubDate>
+    <pubDate>Thu, 26 Feb 2026 09:06:03 GMT</pubDate>
     <description>Test regular expressions against text. Domain: Application &amp; API Security. Mode: local. Sensitivity: low.</description>
   </item>
   <item>
     <title>Subnet Calculator (ready)</title>
     <link>https://cybertools.hub/tools/subnet</link>
     <guid>https://cybertools.hub/tools/subnet</guid>
-    <pubDate>Thu, 26 Feb 2026 08:54:07 GMT</pubDate>
+    <pubDate>Thu, 26 Feb 2026 09:05:33 GMT</pubDate>
     <description>Calculate CIDR ranges and netmasks. Domain: Network &amp; Exposure Security. Mode: local. Sensitivity: low.</description>
   </item>
   <item>
     <title>Text Diff (ready)</title>
     <link>https://cybertools.hub/tools/diff</link>
     <guid>https://cybertools.hub/tools/diff</guid>
-    <pubDate>Thu, 26 Feb 2026 08:53:37 GMT</pubDate>
+    <pubDate>Thu, 26 Feb 2026 09:05:03 GMT</pubDate>
     <description>Compare two texts and find differences. Domain: Data Security &amp; Privacy Engineering. Mode: local. Sensitivity: low.</description>
   </item>
   <item>
     <title>Unix Timestamp (ready)</title>
     <link>https://cybertools.hub/tools/timestamp</link>
     <guid>https://cybertools.hub/tools/timestamp</guid>
-    <pubDate>Thu, 26 Feb 2026 08:53:07 GMT</pubDate>
+    <pubDate>Thu, 26 Feb 2026 09:04:33 GMT</pubDate>
     <description>Convert between Unix timestamps and human dates. Domain: Data Security &amp; Privacy Engineering. Mode: local. Sensitivity: low.</description>
   </item>
   <item>
     <title>URL Encoder (ready)</title>
     <link>https://cybertools.hub/tools/url</link>
     <guid>https://cybertools.hub/tools/url</guid>
-    <pubDate>Thu, 26 Feb 2026 08:52:37 GMT</pubDate>
+    <pubDate>Thu, 26 Feb 2026 09:04:03 GMT</pubDate>
     <description>Encode and decode URLs and URI components. Domain: Data Security &amp; Privacy Engineering. Mode: local. Sensitivity: low.</description>
   </item>
   <item>
     <title>UUID Generator (ready)</title>
     <link>https://cybertools.hub/tools/uuid</link>
     <guid>https://cybertools.hub/tools/uuid</guid>
-    <pubDate>Thu, 26 Feb 2026 08:52:07 GMT</pubDate>
+    <pubDate>Thu, 26 Feb 2026 09:03:33 GMT</pubDate>
     <description>Generate UUID v4 identifiers. Domain: Data Security &amp; Privacy Engineering. Mode: local. Sensitivity: low.</description>
   </item>
   <item>
     <title>AI Connector Egress Audit (new)</title>
     <link>https://cybertools.hub/tools/ai-connector-egress-audit</link>
     <guid>https://cybertools.hub/tools/ai-connector-egress-audit</guid>
-    <pubDate>Thu, 26 Feb 2026 08:51:37 GMT</pubDate>
+    <pubDate>Thu, 26 Feb 2026 09:03:03 GMT</pubDate>
     <description>Review outbound connector payloads and destinations for policy and data-loss risk. Domain: AI / LLM Security. Mode: hybrid. Sensitivity: high.</description>
   </item>
   <item>
     <title>AI Prompt Injection Triage (new)</title>
     <link>https://cybertools.hub/tools/ai-prompt-injection-triage</link>
     <guid>https://cybertools.hub/tools/ai-prompt-injection-triage</guid>
-    <pubDate>Thu, 26 Feb 2026 08:51:07 GMT</pubDate>
+    <pubDate>Thu, 26 Feb 2026 09:02:33 GMT</pubDate>
     <description>Assess prompt, tool-call, and retrieval payloads for injection and policy-bypass patterns with local-first explainability. Domain: AI / LLM Security. Mode: local. Sensitivity: high.</description>
   </item>
   <item>
     <title>Alert Deduplication Simulator (new)</title>
     <link>https://cybertools.hub/tools/alert-dedupe</link>
     <guid>https://cybertools.hub/tools/alert-dedupe</guid>
-    <pubDate>Thu, 26 Feb 2026 08:50:37 GMT</pubDate>
+    <pubDate>Thu, 26 Feb 2026 09:02:03 GMT</pubDate>
     <description>Cluster noisy alerts into deterministic buckets to estimate SOC false-positive reduction. Domain: SOC &amp; Detection Engineering. Mode: local. Sensitivity: high.</description>
   </item>
   <item>
     <title>Artifact Integrity Packager (new)</title>
     <link>https://cybertools.hub/tools/artifact-integrity</link>
     <guid>https://cybertools.hub/tools/artifact-integrity</guid>
-    <pubDate>Thu, 26 Feb 2026 08:50:07 GMT</pubDate>
+    <pubDate>Thu, 26 Feb 2026 09:01:33 GMT</pubDate>
     <description>Build chain-of-custody manifests with hash attestations for forensic artifacts. Domain: Threat Intel &amp; DFIR. Mode: local. Sensitivity: high.</description>
   </item>
   <item>
     <title>ATT&amp;CK Coverage Heatmap (new)</title>
     <link>https://cybertools.hub/tools/attack-coverage</link>
     <guid>https://cybertools.hub/tools/attack-coverage</guid>
-    <pubDate>Thu, 26 Feb 2026 08:49:37 GMT</pubDate>
+    <pubDate>Thu, 26 Feb 2026 09:01:03 GMT</pubDate>
     <description>Summarize ATT&amp;CK tactic and technique coverage from rule metadata. Domain: SOC &amp; Detection Engineering. Mode: local. Sensitivity: medium.</description>
   </item>
   <item>
     <title>CORS Policy Analyzer (new)</title>
     <link>https://cybertools.hub/tools/cors-policy-analyzer</link>
     <guid>https://cybertools.hub/tools/cors-policy-analyzer</guid>
-    <pubDate>Thu, 26 Feb 2026 08:49:07 GMT</pubDate>
+    <pubDate>Thu, 26 Feb 2026 09:00:33 GMT</pubDate>
     <description>Assess CORS response policies and explain cross-origin abuse risk. Domain: Application &amp; API Security. Mode: local. Sensitivity: medium.</description>
   </item>
   <item>
     <title>Detection Rule Unit Test Harness (new)</title>
     <link>https://cybertools.hub/tools/detection-unit-test</link>
     <guid>https://cybertools.hub/tools/detection-unit-test</guid>
-    <pubDate>Thu, 26 Feb 2026 08:48:37 GMT</pubDate>
+    <pubDate>Thu, 26 Feb 2026 09:00:03 GMT</pubDate>
     <description>Run Sigma-like rule fixtures against expected detections to validate detection quality. Domain: SOC &amp; Detection Engineering. Mode: local. Sensitivity: high.</description>
   </item>
   <item>
     <title>DNS Toolkit (new)</title>
     <link>https://cybertools.hub/tools/dns</link>
     <guid>https://cybertools.hub/tools/dns</guid>
-    <pubDate>Thu, 26 Feb 2026 08:48:07 GMT</pubDate>
+    <pubDate>Thu, 26 Feb 2026 08:59:33 GMT</pubDate>
     <description>Query DNS-over-HTTPS records and inspect SPF/DMARC posture. Domain: Network &amp; Exposure Security. Mode: network. Sensitivity: medium.</description>
   </item>
   <item>
     <title>Domain Spoof Detector (new)</title>
     <link>https://cybertools.hub/tools/domain-spoof</link>
     <guid>https://cybertools.hub/tools/domain-spoof</guid>
-    <pubDate>Thu, 26 Feb 2026 08:47:37 GMT</pubDate>
+    <pubDate>Thu, 26 Feb 2026 08:59:03 GMT</pubDate>
     <description>Score suspected spoofed domains using homoglyph, brand abuse, and domain-age signals. Domain: SOC &amp; Detection Engineering. Mode: local. Sensitivity: high.</description>
   </item>
   <item>
     <title>Event Timeline Composer (new)</title>
     <link>https://cybertools.hub/tools/event-timeline</link>
     <guid>https://cybertools.hub/tools/event-timeline</guid>
-    <pubDate>Thu, 26 Feb 2026 08:47:07 GMT</pubDate>
+    <pubDate>Thu, 26 Feb 2026 08:58:33 GMT</pubDate>
     <description>Compose and normalize incident event timelines for triage and post-incident review. Domain: SOC &amp; Detection Engineering. Mode: local. Sensitivity: high.</description>
   </item>
   <item>
     <title>External Exposure Normalizer (new)</title>
     <link>https://cybertools.hub/tools/exposure-normalizer</link>
     <guid>https://cybertools.hub/tools/exposure-normalizer</guid>
-    <pubDate>Thu, 26 Feb 2026 08:46:37 GMT</pubDate>
+    <pubDate>Thu, 26 Feb 2026 08:58:03 GMT</pubDate>
     <description>Normalize Nmap/Masscan/Shodan imports into a comparable exposure inventory. Domain: Network &amp; Exposure Security. Mode: local. Sensitivity: medium.</description>
   </item>
   <item>
     <title>Firewall/ACL Conflict Analyzer (new)</title>
     <link>https://cybertools.hub/tools/firewall-acl-analyzer</link>
     <guid>https://cybertools.hub/tools/firewall-acl-analyzer</guid>
-    <pubDate>Thu, 26 Feb 2026 08:46:07 GMT</pubDate>
+    <pubDate>Thu, 26 Feb 2026 08:57:33 GMT</pubDate>
     <description>Detect duplicate, shadowed, and overly permissive firewall or ACL rules. Domain: Network &amp; Exposure Security. Mode: local. Sensitivity: high.</description>
   </item>
   <item>
     <title>HTTP Header Analyzer (new)</title>
     <link>https://cybertools.hub/tools/http-headers</link>
     <guid>https://cybertools.hub/tools/http-headers</guid>
-    <pubDate>Thu, 26 Feb 2026 08:45:37 GMT</pubDate>
+    <pubDate>Thu, 26 Feb 2026 08:57:03 GMT</pubDate>
     <description>Score HTTP security headers and identify hardening gaps. Domain: Application &amp; API Security. Mode: local. Sensitivity: medium.</description>
   </item>
   <item>
     <title>IAM Policy Analyzer (new)</title>
     <link>https://cybertools.hub/tools/iam-policy-analyzer</link>
     <guid>https://cybertools.hub/tools/iam-policy-analyzer</guid>
-    <pubDate>Thu, 26 Feb 2026 08:45:07 GMT</pubDate>
+    <pubDate>Thu, 26 Feb 2026 08:56:33 GMT</pubDate>
     <description>Lint AWS/Azure/GCP-style policies for wildcard privilege and risky grants. Domain: Cloud &amp; IAM Security. Mode: local. Sensitivity: high.</description>
   </item>
   <item>
     <title>IOC Canonicalizer (new)</title>
     <link>https://cybertools.hub/tools/ioc-normalizer</link>
     <guid>https://cybertools.hub/tools/ioc-normalizer</guid>
-    <pubDate>Thu, 26 Feb 2026 08:44:37 GMT</pubDate>
+    <pubDate>Thu, 26 Feb 2026 08:56:03 GMT</pubDate>
     <description>Normalize defanged indicators, unicode/punycode domains, and deduplicate by canonical value. Domain: Threat Intel &amp; DFIR. Mode: local. Sensitivity: high.</description>
   </item>
   <item>
     <title>IOC Confidence + TTL Scorer (new)</title>
     <link>https://cybertools.hub/tools/ioc-confidence-ttl</link>
     <guid>https://cybertools.hub/tools/ioc-confidence-ttl</guid>
-    <pubDate>Thu, 26 Feb 2026 08:44:07 GMT</pubDate>
+    <pubDate>Thu, 26 Feb 2026 08:55:33 GMT</pubDate>
     <description>Score indicator confidence and suggest TTL decay windows for operational feeds. Domain: Threat Intel &amp; DFIR. Mode: local. Sensitivity: high.</description>
   </item>
   <item>
     <title>IOC Correlator (new)</title>
     <link>https://cybertools.hub/tools/ioc-correlator</link>
     <guid>https://cybertools.hub/tools/ioc-correlator</guid>
-    <pubDate>Thu, 26 Feb 2026 08:43:37 GMT</pubDate>
+    <pubDate>Thu, 26 Feb 2026 08:55:03 GMT</pubDate>
     <description>Compare two IOC datasets and identify overlap and unique indicators. Domain: SOC &amp; Detection Engineering. Mode: local. Sensitivity: high.</description>
   </item>
   <item>
     <title>IOC Extractor (new)</title>
     <link>https://cybertools.hub/tools/ioc</link>
     <guid>https://cybertools.hub/tools/ioc</guid>
-    <pubDate>Thu, 26 Feb 2026 08:43:07 GMT</pubDate>
+    <pubDate>Thu, 26 Feb 2026 08:54:33 GMT</pubDate>
     <description>Extract URLs, domains, IPs, hashes, and CVEs from raw text. Domain: SOC &amp; Detection Engineering. Mode: local. Sensitivity: high.</description>
   </item>
   <item>
     <title>JWT/JWS Verifier (new)</title>
     <link>https://cybertools.hub/tools/jwt-verify</link>
     <guid>https://cybertools.hub/tools/jwt-verify</guid>
-    <pubDate>Thu, 26 Feb 2026 08:42:37 GMT</pubDate>
+    <pubDate>Thu, 26 Feb 2026 08:54:03 GMT</pubDate>
     <description>Verify JWT/JWS signatures and optional claims policy with secret, PEM, JWK, or JWKS URL. Domain: Application &amp; API Security. Mode: hybrid. Sensitivity: high.</description>
   </item>
   <item>
     <title>KEV/CVE Prioritizer (new)</title>
     <link>https://cybertools.hub/tools/cve-prioritizer</link>
     <guid>https://cybertools.hub/tools/cve-prioritizer</guid>
-    <pubDate>Thu, 26 Feb 2026 08:42:07 GMT</pubDate>
+    <pubDate>Thu, 26 Feb 2026 08:53:33 GMT</pubDate>
     <description>Prioritize CVEs client-side using KEV, NVD feeds, CVSS, EPSS, exploit signals, and asset criticality. Domain: SOC &amp; Detection Engineering. Mode: local. Sensitivity: high.</description>
   </item>
   <item>
     <title>Lockfile Risk Diff (new)</title>
     <link>https://cybertools.hub/tools/lockfile-risk-diff</link>
     <guid>https://cybertools.hub/tools/lockfile-risk-diff</guid>
-    <pubDate>Thu, 26 Feb 2026 08:41:37 GMT</pubDate>
+    <pubDate>Thu, 26 Feb 2026 08:53:03 GMT</pubDate>
     <description>Diff lockfiles and flag dependency-confusion and naming-risk heuristics. Domain: Software Supply Chain Security. Mode: local. Sensitivity: high.</description>
   </item>
   <item>
     <title>Log Schema Mapper (new)</title>
     <link>https://cybertools.hub/tools/log-schema-mapper</link>
     <guid>https://cybertools.hub/tools/log-schema-mapper</guid>
-    <pubDate>Thu, 26 Feb 2026 08:41:07 GMT</pubDate>
+    <pubDate>Thu, 26 Feb 2026 08:52:33 GMT</pubDate>
     <description>Map raw log fields to ECS/OCSF hints for faster normalization and ingestion planning. Domain: SOC &amp; Detection Engineering. Mode: local. Sensitivity: high.</description>
   </item>
   <item>
     <title>MISP/STIX Mapper (new)</title>
     <link>https://cybertools.hub/tools/misp-stix-mapper</link>
     <guid>https://cybertools.hub/tools/misp-stix-mapper</guid>
-    <pubDate>Thu, 26 Feb 2026 08:40:37 GMT</pubDate>
+    <pubDate>Thu, 26 Feb 2026 08:52:03 GMT</pubDate>
     <description>Transform simplified MISP exports into STIX bundles and run consistency checks. Domain: Threat Intel &amp; DFIR. Mode: local. Sensitivity: high.</description>
   </item>
   <item>
     <title>OAuth/OIDC Scope Minimizer (new)</title>
     <link>https://cybertools.hub/tools/oauth-oidc-linter</link>
     <guid>https://cybertools.hub/tools/oauth-oidc-linter</guid>
-    <pubDate>Thu, 26 Feb 2026 08:40:07 GMT</pubDate>
+    <pubDate>Thu, 26 Feb 2026 08:51:33 GMT</pubDate>
     <description>Lint scope and token policy inputs to reduce excess identity permissions. Domain: Cloud &amp; IAM Security. Mode: local. Sensitivity: high.</description>
   </item>
   <item>
     <title>OpenAPI AuthZ Gap Analyzer (new)</title>
     <link>https://cybertools.hub/tools/openapi-authz-gap</link>
     <guid>https://cybertools.hub/tools/openapi-authz-gap</guid>
-    <pubDate>Thu, 26 Feb 2026 08:39:37 GMT</pubDate>
+    <pubDate>Thu, 26 Feb 2026 08:51:03 GMT</pubDate>
     <description>Find missing or weak authorization requirements in OpenAPI documents. Domain: Application &amp; API Security. Mode: local. Sensitivity: high.</description>
   </item>
   <item>
     <title>OSINT Query Builder (new)</title>
     <link>https://cybertools.hub/tools/osint-query-builder</link>
     <guid>https://cybertools.hub/tools/osint-query-builder</guid>
-    <pubDate>Thu, 26 Feb 2026 08:39:07 GMT</pubDate>
+    <pubDate>Thu, 26 Feb 2026 08:50:33 GMT</pubDate>
     <description>Generate platform-ready OSINT query pivots for domains, emails, usernames, URLs, and IP indicators. Domain: OSINT &amp; Reconnaissance. Mode: local. Sensitivity: medium.</description>
   </item>
   <item>
     <title>Pentest Scan Planner (new)</title>
     <link>https://cybertools.hub/tools/pentest-scan-planner</link>
     <guid>https://cybertools.hub/tools/pentest-scan-planner</guid>
-    <pubDate>Thu, 26 Feb 2026 08:38:37 GMT</pubDate>
+    <pubDate>Thu, 26 Feb 2026 08:50:03 GMT</pubDate>
     <description>Generate authorized scan command plans with guardrails, reproducible profiles, and scope-safe defaults. Domain: Pentest Utilities. Mode: local. Sensitivity: medium.</description>
   </item>
   <item>
     <title>Reputation Enricher (new)</title>
     <link>https://cybertools.hub/tools/reputation</link>
     <guid>https://cybertools.hub/tools/reputation</guid>
-    <pubDate>Thu, 26 Feb 2026 08:38:07 GMT</pubDate>
+    <pubDate>Thu, 26 Feb 2026 08:49:33 GMT</pubDate>
     <description>Bulk-enrich domains/IPs with local scoring, RDAP, and optional provider proxy intel. Domain: SOC &amp; Detection Engineering. Mode: hybrid. Sensitivity: high.</description>
   </item>
   <item>
     <title>SBOM Diff &amp; Triage (new)</title>
     <link>https://cybertools.hub/tools/sbom-diff</link>
     <guid>https://cybertools.hub/tools/sbom-diff</guid>
-    <pubDate>Thu, 26 Feb 2026 08:37:37 GMT</pubDate>
+    <pubDate>Thu, 26 Feb 2026 08:49:03 GMT</pubDate>
     <description>Compare CycloneDX/SPDX BOMs and prioritize risky component changes. Domain: Software Supply Chain Security. Mode: local. Sensitivity: high.</description>
   </item>
   <item>
     <title>Secrets Scanner (new)</title>
     <link>https://cybertools.hub/tools/secrets-scanner</link>
     <guid>https://cybertools.hub/tools/secrets-scanner</guid>
-    <pubDate>Thu, 26 Feb 2026 08:37:07 GMT</pubDate>
+    <pubDate>Thu, 26 Feb 2026 08:48:33 GMT</pubDate>
     <description>Detect leaked credentials and high-entropy tokens in pasted content. Domain: Data Security &amp; Privacy Engineering. Mode: local. Sensitivity: high.</description>
   </item>
   <item>
     <title>Security Header Builder (new)</title>
     <link>https://cybertools.hub/tools/security-header-builder</link>
     <guid>https://cybertools.hub/tools/security-header-builder</guid>
-    <pubDate>Thu, 26 Feb 2026 08:36:37 GMT</pubDate>
+    <pubDate>Thu, 26 Feb 2026 08:48:03 GMT</pubDate>
     <description>Generate CSP and security header presets with explicit compatibility tradeoffs. Domain: Application &amp; API Security. Mode: local. Sensitivity: medium.</description>
   </item>
   <item>
     <title>Sigma Linter Helper (new)</title>
     <link>https://cybertools.hub/tools/sigma-helper</link>
     <guid>https://cybertools.hub/tools/sigma-helper</guid>
-    <pubDate>Thu, 26 Feb 2026 08:36:07 GMT</pubDate>
+    <pubDate>Thu, 26 Feb 2026 08:47:33 GMT</pubDate>
     <description>Lint Sigma rules and generate backend query helpers with ATT&amp;CK coverage checks. Domain: SOC &amp; Detection Engineering. Mode: local. Sensitivity: high.</description>
   </item>
   <item>
     <title>STIX/TAXII Utility (new)</title>
     <link>https://cybertools.hub/tools/stix-taxii</link>
     <guid>https://cybertools.hub/tools/stix-taxii</guid>
-    <pubDate>Thu, 26 Feb 2026 08:35:37 GMT</pubDate>
+    <pubDate>Thu, 26 Feb 2026 08:47:03 GMT</pubDate>
     <description>Parse, validate, compare, and export STIX 2.1 bundles locally. Domain: Threat Intel &amp; DFIR. Mode: local. Sensitivity: high.</description>
   </item>
   <item>
     <title>TLS Risk Explainer (new)</title>
     <link>https://cybertools.hub/tools/tls-risk-explainer</link>
     <guid>https://cybertools.hub/tools/tls-risk-explainer</guid>
-    <pubDate>Thu, 26 Feb 2026 08:35:07 GMT</pubDate>
+    <pubDate>Thu, 26 Feb 2026 08:46:33 GMT</pubDate>
     <description>Explain TLS protocol/cipher/certificate risks from pasted scanner output. Domain: Network &amp; Exposure Security. Mode: local. Sensitivity: medium.</description>
   </item>
   <item>
     <title>URL Defang/Refang (new)</title>
     <link>https://cybertools.hub/tools/url-defang</link>
     <guid>https://cybertools.hub/tools/url-defang</guid>
-    <pubDate>Thu, 26 Feb 2026 08:34:37 GMT</pubDate>
+    <pubDate>Thu, 26 Feb 2026 08:46:03 GMT</pubDate>
     <description>Defang/refang URLs and canonicalize links for IOC workflows. Domain: Network &amp; Exposure Security. Mode: local. Sensitivity: medium.</description>
   </item>
   <item>
     <title>User-Agent Analyzer (new)</title>
     <link>https://cybertools.hub/tools/user-agent</link>
     <guid>https://cybertools.hub/tools/user-agent</guid>
-    <pubDate>Thu, 26 Feb 2026 08:34:07 GMT</pubDate>
+    <pubDate>Thu, 26 Feb 2026 08:45:33 GMT</pubDate>
     <description>Parse User-Agent strings into browser, OS, device, and automation signals. Domain: Network &amp; Exposure Security. Mode: local. Sensitivity: medium.</description>
   </item>
   <item>
     <title>YARA Local Matcher (new)</title>
     <link>https://cybertools.hub/tools/yara-local</link>
     <guid>https://cybertools.hub/tools/yara-local</guid>
-    <pubDate>Thu, 26 Feb 2026 08:33:37 GMT</pubDate>
+    <pubDate>Thu, 26 Feb 2026 08:45:03 GMT</pubDate>
     <description>Run local YARA-style matching against text or local files without upload. Domain: SOC &amp; Detection Engineering. Mode: local. Sensitivity: high.</description>
   </item>
   <item>
     <title>Certificate Decoder (beta)</title>
     <link>https://cybertools.hub/tools/certificate</link>
     <guid>https://cybertools.hub/tools/certificate</guid>
-    <pubDate>Thu, 26 Feb 2026 08:33:07 GMT</pubDate>
+    <pubDate>Thu, 26 Feb 2026 08:44:33 GMT</pubDate>
     <description>Inspect certificate text and derive PEM SHA-256 fingerprints. Domain: Network &amp; Exposure Security. Mode: local. Sensitivity: medium.</description>
   </item>
   <item>
     <title>IP Lookup (beta)</title>
     <link>https://cybertools.hub/tools/ip</link>
     <guid>https://cybertools.hub/tools/ip</guid>
-    <pubDate>Thu, 26 Feb 2026 08:32:37 GMT</pubDate>
+    <pubDate>Thu, 26 Feb 2026 08:44:03 GMT</pubDate>
     <description>Classify IP addresses and optionally enrich with RDAP (network request). Domain: Network &amp; Exposure Security. Mode: network. Sensitivity: medium.</description>
   </item>
   <item>
     <title>Port Checker (beta)</title>
     <link>https://cybertools.hub/tools/port</link>
     <guid>https://cybertools.hub/tools/port</guid>
-    <pubDate>Thu, 26 Feb 2026 08:32:07 GMT</pubDate>
+    <pubDate>Thu, 26 Feb 2026 08:43:33 GMT</pubDate>
     <description>Assess common ports and probe HTTP(S)-compatible endpoints from browser. Domain: Network &amp; Exposure Security. Mode: network. Sensitivity: medium.</description>
   </item>
   <item>
     <title>Whois Lookup (beta)</title>
     <link>https://cybertools.hub/tools/whois</link>
     <guid>https://cybertools.hub/tools/whois</guid>
-    <pubDate>Thu, 26 Feb 2026 08:31:37 GMT</pubDate>
+    <pubDate>Thu, 26 Feb 2026 08:43:03 GMT</pubDate>
     <description>Lookup domain registration details via RDAP (network request). Domain: Network &amp; Exposure Security. Mode: network. Sensitivity: medium.</description>
   </item>
   <item>
     <title>API Abuse Pattern Lab (planned)</title>
     <link>https://cybertools.hub/tools/api-abuse-pattern-lab</link>
     <guid>https://cybertools.hub/tools/api-abuse-pattern-lab</guid>
-    <pubDate>Thu, 26 Feb 2026 08:31:07 GMT</pubDate>
+    <pubDate>Thu, 26 Feb 2026 08:42:33 GMT</pubDate>
     <description>Replay known API abuse scenarios against request/response samples to detect authz bypass and business logic weakness. Domain: Application &amp; API Security. Mode: local. Sensitivity: high.</description>
   </item>
   <item>
     <title>Artifact Provenance Verifier (planned)</title>
     <link>https://cybertools.hub/tools/artifact-provenance-verifier</link>
     <guid>https://cybertools.hub/tools/artifact-provenance-verifier</guid>
-    <pubDate>Thu, 26 Feb 2026 08:30:37 GMT</pubDate>
+    <pubDate>Thu, 26 Feb 2026 08:42:03 GMT</pubDate>
     <description>Validate software artifact provenance attestations and signing metadata for tamper and origin anomalies. Domain: Software Supply Chain Security. Mode: local. Sensitivity: high.</description>
   </item>
   <item>
     <title>Attack Surface Change Tracker (planned)</title>
     <link>https://cybertools.hub/tools/asm-change-diff-tracker</link>
     <guid>https://cybertools.hub/tools/asm-change-diff-tracker</guid>
-    <pubDate>Thu, 26 Feb 2026 08:30:07 GMT</pubDate>
+    <pubDate>Thu, 26 Feb 2026 08:41:33 GMT</pubDate>
     <description>Track newly exposed ports, services, and hostnames between scans to prioritize risky external drift. Domain: Network &amp; Exposure Security. Mode: hybrid. Sensitivity: high.</description>
   </item>
   <item>
     <title>Breach Exposure Query Assistant (planned)</title>
     <link>https://cybertools.hub/tools/breach-exposure-query-assistant</link>
     <guid>https://cybertools.hub/tools/breach-exposure-query-assistant</guid>
-    <pubDate>Thu, 26 Feb 2026 08:29:37 GMT</pubDate>
+    <pubDate>Thu, 26 Feb 2026 08:41:03 GMT</pubDate>
     <description>Build investigator-safe breach exposure query packs for credential leak triage without sending inputs externally. Domain: OSINT &amp; Reconnaissance. Mode: local. Sensitivity: high.</description>
   </item>
   <item>
     <title>Browser Session Triage (planned)</title>
     <link>https://cybertools.hub/tools/browser-session-triage</link>
     <guid>https://cybertools.hub/tools/browser-session-triage</guid>
-    <pubDate>Thu, 26 Feb 2026 08:29:07 GMT</pubDate>
+    <pubDate>Thu, 26 Feb 2026 08:40:33 GMT</pubDate>
     <description>Correlate browser telemetry and identity events to investigate session-token abuse patterns. Domain: SOC &amp; Detection Engineering. Mode: local. Sensitivity: high.</description>
   </item>
   <item>
     <title>Campaign Graph Builder (planned)</title>
     <link>https://cybertools.hub/tools/campaign-graph-builder</link>
     <guid>https://cybertools.hub/tools/campaign-graph-builder</guid>
-    <pubDate>Thu, 26 Feb 2026 08:28:37 GMT</pubDate>
+    <pubDate>Thu, 26 Feb 2026 08:40:03 GMT</pubDate>
     <description>Build actor-campaign-infrastructure graphs from incidents to visualize cluster overlap and repeated tradecraft. Domain: Threat Intel &amp; DFIR. Mode: local. Sensitivity: high.</description>
   </item>
   <item>
     <title>Cloud Permission Drift Detector (planned)</title>
     <link>https://cybertools.hub/tools/cloud-permission-drift-detector</link>
     <guid>https://cybertools.hub/tools/cloud-permission-drift-detector</guid>
-    <pubDate>Thu, 26 Feb 2026 08:28:07 GMT</pubDate>
+    <pubDate>Thu, 26 Feb 2026 08:39:33 GMT</pubDate>
     <description>Compare IAM snapshots across time to surface risky privilege expansion, wildcard growth, and stale exceptions. Domain: Cloud &amp; IAM Security. Mode: local. Sensitivity: high.</description>
   </item>
   <item>
     <title>Container Image Policy Linter (planned)</title>
     <link>https://cybertools.hub/tools/container-image-policy-linter</link>
     <guid>https://cybertools.hub/tools/container-image-policy-linter</guid>
-    <pubDate>Thu, 26 Feb 2026 08:27:37 GMT</pubDate>
+    <pubDate>Thu, 26 Feb 2026 08:39:03 GMT</pubDate>
     <description>Lint container image metadata and package manifests against supply-chain policy guardrails. Domain: Software Supply Chain Security. Mode: local. Sensitivity: high.</description>
   </item>
   <item>
     <title>Data Minimization Policy Checker (planned)</title>
     <link>https://cybertools.hub/tools/data-minimization-checker</link>
     <guid>https://cybertools.hub/tools/data-minimization-checker</guid>
-    <pubDate>Thu, 26 Feb 2026 08:27:07 GMT</pubDate>
+    <pubDate>Thu, 26 Feb 2026 08:38:33 GMT</pubDate>
     <description>Validate event fields against data minimization and retention policy constraints. Domain: Data Security &amp; Privacy Engineering. Mode: local. Sensitivity: high.</description>
   </item>
   <item>
     <title>DLP Rule Tester (planned)</title>
     <link>https://cybertools.hub/tools/dlp-rule-tester</link>
     <guid>https://cybertools.hub/tools/dlp-rule-tester</guid>
-    <pubDate>Thu, 26 Feb 2026 08:26:37 GMT</pubDate>
+    <pubDate>Thu, 26 Feb 2026 08:38:03 GMT</pubDate>
     <description>Test data-loss-prevention patterns against realistic payload samples to tune precision and reduce analyst fatigue. Domain: Data Security &amp; Privacy Engineering. Mode: local. Sensitivity: high.</description>
   </item>
   <item>
     <title>Finding Reproduction Packager (planned)</title>
     <link>https://cybertools.hub/tools/finding-repro-packager</link>
     <guid>https://cybertools.hub/tools/finding-repro-packager</guid>
-    <pubDate>Thu, 26 Feb 2026 08:26:07 GMT</pubDate>
+    <pubDate>Thu, 26 Feb 2026 08:37:33 GMT</pubDate>
     <description>Build reproducible pentest finding packets with request/response evidence and remediation-ready summaries. Domain: Pentest Utilities. Mode: local. Sensitivity: high.</description>
   </item>
   <item>
     <title>GEOINT Clue Board (planned)</title>
     <link>https://cybertools.hub/tools/geoint-clue-board</link>
     <guid>https://cybertools.hub/tools/geoint-clue-board</guid>
-    <pubDate>Thu, 26 Feb 2026 08:25:37 GMT</pubDate>
+    <pubDate>Thu, 26 Feb 2026 08:37:03 GMT</pubDate>
     <description>Normalize geolocation clues and timestamp context into structured investigation boards for repeatable open-source analysis. Domain: OSINT &amp; Reconnaissance. Mode: local. Sensitivity: medium.</description>
   </item>
   <item>
     <title>Identity Blast Radius Simulator (planned)</title>
     <link>https://cybertools.hub/tools/identity-blast-radius-simulator</link>
     <guid>https://cybertools.hub/tools/identity-blast-radius-simulator</guid>
-    <pubDate>Thu, 26 Feb 2026 08:25:07 GMT</pubDate>
+    <pubDate>Thu, 26 Feb 2026 08:36:33 GMT</pubDate>
     <description>Estimate lateral movement and privilege spread from compromised identities. Domain: Cloud &amp; IAM Security. Mode: local. Sensitivity: high.</description>
   </item>
   <item>
     <title>KEV Patch SLA Tracker (planned)</title>
     <link>https://cybertools.hub/tools/kev-patch-sla-tracker</link>
     <guid>https://cybertools.hub/tools/kev-patch-sla-tracker</guid>
-    <pubDate>Thu, 26 Feb 2026 08:24:37 GMT</pubDate>
+    <pubDate>Thu, 26 Feb 2026 08:36:03 GMT</pubDate>
     <description>Track active KEV exposure against internal patch SLAs and escalation thresholds. Domain: Network &amp; Exposure Security. Mode: hybrid. Sensitivity: high.</description>
   </item>
   <item>
     <title>LLM Output Policy Linter (planned)</title>
     <link>https://cybertools.hub/tools/llm-output-policy-linter</link>
     <guid>https://cybertools.hub/tools/llm-output-policy-linter</guid>
-    <pubDate>Thu, 26 Feb 2026 08:24:07 GMT</pubDate>
+    <pubDate>Thu, 26 Feb 2026 08:35:33 GMT</pubDate>
     <description>Lint generated model output against policy and safety controls to flag leakage, unsafe instructions, and control drift. Domain: AI / LLM Security. Mode: local. Sensitivity: high.</description>
   </item>
   <item>
     <title>Model Prompt Eval Lab (planned)</title>
     <link>https://cybertools.hub/tools/model-prompt-eval-lab</link>
     <guid>https://cybertools.hub/tools/model-prompt-eval-lab</guid>
-    <pubDate>Thu, 26 Feb 2026 08:23:37 GMT</pubDate>
+    <pubDate>Thu, 26 Feb 2026 08:35:03 GMT</pubDate>
     <description>Run repeatable local prompt attack test suites and compare failure patterns across model and policy revisions. Domain: AI / LLM Security. Mode: local. Sensitivity: high.</description>
   </item>
   <item>
     <title>Model Supply Chain Audit (planned)</title>
     <link>https://cybertools.hub/tools/model-supply-chain-audit</link>
     <guid>https://cybertools.hub/tools/model-supply-chain-audit</guid>
-    <pubDate>Thu, 26 Feb 2026 08:23:07 GMT</pubDate>
+    <pubDate>Thu, 26 Feb 2026 08:34:33 GMT</pubDate>
     <description>Assess AI model provenance, dependency lineage, and package integrity controls. Domain: Software Supply Chain Security. Mode: local. Sensitivity: high.</description>
   </item>
   <item>
     <title>Passive DNS Pivot Helper (planned)</title>
     <link>https://cybertools.hub/tools/passive-dns-pivot-helper</link>
     <guid>https://cybertools.hub/tools/passive-dns-pivot-helper</guid>
-    <pubDate>Thu, 26 Feb 2026 08:22:37 GMT</pubDate>
+    <pubDate>Thu, 26 Feb 2026 08:34:03 GMT</pubDate>
     <description>Organize passive DNS pivot hypotheses and investigation notes for subdomain, ASN, and historical host tracking. Domain: OSINT &amp; Reconnaissance. Mode: local. Sensitivity: medium.</description>
   </item>
   <item>
     <title>Pentest Scope Validator (planned)</title>
     <link>https://cybertools.hub/tools/pentest-scope-validator</link>
     <guid>https://cybertools.hub/tools/pentest-scope-validator</guid>
-    <pubDate>Thu, 26 Feb 2026 08:22:07 GMT</pubDate>
+    <pubDate>Thu, 26 Feb 2026 08:33:33 GMT</pubDate>
     <description>Validate authorized target scope declarations against provided domains, CIDRs, and environment boundaries. Domain: Pentest Utilities. Mode: local. Sensitivity: medium.</description>
   </item>
   <item>
     <title>Pentest Wordlist Mutator (planned)</title>
     <link>https://cybertools.hub/tools/pentest-wordlist-mutator</link>
     <guid>https://cybertools.hub/tools/pentest-wordlist-mutator</guid>
-    <pubDate>Thu, 26 Feb 2026 08:21:37 GMT</pubDate>
+    <pubDate>Thu, 26 Feb 2026 08:33:03 GMT</pubDate>
     <description>Create deterministic wordlist mutations for authorized assessment workflows with reproducible transformation presets. Domain: Pentest Utilities. Mode: local. Sensitivity: low.</description>
   </item>
   <item>
     <title>RAG Data Exposure Checker (planned)</title>
     <link>https://cybertools.hub/tools/rag-data-exposure-checker</link>
     <guid>https://cybertools.hub/tools/rag-data-exposure-checker</guid>
-    <pubDate>Thu, 26 Feb 2026 08:21:07 GMT</pubDate>
+    <pubDate>Thu, 26 Feb 2026 08:32:33 GMT</pubDate>
     <description>Assess retrieval payload snippets for sensitive data exposure and weak prompt-boundary controls before deployment. Domain: AI / LLM Security. Mode: local. Sensitivity: high.</description>
   </item>
   <item>
     <title>Retention Policy Conflict Finder (planned)</title>
     <link>https://cybertools.hub/tools/retention-policy-conflict-finder</link>
     <guid>https://cybertools.hub/tools/retention-policy-conflict-finder</guid>
-    <pubDate>Thu, 26 Feb 2026 08:20:37 GMT</pubDate>
+    <pubDate>Thu, 26 Feb 2026 08:32:03 GMT</pubDate>
     <description>Detect retention-policy conflicts between legal, privacy, and security logging requirements. Domain: Data Security &amp; Privacy Engineering. Mode: local. Sensitivity: high.</description>
   </item>
   <item>
     <title>SaaS Entitlement Reviewer (planned)</title>
     <link>https://cybertools.hub/tools/saas-entitlement-reviewer</link>
     <guid>https://cybertools.hub/tools/saas-entitlement-reviewer</guid>
-    <pubDate>Thu, 26 Feb 2026 08:20:07 GMT</pubDate>
+    <pubDate>Thu, 26 Feb 2026 08:31:33 GMT</pubDate>
     <description>Review SaaS admin and high-risk permissions for orphaned accounts, over-privileged roles, and separation-of-duty conflicts. Domain: Cloud &amp; IAM Security. Mode: local. Sensitivity: high.</description>
   </item>
   <item>
     <title>SaaS OAuth App Risk Assessor (planned)</title>
     <link>https://cybertools.hub/tools/saas-oauth-app-risk</link>
     <guid>https://cybertools.hub/tools/saas-oauth-app-risk</guid>
-    <pubDate>Thu, 26 Feb 2026 08:19:37 GMT</pubDate>
+    <pubDate>Thu, 26 Feb 2026 08:31:03 GMT</pubDate>
     <description>Score third-party SaaS OAuth grants for risky scopes, tenant exposure, and consent drift. Domain: Cloud &amp; IAM Security. Mode: local. Sensitivity: high.</description>
   </item>
   <item>
     <title>SAST Finding Deduplicator (planned)</title>
     <link>https://cybertools.hub/tools/sast-finding-deduplicator</link>
     <guid>https://cybertools.hub/tools/sast-finding-deduplicator</guid>
-    <pubDate>Thu, 26 Feb 2026 08:19:07 GMT</pubDate>
+    <pubDate>Thu, 26 Feb 2026 08:30:33 GMT</pubDate>
     <description>Normalize and deduplicate findings from multiple SAST engines to reduce triage duplication and priority conflicts. Domain: Application &amp; API Security. Mode: local. Sensitivity: medium.</description>
   </item>
   <item>
     <title>SOAR Playbook Dry Runner (planned)</title>
     <link>https://cybertools.hub/tools/soar-playbook-dry-runner</link>
     <guid>https://cybertools.hub/tools/soar-playbook-dry-runner</guid>
-    <pubDate>Thu, 26 Feb 2026 08:18:37 GMT</pubDate>
+    <pubDate>Thu, 26 Feb 2026 08:30:03 GMT</pubDate>
     <description>Run incident playbook branches against sample alerts to validate escalation and containment logic before production rollout. Domain: SOC &amp; Detection Engineering. Mode: local. Sensitivity: high.</description>
   </item>
   <item>
     <title>Threat Feed Fusion Normalizer (planned)</title>
     <link>https://cybertools.hub/tools/threat-feed-fusion-normalizer</link>
     <guid>https://cybertools.hub/tools/threat-feed-fusion-normalizer</guid>
-    <pubDate>Thu, 26 Feb 2026 08:18:07 GMT</pubDate>
+    <pubDate>Thu, 26 Feb 2026 08:29:33 GMT</pubDate>
     <description>Merge commercial and open intelligence feeds into a deduplicated confidence-weighted indicator dataset. Domain: Threat Intel &amp; DFIR. Mode: local. Sensitivity: high.</description>
   </item>
   <item>
     <title>Username OSINT Enumerator (planned)</title>
     <link>https://cybertools.hub/tools/osint-username-enumerator</link>
     <guid>https://cybertools.hub/tools/osint-username-enumerator</guid>
-    <pubDate>Thu, 26 Feb 2026 08:17:37 GMT</pubDate>
+    <pubDate>Thu, 26 Feb 2026 08:29:03 GMT</pubDate>
     <description>Generate normalized username permutations and investigator-safe search pivots for public profile discovery. Domain: OSINT &amp; Reconnaissance. Mode: local. Sensitivity: medium.</description>
   </item>
   <item>
     <title>WAF Rule Risk Simulator (planned)</title>
     <link>https://cybertools.hub/tools/waf-rule-risk-simulator</link>
     <guid>https://cybertools.hub/tools/waf-rule-risk-simulator</guid>
-    <pubDate>Thu, 26 Feb 2026 08:17:07 GMT</pubDate>
+    <pubDate>Thu, 26 Feb 2026 08:28:33 GMT</pubDate>
     <description>Simulate allow/deny outcomes for common payload families to identify blind spots and overbroad bypasses. Domain: Network &amp; Exposure Security. Mode: local. Sensitivity: medium.</description>
   </item>
   <item>
     <title>Web Fuzz Case Generator (planned)</title>
     <link>https://cybertools.hub/tools/web-fuzz-case-generator</link>
     <guid>https://cybertools.hub/tools/web-fuzz-case-generator</guid>
-    <pubDate>Thu, 26 Feb 2026 08:16:37 GMT</pubDate>
+    <pubDate>Thu, 26 Feb 2026 08:28:03 GMT</pubDate>
     <description>Generate structured web test-case matrices for authorized fuzzing workflows and reproducible edge-case validation. Domain: Pentest Utilities. Mode: local. Sensitivity: medium.</description>
   </item>
   <item>
     <title>XDR Detection Tuning Benchmark (planned)</title>
     <link>https://cybertools.hub/tools/xdr-detection-tuning-benchmark</link>
     <guid>https://cybertools.hub/tools/xdr-detection-tuning-benchmark</guid>
-    <pubDate>Thu, 26 Feb 2026 08:16:07 GMT</pubDate>
+    <pubDate>Thu, 26 Feb 2026 08:27:33 GMT</pubDate>
     <description>Benchmark detection noise, precision, and suppression impact using representative endpoint and identity event samples. Domain: SOC &amp; Detection Engineering. Mode: local. Sensitivity: high.</description>
   </item>
 </channel>
