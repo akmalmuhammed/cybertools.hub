@@ -1,77 +1,102 @@
-import { useState } from "react";
-import { ToolTemplate } from "@/components/tools/ToolTemplate";
-import { Label } from "@/components/ui/label";
-import { Switch } from "@/components/ui/switch";
+import { useState } from "react"
+import { ToolTemplate } from "@/components/tools/ToolTemplate"
+import { Label } from "@/components/ui/label"
+import { Switch } from "@/components/ui/switch"
+import { Input } from "@/components/ui/input"
 import {
   buildSecurityHeaders,
   type CspPreset,
   type SecurityHeaderBuildResult,
-} from "@/lib/utils/security-header-builder";
+} from "@/lib/utils/security-header-builder"
+import {
+  analyzeHttpSecurityHeaders,
+  type HttpHeadersAnalysisResult,
+  type ParsedHeaders,
+} from "@/lib/utils/http-headers"
+import { buildToolResultEnvelope, parseToolResultEnvelope } from "@/lib/utils/tool-results"
+import { createSummaryFromFindings } from "@/lib/utils/tool-result-scoring"
+import type { ToolFinding } from "@/types/tool.types"
+
+type SecurityHeaderWorkbenchResult = SecurityHeaderBuildResult & {
+  detailedAnalysis: HttpHeadersAnalysisResult
+}
 
 function scoreColor(score: number): string {
-  if (score >= 90) return "text-green-600 dark:text-green-400";
-  if (score >= 75) return "text-amber-600 dark:text-amber-400";
-  return "text-red-600 dark:text-red-400";
+  if (score >= 90) return "text-green-600 dark:text-green-400"
+  if (score >= 75) return "text-amber-600 dark:text-amber-400"
+  return "text-red-600 dark:text-red-400"
 }
 
 function parseAllowedOrigins(input: string): string[] {
   const entries = input
     .split(/[\n,\s]+/)
     .map((item) => item.trim())
-    .filter(Boolean);
+    .filter(Boolean)
 
-  const allowlistKeywords = new Set(["'self'", "'none'", "'unsafe-inline'", "'unsafe-eval'", "data:", "blob:"]);
-  const urls: string[] = [];
+  const allowlistKeywords = new Set(["'self'", "'none'", "'unsafe-inline'", "'unsafe-eval'", "data:", "blob:"])
+  const urls: string[] = []
 
   entries.forEach((entry) => {
     if (allowlistKeywords.has(entry)) {
-      urls.push(entry);
-      return;
+      urls.push(entry)
+      return
     }
 
     try {
-      const parsed = new URL(entry);
+      const parsed = new URL(entry)
       if (parsed.protocol !== "https:" && parsed.protocol !== "wss:") {
-        throw new Error("Only https:// and wss:// origins are allowed.");
+        throw new Error("Only https:// and wss:// origins are allowed.")
       }
-      urls.push(parsed.origin);
+      urls.push(parsed.origin)
     } catch {
-      throw new Error(`Invalid origin: ${entry}`);
+      throw new Error(`Invalid origin: ${entry}`)
     }
-  });
+  })
 
-  return Array.from(new Set(urls)).slice(0, 30);
+  return Array.from(new Set(urls)).slice(0, 30)
+}
+
+function toLowerHeaderRecord(headers: Record<string, string>): ParsedHeaders {
+  return Object.fromEntries(
+    Object.entries(headers).map(([name, value]) => [name.toLowerCase(), value]),
+  )
 }
 
 export default function SecurityHeaderBuilderTool() {
-  const [preset, setPreset] = useState<CspPreset>("strict");
-  const [routeProfile, setRouteProfile] = useState<"global" | "admin" | "api">("global");
-  const [reportOnly, setReportOnly] = useState(false);
-  const [allowInlineScript, setAllowInlineScript] = useState(false);
-  const [allowInlineStyle, setAllowInlineStyle] = useState(false);
-  const [allowDataImages, setAllowDataImages] = useState(false);
-  const [includeUpgrade, setIncludeUpgrade] = useState(true);
-  const [scriptSourcesInput, setScriptSourcesInput] = useState("");
-  const [connectSourcesInput, setConnectSourcesInput] = useState("");
-  const [reportUri, setReportUri] = useState("");
+  const [preset, setPreset] = useState<CspPreset>("strict")
+  const [routeProfile, setRouteProfile] = useState<"global" | "admin" | "api">("global")
+  const [reportOnly, setReportOnly] = useState(false)
+  const [allowInlineScript, setAllowInlineScript] = useState(false)
+  const [allowInlineStyle, setAllowInlineStyle] = useState(false)
+  const [allowDataImages, setAllowDataImages] = useState(false)
+  const [includeUpgrade, setIncludeUpgrade] = useState(true)
+  const [scriptSourcesInput, setScriptSourcesInput] = useState("")
+  const [connectSourcesInput, setConnectSourcesInput] = useState("")
+  const [reportUri, setReportUri] = useState("")
+  const [minimumScore, setMinimumScore] = useState("90")
+  const [includeCoep, setIncludeCoep] = useState(false)
+  const [requireCrossOriginIsolation, setRequireCrossOriginIsolation] = useState(false)
+  const [enforceNoUnsafeInline, setEnforceNoUnsafeInline] = useState(true)
+  const [requireNoncePlaceholder, setRequireNoncePlaceholder] = useState(true)
+  const [addAdminNoStoreCacheHeaders, setAddAdminNoStoreCacheHeaders] = useState(true)
 
   const process = (input: string): string => {
-    const extraOrigins = parseAllowedOrigins(input);
-    const scriptSources = parseAllowedOrigins(scriptSourcesInput);
-    const connectSources = parseAllowedOrigins(connectSourcesInput);
+    const extraOrigins = parseAllowedOrigins(input)
+    const scriptSources = parseAllowedOrigins(scriptSourcesInput)
+    const connectSources = parseAllowedOrigins(connectSourcesInput)
 
-    const mergedScriptSources = Array.from(new Set([...scriptSources, ...extraOrigins]));
-    const mergedConnectSources = Array.from(new Set([...connectSources, ...extraOrigins]));
+    const mergedScriptSources = Array.from(new Set([...scriptSources, ...extraOrigins]))
+    const mergedConnectSources = Array.from(new Set([...connectSources, ...extraOrigins]))
 
-    const normalizedReportUri = reportUri.trim();
+    const normalizedReportUri = reportUri.trim()
     if (normalizedReportUri) {
-      const reportUrl = new URL(normalizedReportUri);
+      const reportUrl = new URL(normalizedReportUri)
       if (reportUrl.protocol !== "https:") {
-        throw new Error("Report URI must use https://");
+        throw new Error("Report URI must use https://")
       }
     }
 
-    const result = buildSecurityHeaders({
+    const baseResult = buildSecurityHeaders({
       preset,
       reportOnly,
       reportUri: normalizedReportUri || undefined,
@@ -82,32 +107,202 @@ export default function SecurityHeaderBuilderTool() {
       scriptSources: mergedScriptSources,
       connectSources: mergedConnectSources,
       frameAncestors: routeProfile === "admin" ? "none" : preset === "strict" ? "none" : "self",
-    });
+    })
 
-    result.tradeoffs.push(`Route profile: ${routeProfile}`);
-    if (mergedScriptSources.length > 0 || mergedConnectSources.length > 0) {
-      result.tradeoffs.push("Custom origins were normalized and deduplicated.");
+    const headers = { ...baseResult.headers }
+    const tradeoffs = [...baseResult.tradeoffs, `Route profile: ${routeProfile}`]
+
+    if (includeCoep) {
+      headers["cross-origin-embedder-policy"] = "require-corp"
+      tradeoffs.push("Enabled cross-origin-embedder-policy=require-corp for stronger isolation.")
     }
 
-    return JSON.stringify(result);
-  };
+    if (routeProfile === "admin" && addAdminNoStoreCacheHeaders) {
+      headers["cache-control"] = "no-store, max-age=0"
+      headers.pragma = "no-cache"
+      tradeoffs.push("Admin profile added no-store caching controls.")
+    }
+
+    const detailedAnalysis = analyzeHttpSecurityHeaders(toLowerHeaderRecord(headers))
+    const findings: ToolFinding[] = []
+
+    detailedAnalysis.findings.forEach((finding, index) => {
+      if (finding.status === "good") return
+      findings.push({
+        id: `header-builder-${finding.header}-${index}`,
+        severity: finding.status === "bad" ? "high" : "medium",
+        confidence: finding.status === "bad" ? 84 : 76,
+        category: "header-hardening",
+        title: `${finding.header}: ${finding.message}`,
+        description: finding.message,
+        remediation: finding.recommendation,
+      })
+    })
+
+    if (enforceNoUnsafeInline && /'unsafe-inline'|'unsafe-eval'/i.test(baseResult.csp)) {
+      findings.push({
+        id: "header-builder-unsafe-inline",
+        severity: "high",
+        confidence: 88,
+        category: "csp-governance",
+        title: "CSP contains unsafe inline/eval directives",
+        description: "Policy includes `unsafe-inline` or `unsafe-eval` while strict inline policy is enabled.",
+        remediation: "Use nonce/hash based script controls and remove unsafe script/style execution directives.",
+      })
+    }
+
+    if (requireNoncePlaceholder && !/script-src[^;]*(nonce-|sha256-|sha384-|sha512-)/i.test(baseResult.csp)) {
+      findings.push({
+        id: "header-builder-missing-nonce-hash",
+        severity: "medium",
+        confidence: 75,
+        category: "csp-governance",
+        title: "No nonce/hash strategy in script-src",
+        description: "script-src does not include nonce/hash tokens for inline-script governance.",
+        remediation: "Adopt nonce/hash approach for dynamic scripts in production deployments.",
+      })
+    }
+
+    if (reportOnly) {
+      findings.push({
+        id: "header-builder-report-only",
+        severity: "low",
+        confidence: 70,
+        category: "deployment-mode",
+        title: "CSP is configured in report-only mode",
+        description: "Policy violations are reported but not blocked.",
+        remediation: "Promote to enforcing mode once violation telemetry is stable.",
+      })
+    }
+
+    if (requireCrossOriginIsolation) {
+      const coop = (headers["cross-origin-opener-policy"] ?? "").toLowerCase()
+      const coep = (headers["cross-origin-embedder-policy"] ?? "").toLowerCase()
+      if (coop !== "same-origin") {
+        findings.push({
+          id: "header-builder-coop-missing",
+          severity: "medium",
+          confidence: 77,
+          category: "browser-isolation",
+          title: "COOP baseline not satisfied",
+          description: "cross-origin-opener-policy is not same-origin.",
+          remediation: "Set COOP to same-origin on routes requiring process isolation.",
+        })
+      }
+      if (coep !== "require-corp" && coep !== "credentialless") {
+        findings.push({
+          id: "header-builder-coep-missing",
+          severity: "medium",
+          confidence: 76,
+          category: "browser-isolation",
+          title: "COEP baseline not satisfied",
+          description: "cross-origin-embedder-policy is missing or weak.",
+          remediation: "Use COEP require-corp (or credentialless) for isolation-enabled applications.",
+        })
+      }
+    }
+
+    const target = Math.max(0, Math.min(100, Number(minimumScore) || 90))
+    if (detailedAnalysis.score < target) {
+      findings.push({
+        id: "header-builder-score-under-target",
+        severity: detailedAnalysis.score < Math.max(60, target - 15) ? "high" : "medium",
+        confidence: 80,
+        category: "policy-baseline",
+        title: "Generated header set below target score",
+        description: `Generated score ${detailedAnalysis.score} is below baseline ${target}.`,
+        remediation: "Tighten CSP and missing header controls before using this policy in production.",
+      })
+    }
+
+    const summary = createSummaryFromFindings({
+      title: "Security header policy generated",
+      text: `Generated ${Object.keys(headers).length} header(s) with posture score ${detailedAnalysis.score}/100 (${detailedAnalysis.grade}).`,
+      findings,
+      metrics: {
+        score: detailedAnalysis.score,
+        headerCount: Object.keys(headers).length,
+        missingCritical: detailedAnalysis.missing.length,
+        tradeoffCount: tradeoffs.length,
+        target,
+      },
+      baseScore: detailedAnalysis.score,
+    })
+
+    const workbenchResult: SecurityHeaderWorkbenchResult = {
+      ...baseResult,
+      headers,
+      tradeoffs,
+      detailedAnalysis,
+      analysis: {
+        score: detailedAnalysis.score,
+        grade: detailedAnalysis.grade,
+      },
+    }
+
+    return JSON.stringify(
+      buildToolResultEnvelope({
+        toolName: "Security Header/CSP Builder",
+        summary,
+        findings,
+        evidence: [
+          {
+            csp: workbenchResult.csp,
+            headers: workbenchResult.headers,
+            score: detailedAnalysis.score,
+            grade: detailedAnalysis.grade,
+            tradeoffs: workbenchResult.tradeoffs,
+          },
+        ],
+        recommendations: [
+          "Use report-only mode only during staged rollout, then enforce and monitor violations.",
+          "Avoid unsafe inline/eval directives and adopt nonce/hash CSP strategy.",
+          "Apply stricter route-specific profiles for admin and privileged control planes.",
+        ],
+        raw: {
+          securityHeaders: workbenchResult,
+          config: {
+            preset,
+            routeProfile,
+            reportOnly,
+            includeCoep,
+            requireCrossOriginIsolation,
+            enforceNoUnsafeInline,
+            requireNoncePlaceholder,
+            addAdminNoStoreCacheHeaders,
+            target,
+          },
+        },
+      }),
+    )
+  }
 
   const renderOutput = (output: string) => {
-    if (!output) return null;
-    let parsed: SecurityHeaderBuildResult;
-    try {
-      parsed = JSON.parse(output) as SecurityHeaderBuildResult;
-    } catch {
-      return null;
-    }
+    if (!output) return null
+
+    const envelope = parseToolResultEnvelope(output, "Security Header/CSP Builder")
+    const raw = envelope.raw && typeof envelope.raw === "object" && envelope.raw !== null
+      ? (envelope.raw as Record<string, unknown>)
+      : null
+    const parsed = raw?.securityHeaders as SecurityHeaderWorkbenchResult | undefined
+    const config = raw?.config && typeof raw.config === "object" && raw.config !== null
+      ? (raw.config as Record<string, unknown>)
+      : null
+
+    if (!parsed) return null
 
     return (
       <div className="space-y-4">
         <div className="p-3 border rounded bg-muted/20">
           <div className="text-xs uppercase font-bold text-muted-foreground">Estimated Header Posture</div>
-          <div className={`text-2xl font-bold ${scoreColor(parsed.analysis.score)}`}>
-            {parsed.analysis.score}/100 ({parsed.analysis.grade})
+          <div className={`text-2xl font-bold ${scoreColor(parsed.detailedAnalysis.score)}`}>
+            {parsed.detailedAnalysis.score}/100 ({parsed.detailedAnalysis.grade})
           </div>
+          {config && (
+            <div className="text-xs text-muted-foreground mt-1">
+              Preset: {String(config.preset)} | Route: {String(config.routeProfile)} | Target: {String(config.target ?? "90")}
+            </div>
+          )}
         </div>
 
         <div className="p-3 border rounded bg-muted/20 space-y-2">
@@ -138,13 +333,13 @@ export default function SecurityHeaderBuilderTool() {
           </div>
         )}
       </div>
-    );
-  };
+    )
+  }
 
   return (
     <ToolTemplate
       toolName="Security Header/CSP Builder"
-      description="Generate security headers and CSP policy presets with explicit compatibility tradeoff guidance."
+      description="Generate security header policies with enterprise governance controls and deployability scoring."
       actionLabel="Generate Policy"
       placeholder="Optional: extra trusted origins (one per line), e.g. https://cdn.example.com"
       requiresInput={false}
@@ -173,9 +368,9 @@ export default function SecurityHeaderBuilderTool() {
               className="w-full rounded border bg-background px-2 py-2 text-sm"
               value={routeProfile}
               onChange={(event) => {
-                const value = event.target.value;
+                const value = event.target.value
                 if (value === "global" || value === "admin" || value === "api") {
-                  setRouteProfile(value);
+                  setRouteProfile(value)
                 }
               }}
             >
@@ -183,6 +378,26 @@ export default function SecurityHeaderBuilderTool() {
               <option value="admin">Admin console route</option>
               <option value="api">API route profile</option>
             </select>
+          </div>
+
+          <div className="grid sm:grid-cols-2 gap-2">
+            <div className="space-y-1">
+              <Label>Target score baseline</Label>
+              <Input
+                value={minimumScore}
+                onChange={(event) => setMinimumScore(event.target.value)}
+                placeholder="90"
+              />
+            </div>
+            <div className="space-y-1">
+              <Label htmlFor="csp-report-uri">Report URI (optional)</Label>
+              <Input
+                id="csp-report-uri"
+                value={reportUri}
+                onChange={(event) => setReportUri(event.target.value)}
+                placeholder="https://security.example.com/csp-report"
+              />
+            </div>
           </div>
 
           <div className="space-y-1">
@@ -202,17 +417,6 @@ export default function SecurityHeaderBuilderTool() {
               value={connectSourcesInput}
               onChange={(event) => setConnectSourcesInput(event.target.value)}
               placeholder="https://api.example.com"
-            />
-          </div>
-
-          <div className="space-y-1">
-            <Label htmlFor="csp-report-uri">Report URI (optional)</Label>
-            <input
-              id="csp-report-uri"
-              className="w-full rounded border bg-background px-2 py-2 text-sm"
-              value={reportUri}
-              onChange={(event) => setReportUri(event.target.value)}
-              placeholder="https://security.example.com/csp-report"
             />
           </div>
 
@@ -238,11 +442,34 @@ export default function SecurityHeaderBuilderTool() {
               <Switch id="csp-upgrade" checked={includeUpgrade} onChange={(event) => setIncludeUpgrade(event.target.checked)} />
             </div>
           </div>
+
+          <div className="grid sm:grid-cols-2 gap-2">
+            <div className="flex items-center justify-between gap-2 rounded-md border border-border/60 px-3 py-2">
+              <Label htmlFor="csp-include-coep" className="text-sm">Include COEP header</Label>
+              <Switch id="csp-include-coep" checked={includeCoep} onChange={(event) => setIncludeCoep(event.target.checked)} />
+            </div>
+            <div className="flex items-center justify-between gap-2 rounded-md border border-border/60 px-3 py-2">
+              <Label htmlFor="csp-require-isolation" className="text-sm">Require cross-origin isolation</Label>
+              <Switch id="csp-require-isolation" checked={requireCrossOriginIsolation} onChange={(event) => setRequireCrossOriginIsolation(event.target.checked)} />
+            </div>
+            <div className="flex items-center justify-between gap-2 rounded-md border border-border/60 px-3 py-2">
+              <Label htmlFor="csp-enforce-no-unsafe" className="text-sm">Disallow unsafe-inline/eval</Label>
+              <Switch id="csp-enforce-no-unsafe" checked={enforceNoUnsafeInline} onChange={(event) => setEnforceNoUnsafeInline(event.target.checked)} />
+            </div>
+            <div className="flex items-center justify-between gap-2 rounded-md border border-border/60 px-3 py-2">
+              <Label htmlFor="csp-require-nonce" className="text-sm">Require nonce/hash strategy</Label>
+              <Switch id="csp-require-nonce" checked={requireNoncePlaceholder} onChange={(event) => setRequireNoncePlaceholder(event.target.checked)} />
+            </div>
+            <div className="flex items-center justify-between gap-2 rounded-md border border-border/60 px-3 py-2 sm:col-span-2">
+              <Label htmlFor="csp-admin-no-store" className="text-sm">Add no-store cache headers on admin profile</Label>
+              <Switch id="csp-admin-no-store" checked={addAdminNoStoreCacheHeaders} onChange={(event) => setAddAdminNoStoreCacheHeaders(event.target.checked)} />
+            </div>
+          </div>
         </div>
       }
       examples={[
         "https://cdn.jsdelivr.net\nhttps://www.googletagmanager.com",
       ]}
     />
-  );
+  )
 }
