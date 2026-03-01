@@ -70,7 +70,7 @@ export function JsonDiff({ initialLeft = '{}', initialRight = '{}' }: JsonDiffPr
 
             <div className="flex-1 flex flex-col gap-2 min-h-0">
                 <Label>Structural Diff</Label>
-                <div className="border rounded-md bg-white dark:bg-black/20 p-4 flex-1 overflow-auto">
+                <div className="border rounded-md bg-background/70 p-4 flex-1 overflow-auto">
                     <div ref={diffContainerRef} className="jsondiffpatch-visualizer" />
                 </div>
             </div>

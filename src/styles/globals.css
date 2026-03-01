@@ -16,24 +16,24 @@
     --font-mono: "Chivo Mono", "SFMono-Regular", Menlo, monospace;
     --font-display: "Chivo Mono", "SFMono-Regular", Menlo, monospace;
     --font-alt: "NeueAlteGrotesk", "Chivo Mono", monospace;
-    --background: 0 0% 100%;       /* #FFFFFF */
-    --foreground: 0 0% 0%;         /* #000000 */
+    --background: 215 33% 97%;     /* softer off-white */
+    --foreground: 222 24% 16%;     /* softened near-black */
     --card: 0 0% 100%;
-    --card-foreground: 0 0% 0%;
+    --card-foreground: 222 24% 16%;
     --popover: 0 0% 100%;
-    --popover-foreground: 0 0% 0%;
+    --popover-foreground: 222 24% 16%;
     --primary: 145 81% 50%;        /* #19E76E */
     --primary-foreground: 0 0% 0%;
-    --secondary: 0 0% 96%;
-    --secondary-foreground: 0 0% 0%;
-    --muted: 0 0% 96%;
-    --muted-foreground: 213 17% 61%; /* #8999AC */
-    --accent: 0 0% 0%;             /* #000000 */
-    --accent-foreground: 0 0% 100%;
+    --secondary: 220 20% 93%;
+    --secondary-foreground: 222 20% 18%;
+    --muted: 220 20% 94%;
+    --muted-foreground: 213 15% 44%;
+    --accent: 220 18% 92%;
+    --accent-foreground: 222 20% 18%;
     --destructive: 0 84.2% 60.2%;
     --destructive-foreground: 210 40% 98%;
-    --border: 0 0% 0%;
-    --input: 0 0% 0%;
+    --border: 218 16% 82%;
+    --input: 218 16% 82%;
     --ring: 145 81% 50%;
     --link: 213 17% 61%;           /* #8999AC */
     --radius: 1px;
@@ -78,21 +78,21 @@
     font-size: var(--type-body);
     line-height: 1.5;
     background-image:
-      radial-gradient(circle at 12% 10%, hsl(var(--primary) / 0.14), transparent 34%),
-      linear-gradient(to right, hsl(var(--foreground) / 0.05) 1px, transparent 1px),
-      linear-gradient(to bottom, hsl(var(--foreground) / 0.05) 1px, transparent 1px);
+      radial-gradient(circle at 12% 10%, hsl(var(--primary) / 0.09), transparent 34%),
+      linear-gradient(to right, hsl(var(--foreground) / 0.03) 1px, transparent 1px),
+      linear-gradient(to bottom, hsl(var(--foreground) / 0.03) 1px, transparent 1px);
     background-size:
       auto,
-      calc(var(--space-unit) * 14) calc(var(--space-unit) * 14),
-      calc(var(--space-unit) * 14) calc(var(--space-unit) * 14);
+      calc(var(--space-unit) * 16) calc(var(--space-unit) * 16),
+      calc(var(--space-unit) * 16) calc(var(--space-unit) * 16);
     background-attachment: fixed;
     min-height: 100vh;
   }
   .dark body {
     background-image:
       radial-gradient(circle at 12% 10%, hsl(var(--primary) / 0.2), transparent 34%),
-      linear-gradient(to right, hsl(var(--foreground) / 0.07) 1px, transparent 1px),
-      linear-gradient(to bottom, hsl(var(--foreground) / 0.07) 1px, transparent 1px);
+      linear-gradient(to right, hsl(var(--foreground) / 0.05) 1px, transparent 1px),
+      linear-gradient(to bottom, hsl(var(--foreground) / 0.05) 1px, transparent 1px);
   }
   h1,
   h2,

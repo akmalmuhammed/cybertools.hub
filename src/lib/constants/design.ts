@@ -1,12 +1,12 @@
 export const DESIGN_SYSTEM = {
     colors: {
         light: {
-            background: 'hsl(0, 0%, 100%)',      // #FFFFFF
-            foreground: 'hsl(0, 0%, 0%)',        // #000000
+            background: 'hsl(215, 33%, 97%)',
+            foreground: 'hsl(222, 24%, 16%)',
             primary: 'hsl(145, 81%, 50%)',       // #19E76E
-            muted: 'hsl(0, 0%, 96%)',
+            muted: 'hsl(220, 20%, 94%)',
             card: 'hsl(0, 0%, 100%)',
-            border: 'hsl(0, 0%, 0%)',
+            border: 'hsl(218, 16%, 82%)',
         },
         dark: {
             background: 'hsl(0, 0%, 8%)',

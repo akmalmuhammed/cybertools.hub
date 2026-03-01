@@ -217,7 +217,7 @@ export default function QrCodeTool() {
     if (!payload) return null
 
     return (
-      <div className="flex flex-col items-center justify-center h-full min-h-[300px] gap-4 bg-white p-8 rounded-lg">
+      <div className="flex flex-col items-center justify-center h-full min-h-[300px] gap-4 bg-card p-8 rounded-lg border border-border/60">
         <QRCodeCanvas value={payload} size={256} includeMargin level="M" />
         <p className="text-sm text-muted-foreground mt-2 text-center">
           Payload type: {type.toUpperCase()} | Length: {payload.length} chars
