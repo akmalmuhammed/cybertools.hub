@@ -26,24 +26,24 @@ export function ToolCard({ tool, isFavorite, onToggleFavorite }: ToolCardProps) 
                         </div>
                         <div className="flex gap-2 items-center">
                             {tool.status === 'beta' && (
-                                <Badge variant="secondary" className="bg-yellow-500/10 text-yellow-600 hover:bg-yellow-500/20 uppercase tracking-wide text-[10px]">Beta</Badge>
+                                <Badge variant="secondary" className="border border-amber-500/35 bg-amber-500/12 text-amber-700 hover:bg-amber-500/20 dark:text-amber-300 uppercase tracking-wide text-[11px]">Beta</Badge>
                             )}
                             {tool.status === 'new' && (
-                                <Badge className="bg-primary/20 text-primary hover:bg-primary/30 uppercase tracking-wide text-[10px]">New</Badge>
+                                <Badge className="bg-primary/20 text-primary hover:bg-primary/30 uppercase tracking-wide text-[11px]">New</Badge>
                             )}
                             {tool.status === 'planned' && (
-                                <Badge variant="outline" className="border-slate-500/35 bg-slate-500/10 text-slate-600 dark:text-slate-300 uppercase tracking-wide text-[10px]">Planned</Badge>
+                                <Badge variant="outline" className="border-border/70 bg-muted/70 text-muted-foreground uppercase tracking-wide text-[11px]">Planned</Badge>
                             )}
                         </div>
 
                         {onToggleFavorite && (
                             <button
                                 onClick={onToggleFavorite}
-                                className="absolute top-4 right-4 text-muted-foreground hover:text-yellow-500 transition-colors z-10 p-1 rounded-full hover:bg-muted"
+                                className="absolute top-4 right-4 text-muted-foreground hover:text-primary transition-colors z-10 p-1 rounded-full hover:bg-muted"
                                 aria-label={isFavorite ? "Remove from favorites" : "Add to favorites"}
                                 title={isFavorite ? "Remove from favorites" : "Add to favorites"}
                             >
-                                <Star className={cn("h-5 w-5", isFavorite ? "fill-yellow-500 text-yellow-500" : "")} />
+                                <Star className={cn("h-5 w-5", isFavorite ? "fill-primary text-primary" : "")} />
                             </button>
                         )}
                     </div>

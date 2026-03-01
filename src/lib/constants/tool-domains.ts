@@ -33,7 +33,7 @@ export const TOOL_DOMAINS: ToolDomain[] = [
     description: "Alert triage speed, rule quality, and incident response workflow acceleration.",
     privacyNotice: "Mostly local analytics; optional enrichment is explicitly gated.",
     icon: ShieldAlert,
-    accentClass: "text-emerald-300 bg-emerald-500/15 border-emerald-400/30",
+    accentClass: "text-emerald-700 dark:text-emerald-300 bg-emerald-500/12 border-emerald-500/30",
   },
   {
     id: "threat-intel",
@@ -42,7 +42,7 @@ export const TOOL_DOMAINS: ToolDomain[] = [
     description: "IOC quality scoring, exchange format normalization, and forensic packaging.",
     privacyNotice: "Intel normalization runs local-first with optional external context lookups.",
     icon: Radar,
-    accentClass: "text-cyan-300 bg-cyan-500/15 border-cyan-400/30",
+    accentClass: "text-cyan-700 dark:text-cyan-300 bg-cyan-500/12 border-cyan-500/30",
   },
   {
     id: "network",
@@ -51,7 +51,7 @@ export const TOOL_DOMAINS: ToolDomain[] = [
     description: "Exposure import normalization, ACL conflict detection, and TLS risk analysis.",
     privacyNotice: "Analysis is local by default; probes are network-labeled before execution.",
     icon: Network,
-    accentClass: "text-blue-300 bg-blue-500/15 border-blue-400/30",
+    accentClass: "text-blue-700 dark:text-blue-300 bg-blue-500/12 border-blue-500/30",
   },
   {
     id: "application",
@@ -60,7 +60,7 @@ export const TOOL_DOMAINS: ToolDomain[] = [
     description: "API contract abuse checks, authz drift detection, and browser policy hardening.",
     privacyNotice: "Contract linting and policy checks process documents fully in-browser.",
     icon: Bug,
-    accentClass: "text-amber-300 bg-amber-500/15 border-amber-400/30",
+    accentClass: "text-amber-700 dark:text-amber-300 bg-amber-500/12 border-amber-500/30",
   },
   {
     id: "cloud-iam",
@@ -69,7 +69,7 @@ export const TOOL_DOMAINS: ToolDomain[] = [
     description: "Identity policy review and least-privilege hygiene across cloud providers.",
     privacyNotice: "Policy linting is local; no cloud credentials are required by default.",
     icon: CloudCog,
-    accentClass: "text-sky-300 bg-sky-500/15 border-sky-400/30",
+    accentClass: "text-sky-700 dark:text-sky-300 bg-sky-500/12 border-sky-500/30",
   },
   {
     id: "supply-chain",
@@ -78,7 +78,7 @@ export const TOOL_DOMAINS: ToolDomain[] = [
     description: "Dependency risk diffing, tamper evidence, and provenance-oriented checks.",
     privacyNotice: "SBOM and lockfile analysis remain local unless users opt into lookups.",
     icon: PackageSearch,
-    accentClass: "text-rose-300 bg-rose-500/15 border-rose-400/30",
+    accentClass: "text-rose-700 dark:text-rose-300 bg-rose-500/12 border-rose-500/30",
   },
   {
     id: "osint",
@@ -87,7 +87,7 @@ export const TOOL_DOMAINS: ToolDomain[] = [
     description: "Passive intelligence collection, query orchestration, and investigation pivot acceleration.",
     privacyNotice: "Primarily local query generation and normalization, with optional operator-initiated lookups.",
     icon: Satellite,
-    accentClass: "text-violet-300 bg-violet-500/15 border-violet-400/30",
+    accentClass: "text-violet-700 dark:text-violet-300 bg-violet-500/12 border-violet-500/30",
   },
   {
     id: "pentest",
@@ -96,7 +96,7 @@ export const TOOL_DOMAINS: ToolDomain[] = [
     description: "Authorized testing planning utilities, command profiles, and reproducible assessment workflows.",
     privacyNotice: "Runs local by default with explicit authorized-testing guardrails and no silent egress.",
     icon: Swords,
-    accentClass: "text-orange-300 bg-orange-500/15 border-orange-400/30",
+    accentClass: "text-orange-700 dark:text-orange-300 bg-orange-500/12 border-orange-500/30",
   },
   {
     id: "ai-llm",
@@ -105,7 +105,7 @@ export const TOOL_DOMAINS: ToolDomain[] = [
     description: "Prompt injection triage, connector egress controls, and model-adjacent risk validation workflows.",
     privacyNotice: "Analysis executes in-browser; optional network checks are explicit and policy-gated.",
     icon: Bot,
-    accentClass: "text-teal-300 bg-teal-500/15 border-teal-400/30",
+    accentClass: "text-teal-700 dark:text-teal-300 bg-teal-500/12 border-teal-500/30",
   },
   {
     id: "data-privacy",
@@ -114,7 +114,7 @@ export const TOOL_DOMAINS: ToolDomain[] = [
     description: "Sensitive-data handling, leakage detection, and privacy-preserving processing.",
     privacyNotice: "Privacy-focused tools prioritize local-only processing and explicit consent.",
     icon: Fingerprint,
-    accentClass: "text-lime-300 bg-lime-500/15 border-lime-400/30",
+    accentClass: "text-lime-700 dark:text-lime-300 bg-lime-500/12 border-lime-500/30",
   },
 ];
 

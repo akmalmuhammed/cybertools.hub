@@ -4,7 +4,7 @@ import { BrowserRouter, Routes, Route, useLocation, Navigate } from 'react-route
 import { PageLayout } from '@/components/layout/PageLayout'
 import { Toaster } from '@/components/ui/toaster'
 import { Loader2 } from 'lucide-react'
-import { AnimatePresence } from 'framer-motion'
+import { AnimatePresence, MotionConfig } from 'framer-motion'
 
 // Lazy load pages
 const Home = lazy(() => import('@/pages/Home'))
@@ -170,14 +170,16 @@ function RoutesContent() {
 function App() {
   return (
     <HelmetProvider>
-      <BrowserRouter>
-        <PageLayout>
-          <Suspense fallback={<LoadingSpinner />}>
-            <RoutesContent />
-          </Suspense>
-        </PageLayout>
-        <Toaster />
-      </BrowserRouter>
+      <MotionConfig reducedMotion="user">
+        <BrowserRouter>
+          <PageLayout>
+            <Suspense fallback={<LoadingSpinner />}>
+              <RoutesContent />
+            </Suspense>
+          </PageLayout>
+          <Toaster />
+        </BrowserRouter>
+      </MotionConfig>
     </HelmetProvider>
   )
 }

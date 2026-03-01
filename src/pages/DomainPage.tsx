@@ -90,7 +90,7 @@ export default function DomainPage() {
         animate={{ opacity: 1, y: 0 }}
         className="relative overflow-hidden rounded-3xl border border-border/60 bg-card/55 backdrop-blur-xl p-6 sm:p-8"
       >
-        <div className="absolute inset-0 bg-[radial-gradient(circle_at_14%_8%,rgba(16,185,129,0.24),transparent_45%),radial-gradient(circle_at_85%_18%,rgba(6,182,212,0.18),transparent_44%)] pointer-events-none" />
+        <div className="absolute inset-0 bg-[radial-gradient(circle_at_14%_8%,hsl(var(--primary)/0.16),transparent_47%),radial-gradient(circle_at_85%_18%,hsl(var(--link)/0.12),transparent_46%)] dark:bg-[radial-gradient(circle_at_14%_8%,hsl(var(--primary)/0.24),transparent_45%),radial-gradient(circle_at_85%_18%,hsl(var(--link)/0.18),transparent_44%)] pointer-events-none" />
         <div className="relative space-y-4">
           <div className="inline-flex items-center gap-2 rounded-full border border-primary/40 bg-primary/15 px-3 py-1 text-xs font-semibold uppercase tracking-[0.2em] text-primary">
             <domain.icon className="h-3.5 w-3.5" />

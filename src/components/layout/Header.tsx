@@ -76,11 +76,11 @@ export function Header() {
             </div>
             <div className="mt-1 flex flex-wrap items-center gap-1.5">
               {domainLabel ? (
-                <Badge variant="outline" className="text-[10px] h-5">
+                <Badge variant="outline" className="text-[11px] h-5">
                   {domainLabel}
                 </Badge>
               ) : routeDomainLabel ? (
-                <Badge variant="outline" className="text-[10px] h-5">
+                <Badge variant="outline" className="text-[11px] h-5">
                   {routeDomainLabel}
                 </Badge>
               ) : (
@@ -92,7 +92,7 @@ export function Header() {
                 <Badge
                   variant="outline"
                   title={processingDescription ?? undefined}
-                  className="text-[10px] h-5"
+                  className="text-[11px] h-5"
                 >
                   {processingLabel}
                 </Badge>
@@ -111,7 +111,7 @@ export function Header() {
                 <Search className="h-4 w-4" />
                 <span>Search tools...</span>
               </span>
-              <kbd className="pointer-events-none inline-flex h-5 select-none items-center gap-1 rounded border bg-muted px-1.5 font-mono text-[10px] font-medium opacity-100">
+              <kbd className="pointer-events-none inline-flex h-5 select-none items-center gap-1 rounded border bg-muted px-1.5 font-mono text-[11px] font-medium opacity-100">
                 {shortcutText}
               </kbd>
             </Button>

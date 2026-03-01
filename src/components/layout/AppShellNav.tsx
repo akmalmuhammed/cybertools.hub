@@ -116,7 +116,7 @@ export function AppShellNav() {
       <aside className="hidden lg:flex fixed left-0 top-0 z-50 h-screen w-20 border-r border-border/70 bg-background/92 backdrop-blur-xl flex-col items-center py-4">
         <Link
           to="/"
-          className="h-10 w-10 rounded-xl border border-primary/35 bg-primary/10 text-primary flex items-center justify-center shadow-[0_0_32px_-12px_rgba(16,185,129,0.9)]"
+          className="h-10 w-10 rounded-xl border border-primary/35 bg-primary/10 text-primary flex items-center justify-center shadow-[0_0_32px_-12px_hsl(var(--primary)/0.8)]"
           title="Secutil"
           aria-label="Secutil"
         >
@@ -144,7 +144,7 @@ export function AppShellNav() {
                 </Link>
                 <span
                   className={cn(
-                    "mt-1 min-h-[11px] text-center text-[10px] font-medium leading-none transition-opacity duration-150",
+                    "mt-1 min-h-[11px] text-center text-[11px] font-medium leading-none transition-opacity duration-150",
                     active
                       ? "opacity-100 text-primary"
                       : "opacity-0 text-muted-foreground group-hover:opacity-100",
@@ -180,7 +180,7 @@ export function AppShellNav() {
                 to={item.href}
                 aria-current={active ? "page" : undefined}
                 className={cn(
-                  "flex flex-col items-center justify-center gap-1 px-1 pt-2 pb-1.5 text-[10px] font-medium transition-colors",
+                  "flex flex-col items-center justify-center gap-1 px-1 pt-2 pb-1.5 text-[11px] font-medium transition-colors",
                   active ? "text-primary" : "text-muted-foreground",
                 )}
               >

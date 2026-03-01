@@ -1,4 +1,8 @@
-@import url("https://fonts.googleapis.com/css2?family=Chivo+Mono:wght@300;400;500;600;700;800&display=swap");
+@font-face {
+  font-family: "Chivo Mono";
+  src: local("Chivo Mono"), local("ChivoMono");
+  font-display: swap;
+}
 
 @font-face {
   font-family: "NeueAlteGrotesk";
@@ -15,32 +19,33 @@
     --font-sans: "Chivo Mono", "SFMono-Regular", Menlo, monospace;
     --font-mono: "Chivo Mono", "SFMono-Regular", Menlo, monospace;
     --font-display: "Chivo Mono", "SFMono-Regular", Menlo, monospace;
-    --font-alt: "NeueAlteGrotesk", "Chivo Mono", monospace;
-    --background: 215 33% 97%;     /* softer off-white */
-    --foreground: 222 24% 16%;     /* softened near-black */
+    --background: 212 24% 95%;
+    --foreground: 220 23% 14%;
     --card: 0 0% 100%;
-    --card-foreground: 222 24% 16%;
+    --card-foreground: 220 23% 14%;
     --popover: 0 0% 100%;
-    --popover-foreground: 222 24% 16%;
-    --primary: 145 81% 50%;        /* #19E76E */
+    --popover-foreground: 220 23% 14%;
+    --primary: 145 81% 50%;
+    --primary-text: 145 74% 26%;
     --primary-foreground: 0 0% 0%;
-    --secondary: 220 20% 93%;
-    --secondary-foreground: 222 20% 18%;
-    --muted: 220 20% 94%;
-    --muted-foreground: 213 15% 44%;
-    --accent: 220 18% 92%;
-    --accent-foreground: 222 20% 18%;
+    --secondary: 218 18% 90%;
+    --secondary-foreground: 220 19% 18%;
+    --muted: 218 20% 91%;
+    --muted-foreground: 214 16% 36%;
+    --accent: 218 16% 88%;
+    --accent-foreground: 220 19% 18%;
     --destructive: 0 84.2% 60.2%;
     --destructive-foreground: 210 40% 98%;
-    --border: 218 16% 82%;
-    --input: 218 16% 82%;
+    --border: 216 16% 78%;
+    --input: 216 16% 78%;
     --ring: 145 81% 50%;
-    --link: 213 17% 61%;           /* #8999AC */
-    --radius: 1px;
+    --link: 215 34% 38%;
+    --link-hover: 218 38% 30%;
+    --radius: 8px;
     --space-unit: 4px;
-    --type-body: 24px;
-    --type-h1: 88px;
-    --type-h2: 64px;
+    --type-body: 18px;
+    --type-h1: 72px;
+    --type-h2: 52px;
     color-scheme: light;
   }
  
@@ -64,7 +69,9 @@
     --border: 0 0% 28%;
     --input: 0 0% 28%;
     --ring: 145 81% 50%;
-    --link: 213 17% 61%;
+    --link: 212 29% 72%;
+    --link-hover: 145 68% 58%;
+    --primary-text: 145 68% 58%;
     color-scheme: dark;
   }
 }
@@ -78,9 +85,9 @@
     font-size: var(--type-body);
     line-height: 1.5;
     background-image:
-      radial-gradient(circle at 12% 10%, hsl(var(--primary) / 0.09), transparent 34%),
-      linear-gradient(to right, hsl(var(--foreground) / 0.03) 1px, transparent 1px),
-      linear-gradient(to bottom, hsl(var(--foreground) / 0.03) 1px, transparent 1px);
+      radial-gradient(circle at 12% 10%, hsl(var(--primary) / 0.05), transparent 36%),
+      linear-gradient(to right, hsl(var(--foreground) / 0.018) 1px, transparent 1px),
+      linear-gradient(to bottom, hsl(var(--foreground) / 0.018) 1px, transparent 1px);
     background-size:
       auto,
       calc(var(--space-unit) * 16) calc(var(--space-unit) * 16),
@@ -90,7 +97,7 @@
   }
   .dark body {
     background-image:
-      radial-gradient(circle at 12% 10%, hsl(var(--primary) / 0.2), transparent 34%),
+      radial-gradient(circle at 12% 10%, hsl(var(--primary) / 0.16), transparent 34%),
       linear-gradient(to right, hsl(var(--foreground) / 0.05) 1px, transparent 1px),
       linear-gradient(to bottom, hsl(var(--foreground) / 0.05) 1px, transparent 1px);
   }
@@ -114,13 +121,13 @@
   }
   a {
     color: hsl(var(--link));
-    text-decoration-color: hsl(var(--link) / 0.6);
+    text-decoration-color: hsl(var(--link) / 0.45);
     text-underline-offset: 2px;
     transition: color 150ms ease, text-decoration-color 150ms ease;
   }
   a:hover {
-    color: hsl(var(--primary));
-    text-decoration-color: hsl(var(--primary));
+    color: hsl(var(--link-hover));
+    text-decoration-color: hsl(var(--link-hover));
   }
 }
 
@@ -165,6 +172,16 @@
   }
 }
 
+@layer utilities {
+  .text-primary {
+    color: hsl(var(--primary-text));
+  }
+
+  .hover\:text-primary:hover {
+    color: hsl(var(--primary-text));
+  }
+}
+
 @keyframes tool-marquee {
   from {
     transform: translateX(0);
@@ -175,6 +192,14 @@
 }
 
 @media (prefers-reduced-motion: reduce) {
+  *,
+  *::before,
+  *::after {
+    animation-duration: 0.01ms !important;
+    animation-iteration-count: 1 !important;
+    transition-duration: 0.01ms !important;
+  }
+
   .tool-marquee-track {
     animation: none;
   }

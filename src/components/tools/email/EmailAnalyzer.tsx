@@ -288,11 +288,11 @@ export function EmailAnalyzer() {
                         <div className="flex items-center justify-center gap-6 text-sm text-muted-foreground bg-muted/30 p-2 rounded-md border border-dashed">
                             <span className="text-xs font-semibold uppercase tracking-wider text-muted-foreground/70">Analysis Options:</span>
                             <label className="flex items-center gap-2 cursor-pointer select-none hover:text-foreground transition-colors">
-                                <input type="checkbox" checked={analyzeBody} onChange={e => setAnalyzeBody(e.target.checked)} className="rounded border-gray-300" />
+                                <input type="checkbox" checked={analyzeBody} onChange={e => setAnalyzeBody(e.target.checked)} className="rounded border-border" />
                                 Analyze Body Content
                             </label>
                             <label className="flex items-center gap-2 cursor-pointer select-none hover:text-foreground transition-colors">
-                                <input type="checkbox" checked={analyzeAttachments} onChange={e => setAnalyzeAttachments(e.target.checked)} className="rounded border-gray-300" />
+                                <input type="checkbox" checked={analyzeAttachments} onChange={e => setAnalyzeAttachments(e.target.checked)} className="rounded border-border" />
                                 Scan Attachments
                             </label>
                         </div>
@@ -365,7 +365,7 @@ export function EmailAnalyzer() {
                                 <ul className="space-y-2">
                                     {analysis.header.recommendedActions?.map((action, idx) => (
                                         <li key={idx} className="flex items-start gap-2 text-sm">
-                                            <input type="checkbox" className="mt-1 rounded border-gray-300" />
+                                            <input type="checkbox" className="mt-1 rounded border-border" />
                                             <span>{action}</span>
                                         </li>
                                     ))}

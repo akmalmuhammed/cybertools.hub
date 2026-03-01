@@ -285,7 +285,7 @@ export function ToolsList() {
           transition={{ duration: 0.28, delay: groupIndex * 0.05 }}
           className="relative overflow-hidden rounded-2xl border border-border/60 bg-card/60"
         >
-          <div className="absolute inset-0 bg-gradient-to-r from-primary/6 via-transparent to-cyan-500/7 pointer-events-none" />
+          <div className="absolute inset-0 bg-gradient-to-r from-primary/6 via-transparent to-link/8 pointer-events-none" />
           <div className="relative p-4 sm:p-5 border-b border-border/60 flex flex-col sm:flex-row sm:items-center sm:justify-between gap-3">
             <div className="flex items-start gap-3 min-w-0">
               <span className={`p-2 rounded-lg border ${group.domain.accentClass}`}>

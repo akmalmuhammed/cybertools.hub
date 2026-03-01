@@ -1,6 +1,6 @@
 /* jsondiffpatch html styles */
 .jsondiffpatch-delta {
-    font-family: 'Bitstream Vera Sans Mono', 'DejaVu Sans Mono', Monaco, Courier, monospace;
+    font-family: var(--font-mono), Monaco, Courier, monospace;
     font-size: 12px;
     margin: 0;
     padding: 0 0 0 12px;
@@ -8,7 +8,7 @@
 }
 
 .jsondiffpatch-delta pre {
-    font-family: 'Bitstream Vera Sans Mono', 'DejaVu Sans Mono', Monaco, Courier, monospace;
+    font-family: var(--font-mono), Monaco, Courier, monospace;
     font-size: 12px;
     margin: 0;
     padding: 0;
@@ -30,47 +30,47 @@ ul.jsondiffpatch-delta {
 .jsondiffpatch-added .jsondiffpatch-property-name,
 .jsondiffpatch-added .jsondiffpatch-value pre,
 .jsondiffpatch-added .jsondiffpatch-value {
-    background: #bbffbb;
-    color: #357935;
+    background: hsl(145 81% 50% / 0.14);
+    color: hsl(145 74% 26%);
 }
 
 .jsondiffpatch-deleted .jsondiffpatch-property-name,
 .jsondiffpatch-deleted .jsondiffpatch-value pre,
 .jsondiffpatch-deleted .jsondiffpatch-value {
-    background: #ffbbbb;
-    color: #993333;
+    background: hsl(0 84% 60% / 0.14);
+    color: hsl(0 65% 36%);
     text-decoration: line-through;
 }
 
 .jsondiffpatch-unchanged {
-    color: #666;
+    color: hsl(var(--muted-foreground));
 }
 
 .jsondiffpatch-moved .jsondiffpatch-value {
-    background: #ffffbb;
-    color: #888833;
+    background: hsl(45 100% 50% / 0.14);
+    color: hsl(38 64% 32%);
 }
 
 .jsondiffpatch-modified .jsondiffpatch-left-value {
-    background: #ffbbbb;
-    color: #993333;
+    background: hsl(0 84% 60% / 0.14);
+    color: hsl(0 65% 36%);
     text-decoration: line-through;
 }
 
 .jsondiffpatch-modified .jsondiffpatch-right-value {
-    background: #bbffbb;
-    color: #357935;
+    background: hsl(145 81% 50% / 0.14);
+    color: hsl(145 74% 26%);
 }
 
 .jsondiffpatch-textdiff-deleted {
-    background: #ffbbbb;
-    color: #993333;
+    background: hsl(0 84% 60% / 0.14);
+    color: hsl(0 65% 36%);
     text-decoration: line-through;
 }
 
 .jsondiffpatch-textdiff-added {
-    background: #bbffbb;
-    color: #357935;
+    background: hsl(145 81% 50% / 0.14);
+    color: hsl(145 74% 26%);
 }
 
 .jsondiffpatch-node .jsondiffpatch-node-left {
@@ -82,7 +82,7 @@ ul.jsondiffpatch-delta {
 }
 
 .jsondiffpatch-arrow {
-    color: #999;
+    color: hsl(var(--muted-foreground));
     margin: 0 5px;
     vertical-align: middle;
 }

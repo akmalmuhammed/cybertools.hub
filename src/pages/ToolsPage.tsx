@@ -81,7 +81,7 @@ export default function ToolsPage() {
         animate={{ opacity: 1, y: 0 }}
         className="relative overflow-hidden rounded-3xl border border-border/60 bg-card/55 backdrop-blur-xl p-6 sm:p-8"
       >
-        <div className="absolute inset-0 bg-[radial-gradient(circle_at_20%_10%,rgba(16,185,129,0.24),transparent_42%),radial-gradient(circle_at_78%_18%,rgba(6,182,212,0.2),transparent_40%)] pointer-events-none" />
+        <div className="absolute inset-0 bg-[radial-gradient(circle_at_20%_10%,hsl(var(--primary)/0.16),transparent_44%),radial-gradient(circle_at_78%_18%,hsl(var(--link)/0.14),transparent_42%)] dark:bg-[radial-gradient(circle_at_20%_10%,hsl(var(--primary)/0.24),transparent_42%),radial-gradient(circle_at_78%_18%,hsl(var(--link)/0.2),transparent_40%)] pointer-events-none" />
 
         <div className="relative space-y-5">
           <div className="inline-flex items-center rounded-full border border-primary/40 bg-primary/15 px-3 py-1 text-xs font-semibold uppercase tracking-[0.2em] text-primary">

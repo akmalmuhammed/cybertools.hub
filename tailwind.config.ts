@@ -20,13 +20,13 @@ const config = {
         },
         borderRadius: {
             none: "0",
-            sm: "var(--radius)",
+            sm: "calc(var(--radius) - 2px)",
             DEFAULT: "var(--radius)",
-            md: "var(--radius)",
-            lg: "var(--radius)",
-            xl: "var(--radius)",
-            "2xl": "var(--radius)",
-            "3xl": "var(--radius)",
+            md: "calc(var(--radius) + 2px)",
+            lg: "calc(var(--radius) + 4px)",
+            xl: "calc(var(--radius) + 8px)",
+            "2xl": "calc(var(--radius) + 12px)",
+            "3xl": "calc(var(--radius) + 16px)",
             full: "9999px",
         },
         extend: {
@@ -34,7 +34,6 @@ const config = {
                 sans: ["var(--font-sans)"],
                 mono: ["var(--font-mono)"],
                 display: ["var(--font-display)"],
-                brand: ["var(--font-alt)"],
             },
             colors: {
                 border: "hsl(var(--border))",

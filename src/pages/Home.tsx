@@ -134,9 +134,9 @@ export default function Home() {
       />
 
       <section className="relative overflow-hidden rounded-md bg-background px-6 py-16 sm:px-10 sm:py-20 lg:py-24">
-        <div className="pointer-events-none absolute inset-0 bg-[radial-gradient(circle_at_50%_18%,hsl(var(--primary)/0.28),hsl(var(--background))_42%)]" />
-        <div className="pointer-events-none absolute inset-0 opacity-40 [background-image:linear-gradient(to_right,hsl(var(--foreground)/0.08)_1px,transparent_1px),linear-gradient(to_bottom,hsl(var(--foreground)/0.08)_1px,transparent_1px)] [background-size:56px_56px]" />
-        <div className="pointer-events-none absolute inset-x-10 top-[18%] h-56 rounded-full bg-primary/20 blur-3xl" />
+        <div className="pointer-events-none absolute inset-0 bg-[radial-gradient(circle_at_50%_18%,hsl(var(--primary)/0.2),hsl(var(--background))_44%)] dark:bg-[radial-gradient(circle_at_50%_18%,hsl(var(--primary)/0.28),hsl(var(--background))_42%)]" />
+        <div className="pointer-events-none absolute inset-0 opacity-30 [background-image:linear-gradient(to_right,hsl(var(--foreground)/0.08)_1px,transparent_1px),linear-gradient(to_bottom,hsl(var(--foreground)/0.08)_1px,transparent_1px)] [background-size:56px_56px]" />
+        <div className="pointer-events-none absolute inset-x-10 top-[18%] h-56 rounded-full bg-primary/14 dark:bg-primary/20 blur-3xl" />
         <motion.div
           initial={{ opacity: 0, y: 18 }}
           animate={{ opacity: 1, y: 0 }}

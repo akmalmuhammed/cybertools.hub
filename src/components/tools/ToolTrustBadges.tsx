@@ -24,13 +24,13 @@ function modeVisual(mode: ReturnType<typeof getToolProcessingMode>): {
 } {
   if (mode === "network") {
     return {
-      className: "border-amber-500/35 bg-amber-500/12 text-amber-600 dark:text-amber-300",
+      className: "border-amber-500/35 bg-amber-500/12 text-amber-700 dark:text-amber-300",
       icon: Globe,
     };
   }
   if (mode === "hybrid") {
     return {
-      className: "border-sky-500/35 bg-sky-500/12 text-sky-600 dark:text-sky-300",
+      className: "border-sky-500/35 bg-sky-500/12 text-sky-700 dark:text-sky-300",
       icon: Monitor,
     };
   }
@@ -46,13 +46,13 @@ function sensitivityVisual(sensitivity: ReturnType<typeof getToolSensitivity>): 
 } {
   if (sensitivity === "high") {
     return {
-      className: "border-red-500/35 bg-red-500/12 text-red-600 dark:text-red-300",
+      className: "border-red-500/35 bg-red-500/12 text-red-700 dark:text-red-300",
       icon: ShieldAlert,
     };
   }
   if (sensitivity === "medium") {
     return {
-      className: "border-amber-500/35 bg-amber-500/12 text-amber-600 dark:text-amber-300",
+      className: "border-amber-500/35 bg-amber-500/12 text-amber-700 dark:text-amber-300",
       icon: Shield,
     };
   }
@@ -75,8 +75,8 @@ export function ToolTrustBadges({ toolId, compact = false }: ToolTrustBadgesProp
     outbound.policy === "none"
       ? "border-emerald-500/35 bg-emerald-500/12 text-emerald-700 dark:text-emerald-300"
       : outbound.policy === "optional"
-        ? "border-sky-500/35 bg-sky-500/12 text-sky-600 dark:text-sky-300"
-        : "border-amber-500/35 bg-amber-500/12 text-amber-600 dark:text-amber-300";
+        ? "border-sky-500/35 bg-sky-500/12 text-sky-700 dark:text-sky-300"
+        : "border-amber-500/35 bg-amber-500/12 text-amber-700 dark:text-amber-300";
 
   return (
     <div className={cn("flex flex-wrap items-center gap-2", compact && "gap-1.5")}>
